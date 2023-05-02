@@ -2,10 +2,8 @@
    <img src="./TNC_logo.png">
 </p>
 
+Projeto para o [mapeamento de áreas resilientes às mudanças climáticas](http://www.nature.ly/TNCResilience) nos Biomas brasileiros.   
 
-<p align="justify">
-O <a href="http://www.nature.ly/TNCResilience"> Projeto para o mapeamento de áreas resilientes às mudanças climáticas nos Biomas brasileiros.   
-</p>
 
 
 

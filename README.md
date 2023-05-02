@@ -1,5 +1,5 @@
 <p align="center">
-   <img src=".TNC_logo.png">
+   <img src="./TNC_logo.png">
 </p>
 
 

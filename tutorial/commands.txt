@@ -1,4 +1,0 @@
-jupyter nbconvert --to markdown landforms.ipynb
-
-pandoc --highlight-style tango landforms.md -o landforms.pdf
-

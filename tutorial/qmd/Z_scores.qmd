@@ -48,6 +48,8 @@ Nós utilizamos as variáveis criadas anteriormente e guardadas como *assets* no
 
 ## Códigos para o cálculo dos *Z-scores*
 
+As análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.
+
 Primeiro, nós criamos uma função para calcular o *Z-score* dentro de cada unidade eco-geológica (**code**) para cada variável (**image**). A função cria uma máscara da variável pelo código da unidade eco-geológica e calcula as médias e desvio padrão de cada unidade, depois as variáveis originais são subtraídas da média de sua unidade e divida pelo desvio padrão.
 
 ```{python}
@@ -153,9 +155,7 @@ classes = ee.Dictionary(histogram.get("b1")).keys()
 
 ## Calculando Z-scores
 
-```{python}
 Nós aplicamos a função **wrap_calculate_Z** para cada variável e guardamos o valores de Z calculados.
-```
 
 ```{python}
 # Calculando os valores de Z para cada variável
@@ -171,7 +171,7 @@ Z_wetlands_density = wrap_calculate_Z(wetlands_density)
 
 Z_wetlands_density_1000 = wrap_calculate_Z(wetlands_density_1000)
 
-Z_connectedness = wrap_calculate_Z(connectedness)
+Z_connectedness = wrap_calculate_Z(connectedness).multiply(-1)
 ```
 
 ## Calculando wetland score
@@ -261,4 +261,8 @@ geemap.ee_export_image_to_asset(
     maxPixels=1e13
 )
 ```
+
+
+
+
 

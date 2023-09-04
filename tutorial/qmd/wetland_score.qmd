@@ -43,9 +43,9 @@ $$
 
 ## Base de dados utilizada
 
-Nós utilizamos como base de dados de áreas úmidas o *Global Wetlands database* (Gumbricht *et al.* 2017). Nós reprojetamos o *raster* de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 90 metros).
+Utilizamos como base de dados de áreas úmidas o *Global Wetlands database* (Gumbricht *et al.* 2017). Reprojetamos o *raster* de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 90 metros).
 
-Para calcularmos as densidades e quantidade de áreas úmidas, nós retiramos as áreas úmidas classificadas como sistemas lacustres e ribeirinhos (*riverines* e *lacustrines*) e reclassificamos o *raster* como sendo área úmida (1) ou não sendo área úmida (0). Depois, calculamos a densidade de áreas úmidas dentro de uma vizinhaça de 450 metros (5 células) de raio de um *kernel* circular (densidade local). Calculamos também a densidade e a quantidade de áreas úmidas na vizinhança de ~ 1170 metros (13 células) (regional).
+Para calcularmos as densidades e quantidade de áreas úmidas, retiramos as áreas úmidas classificadas como sistemas lacustres e ribeirinhos (*riverines* e *lacustrines*) e reclassificamos o *raster* como sendo área úmida (1) ou não sendo área úmida (0). Depois, calculamos a densidade de áreas úmidas dentro de uma vizinhaça de 450 metros (5 células) de raio de um *kernel* circular (densidade local). Calculamos também a densidade e a quantidade de áreas úmidas na vizinhança de ~ 1170 metros (13 células) (regional).
 
 ## Cálculo das densidades e quantidade de áreas úmidas
 
@@ -92,7 +92,7 @@ wetlands = wetlands.mask(rivers)
 wetlands_binary = wetlands.where(wetlands.gt(0), 1).unmask()
 ```
 
-Posteriomente, nós calculamos a densidade de áreas úmidas, localmente, dentro de um *kernel* circular de ~450 metros (5 células). Primeiro, transformamos as células da vizinhança de cada célula focal em bandas de uma imagem. Assim, cada células vizinha da célula focal fica empilhada como uma coluna. Para cada coluna, somamos os valores das células (0 ou 1) como a quantidade de áreas úmidas na vizinhança. Depois, dividimos a quantidade de áreas úmidas pelo número de células na vizinhança, resultando na densidade de áreas úmidas.
+Posteriomente, calculamos a densidade de áreas úmidas, localmente, dentro de um *kernel* circular de ~450 metros (5 células). Primeiro, transformamos as células da vizinhança de cada célula focal em bandas de uma imagem. Assim, cada células vizinha da célula focal fica empilhada como uma coluna. Para cada coluna, somamos os valores das células (0 ou 1) como a quantidade de áreas úmidas na vizinhança. Depois, dividimos a quantidade de áreas úmidas pelo número de células na vizinhança, resultando na densidade de áreas úmidas.
 
 ```{python}
 radius_pixels = 5
@@ -114,7 +114,7 @@ neighbors_amount = neighbors.bandNames().length()
 wetlands_density_local = wetlands_count.divide(ee.Number(neighbors_amount))
 ```
 
-Repetimos o mesmo procedimento da densidade local para calcularmos a densidade e quantidade de áreas úmidas regional.
+Repetimos o mesmo procedimento conduzido para densidade local para calcularmos a densidade e quantidade de áreas úmidas regional.
 
 ```{python}
 radius_pixels = 13

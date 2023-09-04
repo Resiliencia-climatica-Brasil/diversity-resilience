@@ -20,7 +20,7 @@ from matplotlib.colors import ListedColormap, BoundaryNorm
 geemap.ee_initialize()
 ```
 
-## Gerando as formas de relevo
+## Classificação das formas de relevo
 
 ### Definição da metodologia para calcular as formas de relevo
 
@@ -170,21 +170,37 @@ Em seguida, as classes foram combinadas pela soma de cada classe multiplicada po
 |251|51|
 |1000|39| 
 
+
 ## Cálculo da variedade de formas de relevo
 
-## Bases de dados utilizadas
+### Bases de dados utilizadas
 
-Nós utilizamos para a classificação das *landforms* o Modelo Digital de Elevação (DEM) do Merit-DEM (Yamazaki *et al.* 2017), o acúmulo de fluxo do Merit-Hydro (Yamazaki *et al.* 2019) e a camada de uso do solo do MapBiomas (MapBiomas Project 2020). O Modelo Digital de Elevação possui uma resolução de 90 metros e foi escolhido por ser um produto global ao combinar dados dos satélites do *Shuttle Radar Topography Mission* (SRTM) (Farr *et al*. 2007) e *Advanced Land Observing Satellite* (ALOS) (Tadono *et al*. 2014), permitindo a replicabilidade da metodologia em outras regiões. O Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como *speckle noise*, *stripe noise*, *absolute bias* e *tree height bias* (Yamazaki *et al.* 2017). A correção de *tree height bias* é principalmente importante para a Floresta Amazônica devido à sua densidade de árvores altas. Além disso, há um produto derivado, o Merit-Hydro, que disponibiliza o acúmulo de fluxo global, que demandaria grande esforço computacional para ser calculado para todo o Brasil. O Merit-Hydro corrige os efeitos de densidade de árvores no cálculo da rede dendrítica, o que é importante para a Amazônia.
+Para a classificação das formas de relevo, utilizamos as seguintes bases de dados: o Modelo Digital de Elevação (DEM) do Merit-DEM (Yamazaki *et al.* 2017), o acúmulo de fluxo do Merit-Hydro (Yamazaki *et al.* 2019) e a camada de uso do solo do MapBiomas (MapBiomas Project 2020). O Modelo Digital de Elevação possui uma resolução de 90 metros e foi escolhido por ser um produto global ao combinar dados dos satélites do *Shuttle Radar Topography Mission* (SRTM) (Farr *et al*. 2007) e *Advanced Land Observing Satellite* (ALOS) (Tadono *et al*. 2014), permitindo a replicabilidade da metodologia em outras regiões. O Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como *speckle noise*, *stripe noise*, *absolute bias* e *tree height bias* (Yamazaki *et al.* 2017). A correção de *tree height bias* é especialmente importante para a Floresta Amazônica devido à densidade de árvores altas. Além disso, há um produto derivado, o Merit-Hydro, que disponibiliza o acúmulo de fluxo global, que demandaria grande esforço computacional para ser calculado para todo o Brasil de outra forma. O Merit-Hydro corrige os efeitos de densidade de árvores no cálculo da rede dendrítica, o que é importante para a Amazônia.
 
-Nós incluímos as classes de água do MapBiomas para complementar a superfície gerada pelo acúmulo de fluxo na definição de áreas planas úmidas. O MapBiomas é um projeto nacional de mapeamento e classificação de mudanças do uso do solo dos últimos 30 anos a partir de dados de sensoriamento remoto. 
+Incluímos as classes de água do MapBiomas para complementar a superfície gerada pelo acúmulo de fluxo na definição de áreas planas úmidas. O MapBiomas é um projeto nacional de mapeamento e classificação de mudanças do uso do solo dos últimos 30 anos a partir de dados de sensoriamento remoto. 
 
-## Códigos para a criação da variedade de *landforms*
+<!---
 
-Nossas análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. 
+Foi utilizado o MapBiomas ou o MapBiomas Água? Acho que são produtos diferentes, não?
 
-### Inclinação do relevo (*slope*)
+-->
 
-Nós criamos a superfície de *slope* a partir do Merit-DEM.
+### Códigos para a criação da variedade de formas de relevo
+
+As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), em função da demanda computacional do projeto. usamos o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface, pela facilidade na documentação e reprodutividade das análises. 
+
+<!---
+
+Sugiro seguir a mesma ordem dos itens abaixo conforme ordem citada do no texto: declividade, TPI, exposição e índice de umidade.
+Outra coisa, no código do Python, editar para os nomes em português, conforme as edições feitas no texto. Não editei nada dentro do código.
+
+E mais uma coisa: o TPI não seguiu a metodologia do Anderson, certo? Temos que indicar lá em cima que ajustamos a metodologia sugerida por Anderson, substituindo o índice xx pelo TPI e justificar o porquê.
+
+-->
+
+#### Declividade (*slope*)
+
+Criamos a superfície de declividade a partir do Merit-DEM.
 
 ```{python}
 # Importando Modelo Digital de Elevação
@@ -196,21 +212,21 @@ DEM = ee.Image("MERIT/DEM/v1_0_3")
 slope = ee.Terrain.slope(DEM)
 ```
 
-### Aspecto (*aspect*)
+#### Exposição (*aspect*)
 
-Nós calculamos o *aspect* do relevo utilizando o mesmo DEM.
+Calculamos exposição utilizando o mesmo DEM.
 
 ```{python}
 aspect = ee.Terrain.aspect(DEM)
 ```
 
-### Índice de Posição Topográfica (TPI)
+#### Índice de Posição Topográfica (TPI)
 
-Nós calculamos o Índice de Posição Topográfica (TPI)(Weiss 2001) para cada célula do *raster* dentro de um *kernel* circular com 7, 11 e 15 células de raio. O TPI é a diferença média de elevação entre a célula focal e um conjunto de células vizinhas.
+Calculamos o Índice de Posição Topográfica (TPI) (Weiss 2001) para cada célula do *raster* dentro de um *kernel* circular com 7, 11 e 15 células de raio. O TPI é a diferença média de elevação entre a célula focal e um conjunto de células vizinhas.
 
 $TPI = \frac{\sum_{i}^{n}(vizinhança_i -  focal)}{n}$
 
-a vizinhança *i* representa cada uma das *n* células dentro do *kernel* da célula focal. O índice final é composto pela média de TPI das três janelas, o que permite a consideração de diferentes níveis de resolução da paisagem, tanto local quanto regional (Theobald *et al*. 2015). Os tamanhos das janelas foram definidos visualmente para que melhor representassem as *landforms*, principalmente os *Summits*, *Valleys*, *Toeslopes* e *Hilltops* (*flat* e *gentle*). Os tamanhos das janelas também tinham que capturar os Platôs como *Summits*. 
+a vizinhança *i* representa cada uma das *n* células dentro do *kernel* da célula focal. O índice final é composto pela média de TPI das três janelas, o que permite a consideração de diferentes níveis de resolução da paisagem, tanto local quanto regional (Theobald *et al*. 2015). Os tamanhos das janelas foram definidos visualmente para que melhor representassem as formas de relevo, principalmente os *Summits*, *Valleys*, *Toeslopes* e *Hilltops* (*flat* e *gentle*). Os tamanhos das janelas também tinham que capturar os Platôs como *Summits*. 
 
 ```{python}
 # Função para calcular o TPI
@@ -242,13 +258,13 @@ window_size = [7,11,15]
 TPI = ee.ImageCollection(list(map(calculate_TPI, window_size))).toBands().reduce("mean")
 ```
 
-### Índice de Umidade (*Moisture index*)
+#### Índice de umidade (*moisture index*)
 
-Nós calculamos o *moisture index* (Anderson *et al*. 2016) baseado no acúmulo de fluxo presente no Merit-Hydro (Yamazaki *et al.* 2019), na camada **upg**, que é calculado sobre o Merit-DEM. O *moisture index* é calculado da seguinte forma:
+Nós calculamos o índice de umidade (Anderson *et al*. 2016) baseado no acúmulo de fluxo presente no Merit-Hydro (Yamazaki *et al.* 2019), na camada **upg**, que é calculado sobre o Merit-DEM. O índice de umidade é calculado da seguinte forma:
 
 $moisture.index = \frac{\log(fluxo + 1)}{(slope + 1)} \times 1000$
 
-onde fluxo é o acúmulo de fluxo e *slope* é o *slope* calculado anteriormente. O *moisture index* é a média do índice dentro de um *kernel* circular de uma célula de raio. O tamanho do raio foi escolhido visualmente para suavizar o índice, mas representando bem a distribuição dos cursos d'água.
+em que o fluxo é o acúmulo de fluxo e *slope* é o *slope* calculado anteriormente. O *moisture index* é a média do índice dentro de um *kernel* circular de uma célula de raio. O tamanho do raio foi escolhido visualmente para suavizar o índice, mas representando bem a distribuição dos cursos d'água.
 
 ```{python}
 # Importando o acúmulo de fluxo
@@ -273,9 +289,9 @@ moisture_index = (
 
 ### Convertendo variáveis em classes
 
-### Inclinação do relevo (*slope*)
+#### Declividade (*slope*)
 
-As variáveis foram convertidas em classes utilizando a Tabela 1, seguindo Anderson *et al*. (2016). As classes de slope foram criadas com o seguinte código:
+As variáveis foram convertidas em classes utilizando a Tabela 1, seguindo Anderson *et al*. (2016). As classes de declividade foram criadas com o seguinte código:
 
 ```{python}
 slope_classes = (
@@ -288,9 +304,16 @@ slope_classes = (
 )
 ```
 
-### Aspecto (*aspect*)
+#### Exposição (*aspect*)
 
-O aspecto foi escolhido para definir as faces norte e sul do relevo no hemisfério sul.
+A exposição foi selecionada para definir as faces norte e sul do relevo no hemisfério sul.
+
+<!---
+
+Não seria a frase abaixo?
+"A exposição foi selecionada para definir as faces quente e fria do relevo no hemisfério sul."
+
+-->
 
 ```{python}
 aspect_classes = (
@@ -301,7 +324,7 @@ aspect_classes = (
 )
 ```
 
-### Índice de Posição do Relevo (TPI)
+#### Índice de Posição do Relevo (TPI)
 
 As classes de TPI foram definidas para representarem bem os *Summits*, *Valleys*, *Toeslopes* e *Hilltops*, que foram as *landforms* mais difíceis de ajustar os parâmetros.
 
@@ -315,7 +338,7 @@ TPI_classes = (
 )
 ```
 
-### Índice de Umidade (*moisture index*)
+#### Índice de Umidade (*moisture index*)
 
 O limiar do índice umidade para classificar as áreas como umidas ou secas foram definidos visualmente para capturarem a distribuição dos cursos d'água sem criar áreas planas secas com excesso de ramificações dendríticas. Grandes rios (ex. Rio Amazonas, represas e lagos) não foram bem representados pelo *moisture index*, pois classificava somente a partes mais profundas como áreas úmidas, mantendo o restante dos grandes corpos d'água como regiões planas secas. Nós corrigimos essa classificação combinando a área úmidade classificada pelo acúmulo de fluxo com a camada de águas produzida pelo MapBiomas.
 

@@ -185,14 +185,16 @@ Foi utilizado o MapBiomas ou o MapBiomas Água? Acho que são produtos diferente
 
 -->
 
-### Códigos para a criação da variedade de formas de relevo
+### Códigos criados no *Google Earth Engine*
 
 As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), em função da demanda computacional do projeto. usamos o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface, pela facilidade na documentação e reprodutividade das análises. 
 
+
+### Gerando as variáveis 
 <!---
 
 Sugiro seguir a mesma ordem dos itens abaixo conforme ordem citada do no texto: declividade, TPI, exposição e índice de umidade.
-Outra coisa, no código do Python, editar para os nomes em português, conforme as edições feitas no texto. Não editei nada dentro do código.
+Outra coisa, nas explicações do código em Python, seria bom editar para os nomes em português, conforme as edições feitas no texto. Não editei nada dentro do código.
 
 E mais uma coisa: o TPI não seguiu a metodologia do Anderson, certo? Temos que indicar lá em cima que ajustamos a metodologia sugerida por Anderson, substituindo o índice xx pelo TPI e justificar o porquê.
 
@@ -326,7 +328,7 @@ aspect_classes = (
 
 #### Índice de Posição do Relevo (TPI)
 
-As classes de TPI foram definidas para representarem bem os *Summits*, *Valleys*, *Toeslopes* e *Hilltops*, que foram as *landforms* mais difíceis de ajustar os parâmetros.
+As classes de TPI foram definidas para representarem bem os *Summits*, *Valleys*, *Toeslopes* e *Hilltops*, que foram as formas de relevo mais difíceis de ajustar os parâmetros.
 
 ```{python}
 TPI_classes = (
@@ -338,9 +340,17 @@ TPI_classes = (
 )
 ```
 
-#### Índice de Umidade (*moisture index*)
+#### Índice de umidade (*moisture index*)
 
-O limiar do índice umidade para classificar as áreas como umidas ou secas foram definidos visualmente para capturarem a distribuição dos cursos d'água sem criar áreas planas secas com excesso de ramificações dendríticas. Grandes rios (ex. Rio Amazonas, represas e lagos) não foram bem representados pelo *moisture index*, pois classificava somente a partes mais profundas como áreas úmidas, mantendo o restante dos grandes corpos d'água como regiões planas secas. Nós corrigimos essa classificação combinando a área úmidade classificada pelo acúmulo de fluxo com a camada de águas produzida pelo MapBiomas.
+O limiar do índice umidade para classificar as áreas como úmidas ou secas foi definido visualmente para capturar a distribuição dos cursos d'água sem criar áreas planas secas com excesso de ramificações dendríticas.
+
+Grandes rios (ex. Rio Amazonas, represas e lagos) não foram bem representados por essa classificação, pois ela classificava somente a partes mais profundas como áreas úmidas, mantendo o restante dos grandes corpos d'água como regiões planas secas. Nós corrigimos essa classificação combinando a área úmidade classificada pelo acúmulo de fluxo com a camada de água produzida pelo MapBiomas.
+
+<!---
+
+Essa descrição não estava muito boa. Veja se a forma como eu editei está correta.
+
+-->
 
 ```{python}
 # Classificando o índice de umidade em classes
@@ -379,7 +389,7 @@ moisture_classes = (
 
 ### Combinando as classes
 
-Combinamos as classes para a geração de um código representativo de cada variável. O *moisture index* foi multiplicado por 1000, *aspect* por 100, TPI por 10 e *slope* por 1.  
+Combinamos as classes para gerar um código representativo de cada variável. O índice de umidade foi multiplicado por 1000, exposição por 100, TPI por 10 e declividade por 1.  
 
 ```{python}
 classes_collection = ee.Image([moisture_classes.multiply(ee.Number(1000)),
@@ -390,9 +400,9 @@ classes_collection = ee.Image([moisture_classes.multiply(ee.Number(1000)),
 landform_combination = classes_collection.reduce(ee.Reducer.sum())
 ```
 
-### Classificando os tipos de *landforms*
+### Classificando os tipos de formas de relevo
 
-Classificamos os tipos de *landforms* pelo código gerado anteriormente e ajustamos visualmente alguns códigos para representarem bem as *landforms*. Por exemplo, o código 11 representa áreas de baixa inclinação do relevo e uma posição do relevo mais alta que o entorno, sendo portanto um topo de montanha (*Summit*). No entanto, alguns códigos tiveram que ser bem inspecionados para separar alguns tipos de *landforms* como *Sideslopes* de *Valleys* e *Toeslopes*. 
+Classificamos os tipos de formas de relevo pelo código gerado anteriormente e ajustamos visualmente alguns códigos para melhor representação. Por exemplo, o código 11 representa áreas de baixa declividade e uma posição do relevo mais alta que o entorno, sendo portanto um topo de montanha (*Summit*). No entanto, alguns códigos tiveram que ser bem inspecionados para separar alguns tipos de formas de relevo, como foi o caso de *Sideslopes* em relação a *Valleys* e *Toeslopes*. 
 
 ```{python}
 landform_types = (
@@ -494,9 +504,9 @@ geemap.ee_export_image_to_asset(
 )
 ```
 
-### Exemplo de *landforms*
+### Exemplo de formas de relevo
 
-Abaixo está uma representação das *landforms* na região de Alto Paraíso de Goiás-GO (Latitude:-14.11, Longitude:-47.26).
+Abaixo está uma representação das formas de relevo na região de Alto Paraíso de Goiás-GO (Latitude:-14.11, Longitude:-47.26).
 
 ```{python}
 %%capture --no-display
@@ -546,11 +556,18 @@ norm = BoundaryNorm(class_bins,
 geemap.plot_raster("figura/landform_types.tif", cmap = cmap, norm = norm, figsize = [20, 10])
 ```
 
-          Figura 2. Landforms classificadas na região de Alto Paraíso de Goiás-GO, Brasil.
+          Figura 2. Formas de relevo classificadas na região de Alto Paraíso de Goiás-GO, Brasil.
 
-## Calculando a variedade de *landforms*
+<!---
 
-A variedade de *landforms* foi calculada como a soma de tipos diferentes de *landforms* dentro de um *kernel* circular de uma célula focal. O tamanho do raio do *kernel* foi definido calculando a variedade em diferentes raios (2, 5, 7, 10, 15, 20 células) e calculando o ganho de variedade a cada aumento de raio. O raio escolhido foi aquele que o subsequente não adicionou variedade. Desta forma, o raio representa o nível de resolução da paisagem que captura o máximo de variedade de *landforms*. Raios maiores podem aumentar a variedade, mas devido a mudança de paisagem. Assim, o raio escolhido foi de 5 células de raio (450 metros) para todo o Brasil. Abaixo está uma representação da variedade de *landforms* para a mesma região de Alto Paraíso de Goiás-GO.
+Na figura, incluir legenda com a indicação das formas de relevo.
+
+-->
+
+
+### Calculando a variedade de formas de relevo
+
+A variedade de formas de relevo foi calculada como a soma de tipos diferentes de formas de relevo dentro de um *kernel* circular de uma célula focal. O tamanho do raio do *kernel* foi definido calculando a variedade em diferentes raios (2, 5, 7, 10, 15, 20 células) e calculando o ganho de variedade a cada aumento de raio. O raio escolhido foi aquele no qual o subsequente não adicionou variedade. Desta forma, o raio representa o nível de resolução da paisagem que captura o máximo de variedade de formas de relevo. Raios maiores podem aumentar a variedade, mas devido à mudança de paisagem. Assim, o raio escolhido foi de 5 células de raio (450 metros) para todo o Brasil. Abaixo está uma representação da variedade de formas de relevo para a mesma região de Alto Paraíso de Goiás-GO.
 
 ```{python}
 radius_pixels = 5
@@ -574,7 +591,7 @@ geemap.ee_export_image(
 geemap.plot_raster("figura/landform_variety.tif", figsize = [20, 10])
 ```
 
-            Figura 3. Variedade de landforms para região de Alto Paraíso de Goiás-GO, Brasil.
+            Figura 3. Variedade de formas de relevo para região de Alto Paraíso de Goiás-GO, Brasil.
 
 ```{python}
 assetId = "projects/ee-lucasljardim9/assets/landform_variety"

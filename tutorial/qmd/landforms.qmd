@@ -1,5 +1,5 @@
 ---
-title: Variedade de *Landforms*
+title: Variedade de formas de relevo (*landforms*)
 jupyter: python3
 ---
 
@@ -20,11 +20,20 @@ from matplotlib.colors import ListedColormap, BoundaryNorm
 geemap.ee_initialize()
 ```
 
-### Variedade de *landforms*
+## Gerando as formas de relevo
 
-### *Landforms*
+### Definição da metodologia para calcular as formas de relevo
 
-Nós exploramos três metodologias de classificação de *landforms* (Anderson *et al.* 2016; Theobald *et al.* 2015; Iwahashi & Yamazaki 2022) para definirmos quais delas seriam usadas no cálculo da variedade de *landforms*. Primeiro, nós classificamos as *landforms* como Anderson *et al*. (2016), exceto a *landform* ***Flat at the bottom of steep slope***. Assim, nossas *landforms* foram:
+A metodologia utilizada para definir as formas de relevo (do inglês, *landforms*) foi aquela proposta por Anderson *et al.* (2016). Nós testamos ainda as metodologias propostas por Theobald *et al.* (2015) e Iwahashi & Yamazaki (2022), mas decidimos seguir com aquela proposta por Anderson *et al.* (2016) por ***tais e tais razões***. As formas de relevo geradas a partir da metodologia de Anderson et al. (2016) foram: 
+
+<!---
+
+Incluir as razões para a escolha da metodologia (acima).
+
+Por que essa aqui abaixo não foi utilizada? Precisa explicar.
+exceto a *landform* ***Flat at the bottom of steep slope***. Assim, nossas *landforms* foram:
+
+-->
 
 * **3 - Cool Steep Slope**
 * **4 - Warms Steep Slope**
@@ -41,43 +50,57 @@ Nós exploramos três metodologias de classificação de *landforms* (Anderson *
 * **43 - Cool Footslope**
 * **44 - Warm Sideslope**
 
-### Variáveis classificadoras das *landforms*
+### Variáveis classificadoras das formas de relevo
 
-Nós classificamos as *landforms* pela **inclinação do relevo** (*slope*), **aspecto** (*aspect*), **Índice de Posição Topográfica** (*TPI*) e **Índice de Umidade** (*moisture index*). As variáveis foram discretizadas em classes e combinadas para comporem os tipos de *landforms*. As *landforms* são classificadas principalmente pelo *slope* e TPI (Figure 1). O *aspect* classifica as faces *quentes* ou *frias* do relevo e o *moisture index* classifica as áreas planas em secas ou úmidas.    
+As variáveis utilizadas para calcular as formas de relevo foram: **declividade** (*slope*), **exposição** (*aspect*), **Índice de Posição Topográfica** (*TPI*, do inglês *Topographic Position Index*) e **índice de umidade** (*moisture index*). As formas de relevo são classificadas principalmente por declividade e TPI (Figura 1). A exposição classifica as faces *quentes* ou *frias* do relevo e o índice de umidade classifica as áreas planas em secas ou úmidas.    
+
+<!---
+
+Um dos comentários do workshop foi ter cuidado com os termos utilizados. Usar:
+- Altitude, ao invés de elevação
+- Declividade, ao invés de inclinação
+- Exposição, ao invés de aspecto
+
+-->
 
 ![](landform_scheme.png)
 
-    Figura 1. Classificação de landforms pela The Nature Conservancy para as paisagens na América do Norte.Adaptação de Anderson et al. (2016).
+    Figura 1. Classificação de formas de relevo utilizada pela *The Nature Conservancy* para as paisagens na América do Norte. Adaptação de Anderson *et al.* (2016).
     
+<!---
 
-Cada variável foi discretizada em classes para comporem os tipos de *landforms*. Os limiares (Tabela 1) para a discretização foram definidos por ajustes visuais que melhor representavam as *landforms*. 
+Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio está invertido.
+
+-->
+
+As variáveis foram discretizadas em classes e combinadas para comporem os tipos de formas de relevo. Os limiares utilizados para a discretização (Tabela 1) foram definidos por ajustes visuais que melhor representavam as formas de relevo. 
 
 
                Tabela 1. Descrição dos limiares de classificação de cada variável em classes.
-| Variáveis | Classes | Limiar inferior | Limiar superior |
+| Variável | Classe | Limiar inferior | Limiar superior |
 |:-:|:-:|:-:|:-:|
-| Inclinação do relevo|1|-1|2|
-|Inclinação do relevo|2|2|6|
-|Inclinação do relevo|3|6|24|
-|Inclinação do relevo|4|24|35|
-|Inclinação do relevo|5|35|90|
+|Declividade|1|-1|2|
+|Declividade|2|2|6|
+|Declividade|3|6|24|
+|Declividade|4|24|35|
+|Declividade|5|35|90|
 |TPI|1|-Inf|-15|
 |TPI|2|-15|-1|
 |TPI|3|-1|30|
 |TPI|4|30|975|
-|Aspecto|2|0|90|
-|Aspecto|1|90|270|
-|Aspecto|2|270|360|
-|Índice de Umidade|0|-Inf|30000|
-|Índice de Umidade|1|3000|Inf|
+|Exposição|2|0|90|
+|Exposição|1|90|270|
+|Exposição|2|270|360|
+|Índice de umidade|0|-Inf|30000|
+|Índice de umidade|1|3000|Inf|
 
 
 
-Em seguida, as classes foram combinadas pela soma de cada classe multiplicada por um peso. O *moisture index* foi multiplicado por 1000, *aspect* por 100, TPI por 10 e *slope* por 1. Desta forma, o número resultante representa um código descrevendo as classes de cada variável. Por exemplo, 1231 é a classe 1 de *moisture index*, 2 de *aspect*, 3 de TPI e 1 de *slope*. Posteriormente, os valores finais foram convertidos em tipos de *landforms*, seguindo a Tabela 2.
+Em seguida, as classes foram combinadas pela soma de cada classe multiplicada por um peso. O índice de umidade foi multiplicado por 1000, exposição por 100, TPI por 10 e declividade por 1. Desta forma, o número resultante representa um código descrevendo as classes de cada variável. Por exemplo, 1231 é a classe 1 de índice de umidade, 2 de exposição, 3 de TPI e 1 de declividade. Posteriormente, os valores finais foram convertidos em tipos de formas de relevo, seguindo a classificação indicada na Tabela 2.
 
-    Tabela 2. Critério de conversão dos códigos da combinação de classes em tipos de landforms.
+    Tabela 2. Critério de conversão dos códigos da combinação de classes em tipos de formas de relevo.
     
-|Código|Tipos de *landforms*|
+|Código|Forma de relevo|
 |:-:|:-:|
 |10|11|
 |11|11|
@@ -147,7 +170,9 @@ Em seguida, as classes foram combinadas pela soma de cada classe multiplicada po
 |251|51|
 |1000|39| 
 
-## Bases de dados
+## Cálculo da variedade de formas de relevo
+
+## Bases de dados utilizadas
 
 Nós utilizamos para a classificação das *landforms* o Modelo Digital de Elevação (DEM) do Merit-DEM (Yamazaki *et al.* 2017), o acúmulo de fluxo do Merit-Hydro (Yamazaki *et al.* 2019) e a camada de uso do solo do MapBiomas (MapBiomas Project 2020). O Modelo Digital de Elevação possui uma resolução de 90 metros e foi escolhido por ser um produto global ao combinar dados dos satélites do *Shuttle Radar Topography Mission* (SRTM) (Farr *et al*. 2007) e *Advanced Land Observing Satellite* (ALOS) (Tadono *et al*. 2014), permitindo a replicabilidade da metodologia em outras regiões. O Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como *speckle noise*, *stripe noise*, *absolute bias* e *tree height bias* (Yamazaki *et al.* 2017). A correção de *tree height bias* é principalmente importante para a Floresta Amazônica devido à sua densidade de árvores altas. Além disso, há um produto derivado, o Merit-Hydro, que disponibiliza o acúmulo de fluxo global, que demandaria grande esforço computacional para ser calculado para todo o Brasil. O Merit-Hydro corrige os efeitos de densidade de árvores no cálculo da rede dendrítica, o que é importante para a Amazônia.
 

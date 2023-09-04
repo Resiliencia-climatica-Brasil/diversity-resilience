@@ -1,5 +1,5 @@
 ---
-title: Diversidade de solo
+title: Diversidade de solos
 jupyter: python3
 ---
 
@@ -17,17 +17,23 @@ import geemap
 geemap.ee_initialize()
 ```
 
-A diversidade de solo é incluida na diversidade da paisagem em locais com baixa variedade de *landforms*, amplitude de elevação e *wetland score*. A diversidade de solos é calculada somando o número de tipos de solo presentes na vizinhaça da célula focal.
+## O que é a camada de diversidade de solos
 
-## Banda de Dados
+A diversidade de solos é calculada somando o número de tipos de solo presentes na vizinhaça da célula focal. A diversidade de solos é incluída na camada de  diversidade da paisagem em locais com baixa variedade de formas de relevo, amplitude altitudinal e índice de áreas úmidas. 
 
-Nós utilizamos a base de dados de pedologia do Instituto Brasileiro de Geografia e Estatística (IBGE) como base para o cálculo da diversidade de solos. Os polígonos foram posteriomente filtrados por tipo de solo e rasterizados na escala do modelo digital de elevação que usamos nas etapas anteriores (~ 90 metros).
+## Base de dados utilizada
 
-## Códigos para a criação da diversidade de solos
+Utilizamos a base de dados de pedologia do Instituto Brasileiro de Geografia e Estatística (IBGE) para o cálculo da diversidade de solos. Os polígonos foram posteriomente filtrados por tipo de solo e rasterizados na escala do modelo digital de elevação que usamos nas etapas anteriores (~ 90 metros).
+
+<!---
+Incluir ano da base de dados para incluir nas referências.
+-->
+
+## Cálculo da diversidade de solos
 
 As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020), em *Python* (Python Software Foundation 2023), como interface pela facilidade na documentação e reprodutividade das análises. 
 
-O primeiro passo é criar uma função que filtra os polígonos pelo nome do solo, atribui valor 1 ao polígono,  transforma em *raster* e reprojeta para a resolução do modelo digital de elevação que estamos usando em todas as análises (~90 metros). Depois, a função cria uma imagem cujas bandas são as células da vizinhaça da célula focal. Células com a presença do solo tem valor 1 e sem o solo 0. Ao somarmos os valores das células dentro da vizinhança temos o número de células com o tipo de solo. Por fim, transformamos valores maior que 0 em 1 para classificarmos o *raster* como presença ou ausência do tipo de solo na vizinhança da célula focal.
+O primeiro passo é criar uma função que filtra os polígonos pelo nome do solo, atribui valor 1 ao polígono, transforma em *raster* e reprojeta para a resolução do modelo digital de elevação que estamos usando em todas as análises (~90 metros). Depois, a função cria uma imagem cujas bandas são as células da vizinhaça da célula focal. Células com a presença do solo tem valor 1 e sem o solo 0. Ao somarmos os valores das células dentro da vizinhança temos o número de células com o tipo de solo. Por fim, transformamos valores maior que 0 em 1 para classificarmos o *raster* como presença ou ausência do tipo de solo na vizinhança da célula focal.
 
 ```{python}
 # Função para mudar o valor da propriedade do polígono para 1
@@ -82,7 +88,7 @@ DEM = ee.Image("MERIT/DEM/v1_0_3")
 escala = DEM.projection().nominalScale()
 ```
 
-Nós importamos os polígonos de solo do IBGE e filtramos a coluna com o tipo de solo ("cod_simbol"), e criamos uma lista com os nomes dos tipos de solo, eliminando os polígonos que não tinham nomes.
+Importamos os polígonos de solo do IBGE e filtramos a coluna com o tipo de solo ("cod_simbol"). Em seguida, criamos uma lista com os nomes dos tipos de solo, eliminando os polígonos sem nomes.
 
 ```{python}
 # Importando os polígonos de solo do IBGE e selecionado a coluna com tipos de solo
@@ -97,7 +103,7 @@ soil_codes = (ee.List(soil_list).distinct()
               .filter(ee.Filter.neq("item", "")))
 ```
 
-Depois, aplicamos a função que criamos anteriormente para cada nome de solo e transformamos em bandas de uma imagem. Ao somarmos os valores de cada célula nas bandas calculamos o ńumero de tipos de solo presentes na vizinhança de cada célula focal, a diversidade de solos.
+Depois, aplicamos a função que criamos anteriormente para cada nome de solo e transformamos em bandas de uma imagem. Ao somarmos os valores de cada célula nas bandas calculamos o número de tipos de solo presentes na vizinhança de cada célula focal, o que representa a diversidade de solos.
 
 ```{python}
 # Crie o raster de presença e ausencia para cada tipo de solo

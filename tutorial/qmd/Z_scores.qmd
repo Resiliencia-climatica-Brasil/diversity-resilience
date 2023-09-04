@@ -1,5 +1,5 @@
 ---
-title: Calculando *Z-scores *das variáveis
+title: Valor de Z das variáveis
 jupyter: python3
 ---
 

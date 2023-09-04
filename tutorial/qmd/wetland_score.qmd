@@ -1,8 +1,7 @@
 ---
-title: Densidade e quantidade de áreas úmidas
+title: Índice de áreas úmidas
 jupyter: python3
 ---
-
 
 
 ## Importando pacotes e inicializando *geemap*
@@ -17,9 +16,20 @@ import geemap
 geemap.ee_initialize()
 ```
 
-O índice *Wetland score* é uma combinação da densidade de áreas úmidas localmente com a densidade e quantidade de áreas úmidas regionalmente. *Wetland score* entra no cálculo da diversidade da paisagem em locais planos e úmidos, com baixa variedade de *landforms* e baixa amplitude de elevação. Nesses locais a variação microclimática seria baixa devido a baixa variabilidade topográfica e geomorfológica, mas como há alta densidade de áreas úmidas, esses locais atuam regulando a variabilidade microclimática localmente, como tampões climáticos, e regulando a emissão de gases de efeito estufa.
+## Como calculamos o índice de áreas úmidas
 
-Existem três cenários de distribuição de áreas úmidas, os locais (1) estão presentes em áreas com alta densidade de áreas úmidas no entorno, (2) os locais estão situados em áreas com baixa densidade de áreas úmidas localmente, mas alta densidade regionalmente e (3) os locais estão presentes em áreas com alta quantidade de áreas úmidas, mas baixa densidade devido a sua distribuição espacial. Desta forma, *wetland score* é composto pelos três cenários citados anteriormente, primeiro é calculado a densidade local, regional e a quantidade regional e, para cada métrica, é calculado um valor de Z, subtraindo pela média e dividindo pelo desvio padrão. A densidade de áreas úmidas é a média ponderada dos valores de Z da densidade local e regional (peso duplo para a densidade local). Nos locais onde os valores de Z da quantidade de áreas úmidas regional é maior que a densidade média calculada anteriormente, o índice torna-se a média ponderada da densidade local, densidade regional e quantidade de áreas úmidas regional (duplo peso para a densidade local).   
+O índice áreas úmidas é uma combinação do dado de densidade de áreas úmidas calculada localmente, com a densidade e quantidade de áreas úmidas calculadas regionalmente. O índice de áreas úmidas entra no cálculo da diversidade da paisagem para locais planos e úmidos, com baixa variedade de formas de relevo e baixa amplitude altitudinal. Nesses locais, a variação microclimática seria baixa devido à baixa variabilidade topográfica e geomorfológica. Entretanto, como há alta densidade de áreas úmidas, esses locais atuam regulando a variabilidade microclimática localmente, como tampões climáticos, e regulando a emissão de gases de efeito estufa.
+
+Existem três cenários de distribuição de áreas úmidas: (1) estão presentes em áreas com alta densidade de áreas úmidas no entorno; (2) estão situados em áreas com baixa densidade de áreas úmidas localmente, mas alta densidade regionalmente; e (3) estão presentes em áreas com alta quantidade de áreas úmidas, mas baixa densidade devido à sua distribuição espacial.
+Desta forma, o índice de áreas úmidas é composto por esses três cenários. Primeiro é calculado a densidade local, regional e a quantidade regional e, para cada métrica, é calculado um valor de Z (subtraindo pela média e dividindo pelo desvio padrão). A densidade de áreas úmidas é a média ponderada dos valores de Z da densidade local e regional (aplicando peso duplo para a densidade local). Nos locais onde os valores de Z da quantidade de áreas úmidas regional é maior que a densidade média calculada anteriormente, o índice se torna a média ponderada da densidade local, densidade regional e quantidade de áreas úmidas regional (aplicando peso duplo para a densidade local).
+Nesse capítulo, descrevemos a forma de cálculo para as densidades e a quantidade de áreas úmidas e, em outro capítulo, descreveremos a forma de cálculo para os valores de Z e a criação do índice de áreas úmidas. 
+
+<!---
+
+O parágrafo acima está um pouco confuso. Precisa explicar um pouco melhor esse passo a passo da análise.
+
+-->
+
 
 $$
 \tiny
@@ -30,15 +40,14 @@ wetland.score =
   \end{cases}
 $$
 
-Nesse capítulo demonstraremos como as densidades e a quantidade de áreas úmidas foram calculadas e em outro capítulo mostraremos como calculamos os valores de Z e o *wetland score*. 
 
-## Banco de Dados
+## Base de dados utilizada
 
-Nós utilizamos como base de dados de áreas úmidas o *Global Wetlands database* (Gumbricht et al. 2017). Nós reprojetamos o *raster* de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 90 metros).
+Nós utilizamos como base de dados de áreas úmidas o *Global Wetlands database* (Gumbricht *et al.* 2017). Nós reprojetamos o *raster* de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 90 metros).
 
 Para calcularmos as densidades e quantidade de áreas úmidas, nós retiramos as áreas úmidas classificadas como sistemas lacustres e ribeirinhos (*riverines* e *lacustrines*) e reclassificamos o *raster* como sendo área úmida (1) ou não sendo área úmida (0). Depois, calculamos a densidade de áreas úmidas dentro de uma vizinhaça de 450 metros (5 células) de raio de um *kernel* circular (densidade local). Calculamos também a densidade e a quantidade de áreas úmidas na vizinhança de ~ 1170 metros (13 células) (regional).
 
-## Código para calcular as densidades e quantidade de áreas úmidas
+## Cálculo das densidades e quantidade de áreas úmidas
 
 As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.
 

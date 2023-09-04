@@ -1,5 +1,5 @@
 ---
-title: Resiliência da Paisagem
+title: Resiliência da paisagem
 jupyter: python3
 ---
 
@@ -21,15 +21,15 @@ geemap.ee_initialize()
 A resiliência da paisagem é a média da diversidade e connectividade da paisagem.
 ```
 
-## Base de Dados
+## Base de dados utilizada
 
-Os dados para a resiliência da paisagem são o mapa de diversidade da paisagem e *Z-score* da connectividade criados anteriormente.
+Os dados utilizados para calcular a resiliência da paisagem são o mapa de diversidade da paisagem e o valor de Z da camada de conectividade criados anteriormente.
 
-## Códigos para a criação da resiliência da paisagem
+## Cálculo da resiliência da paisagem
 
 As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. 
 
-Primeiro, importamos o polígono de biomas do Brasil para extraímos as coordenadas geográficas mínimas e máximas. Extraímos também a escala do modelo digital de elevação que estamos usando na análises prévias.
+Primeiro, importamos o polígono de biomas do Brasil para extraímos as coordenadas geográficas mínimas e máximas. Extraímos também a escala do modelo digital de elevação que usamos nas análises anteriores.
 
 ```{python}
 # Importando o polígono de bioma para definir as 
@@ -51,7 +51,7 @@ bioma_box = bioma.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
 escala = DEM.projection().nominalScale()
 ```
 
-Importamos os mapas de diversidade da paisagem e *Z-score* da connectividade e calculamos a média entre eles.
+Importamos os mapas de diversidade da paisagem e o valor de Z da conectividade e calculamos a média entre eles.
 
 ```{python}
 Z_connectedness = ee.Image("projects/ee-lucasljardim9/assets/Z_connectedness_byregion")

@@ -15,14 +15,26 @@ import geemap
 geemap.ee_initialize()
 ```
 
-Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis, variedade de *landforms*, amplitude de elevação, densidade e quantidade de áreas úmidas e diversidade de solo, em valores de Z. O cálculo de Z é realizado dentro de regiões similares ecologicamente e geologicamente (unidade eco-geológicas), criadas anteriormente. Além disso, os valores de densidade e quantidade de áreas úmidas são combinados em *wetland score*.
+## Explicação sobre o cálculo do valor de Z
 
-Os valores de Z de cada variável, em cada célula (i), é o desvio do valor da célula da média da unidade eco-geológica (u), divido pelo seu desvio padrão:
+Antes de calcularmos a diversidade da paisagem e de gerar a camada de resiliência, é necessário transformar em valores de Z das variáveis calculadas anteriormente: variedade de formas de relevo, amplitude altitudinal, densidade e quantidade de áreas úmidas, diversidade de solos e conectividade da paisagem. O cálculo do valor de Z é realizado dentro das janelas móveis.
+
+<!---
+Substituí a regiões eco-geológicas por janelas. Veja está correto.
+Outra coisa, também calculamos o valor de Z para a camada de resistência, certo? Incluí no texto acima.
+-->
+
+Os valores de Z de cada variável, em cada célula (i), representam o desvio do valor da célula da média da janela (u), divido pelo seu desvio padrão:
 
 $$Z-score_{iu} = \frac{i - media_{u}}{desviopadrao_{u}}$$
 
-O *wetland score* é a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o *wetland score* assume o segundo valor Z.
+## Gerando o índice de áreas úmidas
 
+Os valores de densidade e quantidade de áreas úmidas são combinados para gerar o índice de áreas úmidas. O índice de áreas úmidas é inicialmente a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o índice de áreas úmidas assume o segundo valor de Z. Isso é feito para...
+
+<!---
+Na última frase acima, explicar o porquê.
+-->
 
 $$
 \tiny
@@ -33,24 +45,27 @@ wetland.score =
   \end{cases}
 $$
 
-## Base de Dados
+## Base de dados utilizada
 
-Nós utilizamos as variáveis criadas anteriormente e guardadas como *assets* no *Google Earth Engine*. As variáveis são:
+Utilizamos as variáveis criadas anteriormente e guardadas como *assets* no *Google Earth Engine*. As variáveis são:
 
-* variedade de *landforms*
-* amplitude de elevação
-* diversidade de solo
-* unidades eco-geológicas
-* conectividade da paisagem
+* variedade de formas de relevo
+* amplitude altitudinal
 * densidade local de áreas úmidas
 * densidade regional de áreas úmidas
-* quantidade regional de áreas úmidas 
+* quantidade regional de áreas úmidas
+* diversidade de solos
+* conectividade da paisagem
 
-## Códigos para o cálculo dos *Z-scores*
+## Cálculo dos valores de Z
 
 As análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.
 
-Primeiro, nós criamos uma função para calcular o *Z-score* dentro de cada unidade eco-geológica (**code**) para cada variável (**image**). A função cria uma máscara da variável pelo código da unidade eco-geológica e calcula as médias e desvio padrão de cada unidade, depois as variáveis originais são subtraídas da média de sua unidade e divida pelo desvio padrão.
+Primeiro, nós criamos uma função para calcular o valor de Z dentro de cada unidade eco-geológica (**code**) para cada variável (**image**). A função cria uma máscara da variável pelo código da unidade eco-geológica e calcula as médias e desvio padrão de cada unidade, depois as variáveis originais são subtraídas da média de sua unidade e divida pelo desvio padrão.
+
+<!---
+Editar texto acima para corresponder às janelas móveis.
+-->
 
 ```{python}
 def calculate_Z(code, image):
@@ -84,6 +99,10 @@ def calculate_Z(code, image):
 
 Em seguida, criamos também um função para aplicar o **calculate_Z** para uma imagem definida pelo usuário transforme em uma image de banda única. 
 
+<!---
+Revisar frase acima.
+-->
+
 ```{python}
 def wrap_calculate_Z(image):   
     # Aplique calculate_Z para cada unidade (classe), guarde numa ImageCollection,
@@ -95,7 +114,7 @@ def wrap_calculate_Z(image):
     return Z_map
 ```
 
-Aqui nós importamos as variáveis de interesse para o cálculo de Z.
+O próximo passo é importar as variáveis de interesse para o cálculo de Z.
 
 ```{python}
 # Importando raster das unidades eco-geologicas
@@ -176,7 +195,7 @@ Z_connectedness = wrap_calculate_Z(connectedness).multiply(-1)
 
 ## Calculando wetland score
 
-Aqui, nós calculamos o *wetland score*, aplicando a fórmula descrita anteriormente.
+Aqui, nós calculamos o índice de áreas úmidas, aplicando a fórmula descrita anteriormente.
 
 ```{python}
 # Calculando a densidade de areas úmidas como a média do local e regional
@@ -199,7 +218,7 @@ wet_average = (wetlands_density
 Z_wetlands_score = Z_wetlands_density.where(wet_test, wet_average)
 ```
 
-## Exportando os Z-scores
+## Exportando os valores de Z
 
 Por último, exportamos todas as imagens de Z como *asset* no *Google Earth Engine*.
 

@@ -17,6 +17,8 @@ import geemap
 geemap.ee_initialize()
 ```
 
+## Como foi gerada a amplitude altitudinal
+
 A amplitude altitudinal foi calculada como a diferença entre a altitude máxima e mínima dentro da vizinhaça da célula focal. 
 Como essa métrica é correlacionada com a variedade de formas de relevo, calculamos os resíduos de uma 
 regressão (*Ordinary Least Squares*) entre as duas váriaveis. Assim, a amplitude altitudinal residual é independente da variedade de formas de relevo. Isso permite a identificação de locais que tenham maior variabilidade microclimática que aquela proporcionada apenas pela variedade de formas de relevo, quando fizermos a composição do índice de diversidade da paisagem.
@@ -29,7 +31,7 @@ A variedade de formas de relevo foi calculada anteriormente (veja o capítulo Va
 
 As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido à demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface, pela facilidade na documentação e reprodutividade das análises.
 
-## Códigos para o cálculo da amplitude de altitude residual
+## Cálculo da amplitude altitudinal residual
 
 As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido à demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface, pela facilidade na documentação e reprodutividade das análises.
 

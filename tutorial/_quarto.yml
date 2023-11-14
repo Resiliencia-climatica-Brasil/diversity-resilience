@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: html
+  output-dir: docs
   render:
     - 1_landforms.qmd
     - 2_elevation_range.qmd  

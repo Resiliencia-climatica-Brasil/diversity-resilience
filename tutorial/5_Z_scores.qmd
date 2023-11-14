@@ -1,0 +1,248 @@
+---
+title: Calculando *Z-scores *das variáveis
+jupyter: python3
+---
+
+
+
+```{python}
+import os
+import ee
+import geemap
+```
+
+```{python}
+geemap.ee_initialize()
+```
+
+Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de *landforms*, amplitude altitudinal, densidade, quantidade de áreas úmidas e diversidade de solo) em valores de Z. O cálculo de Z é realizado dentro janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em *wetland score*.
+
+Os valores de Z de cada variável, em cada célula (i), é o desvio do valor da célula da média da janela móvel (u), divido pelo seu desvio padrão:
+
+$$Z-score_{iu} = \frac{i - media_{u}}{desviopadrao_{u}}$$
+
+O *wetland score* é a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o *wetland score* assume o segundo valor Z.
+
+
+$$
+\tiny
+wetland.score = 
+  \begin{cases}  
+    \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z)}{3} & \text{se densidade média é maior ou igual à quantidade regional}\\
+    \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z) + quantidade_{regional}(Z)}{4}& \text {se a quantidade regional for maior a densidade média}
+  \end{cases}
+$$
+
+## Base de Dados
+
+Nós utilizamos as variáveis criadas anteriormente e guardadas como *assets* no *Google Earth Engine*. As variáveis são:
+
+**(colocar os links das variáveis aqui)**
+
+* variedade de *landforms* 
+* amplitude de elevação
+* diversidade de solo
+* unidades eco-geológicas
+* conectividade da paisagem
+* densidade local de áreas úmidas
+* densidade regional de áreas úmidas
+* quantidade regional de áreas úmidas 
+
+## Códigos para o cálculo dos *Z-scores*
+
+As análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.
+
+Primeiro, nós criamos uma função para calcular o *Z-score* dentro de cada janela móvel (**code**) para cada variável (**image**). A função calcula a média e desvio padrão para a vizinhança de cada célula, utilizando uma janela móvel circular. Depois, os valores e média e desvio padrão convertidos para *Z-score* pela subtração variável pela média e divida pelo desvio padrão.
+
+```{python}
+import ee
+
+def calculate_Z_scores(image, windows):
+
+  # Calculating the mean
+  mean = image.reduceNeighborhood(**{
+    'reducer': ee.Reducer.mean(),
+    'kernel': ee.Kernel.circle(**{
+                                'radius':windows,
+                                'units':'pixels',
+                                'normalize':False
+                              }),
+  })
+
+  # Calculating the standard deviation
+  sd = image.reduceNeighborhood(**{
+    'reducer': ee.Reducer.stdDev(),
+    'kernel': ee.Kernel.circle(**{
+                                'radius':windows,
+                                'units':'pixels',
+                                'normalize':False
+                              }),
+  })
+
+  # Values as a raster
+  meanValue = mean.rename('mean')
+  sdValue = sd.rename('sd')
+
+  # Calculating the z scores
+  z = image.subtract(meanValue).divide(sdValue).rename('z')
+
+  return z
+
+```
+
+Aqui nós importamos as variáveis de interesse para o cálculo de Z.
+
+```{python}
+# Importando as variáveis
+
+#Conferir os links
+
+landform_variety = ee.Image("projects/ee-lucasljardim9/assets/landform_variety")
+
+elevation_range = ee.Image("projects/ee-lucasljardim9/assets/elevation_range_residual")
+
+soil_diversity = ee.Image('projects/ee-lucasljardim9/assets/soil_diversity')
+
+connectedness = ee.Image("projects/ee-lucasljardim9/assets/Biomas_resistencia_kernel")
+
+# Importando os dados de wetlands para o wetland score
+
+wetlands_count = ee.Image("projects/ee-lucasljardim9/assets/wetlands_count")
+
+wetlands_density = ee.Image("projects/ee-lucasljardim9/assets/wetlands_density")
+
+wetlands_density_1000 = ee.Image("projects/ee-lucasljardim9/assets/wetlands_density_1000")
+
+# Importando o polígono de bioma para definir as 
+# coordenadas máximas e mínimas do Brasil
+
+bioma = ee.FeatureCollection("projects/ee-lucasljardim9/assets/Biome")
+
+# ModeloDigital de Elevação para extrair a resolução
+DEM = ee.Image("MERIT/DEM/v1_0_3")
+
+# função para extrair as bordas dos polígonos
+def func_cmp(feature):
+    return feature.bounds() 
+
+# Extraindo as coordenadas mínimas e máximas do Brasil
+bioma_box = bioma.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
+
+# Resolução das análises
+escala = DEM.projection().nominalScale()
+```
+
+## Calculando Z-scores
+
+Nós aplicamos a função **wrap_calculate_Z** para cada variável e guardamos o valores de Z calculados.
+
+```{python}
+# Calculando os valores de Z para cada variável
+
+windows = 200
+
+Z_landform_variety = calculate_Z_scores(landform_variety, windows)
+
+Z_elevation_range = calculate_Z_scores(elevation_range, windows)
+
+Z_soil_diversity = calculate_Z_scores(soil_diversity, windows)
+
+Z_wetlands_count = calculate_Z_scores(wetlands_count, windows)
+
+Z_wetlands_density = calculate_Z_scores(wetlands_density, windows)
+
+Z_wetlands_density_1000 = calculate_Z_scores(wetlands_density_1000, windows)
+
+Z_connectedness = calculate_Z_scores(connectedness, windows).multiply(-1)
+# conferir se precisar multiplicar mesmo po -1
+```
+
+## Calculando wetland score
+
+Aqui, nós calculamos o *wetland score*, aplicando a fórmula descrita anteriormente.
+
+```{python}
+# Calculando a densidade de areas úmidas como a média do local e regional
+wetlands_density = (Z_wetlands_density
+                    .multiply(2)
+                    .add(Z_wetlands_density_1000)
+                    .divide(3))
+
+# Testando se o Z da quantidade de áreas úmidas é maior que a densidade média
+
+wet_test = wetlands_density.lt(Z_wetlands_count)
+
+# Média de densidade local, regional e quantidade de áreas úmidas
+wet_average = (wetlands_density
+              .multiply(3)
+              .add(Z_wetlands_count)
+              .divide(4))
+
+# Substituindo os locais com densidade menor que a quantidade pelos valores de quantidade             
+Z_wetlands_score = Z_wetlands_density.where(wet_test, wet_average)
+```
+
+## Exportando os Z-scores
+
+Por último, exportamos todas as imagens de Z como *asset* no *Google Earth Engine*.
+
+```{python}
+# Criando os links dos assets
+landform_assetId = "projects/ee-lucasljardim9/assets/Z_landform_variety"
+
+elevation_assetId = "projects/ee-lucasljardim9/assets/Z_elevation_range"
+
+wetland_assetId = "projects/ee-lucasljardim9/assets/Z_wetlands_score"
+
+soil_assetId = "projects/ee-lucasljardim9/assets/Z_soil_diversity"
+
+connectedness_assetId = "projects/ee-lucasljardim9/assets/Z_connectedness"
+
+# Exportando as imagens
+geemap.ee_export_image_to_asset(
+    Z_landform_variety, 
+    description='Z_landform_variety', 
+    assetId=landform_assetId, 
+    region=bioma_box, 
+    scale=escala, 
+    maxPixels=1e13
+)
+
+geemap.ee_export_image_to_asset(
+    Z_elevation_range, 
+    description='Z_elevation_range', 
+    assetId=elevation_assetId, 
+    region=bioma_box, 
+    scale=escala, 
+    maxPixels=1e13
+)
+
+geemap.ee_export_image_to_asset(
+    Z_wetlands_score, 
+    description='Z_wetlands_score', 
+    assetId=wetland_assetId, 
+    region=bioma_box, 
+    scale=escala, 
+    maxPixels=1e13
+)
+
+geemap.ee_export_image_to_asset(
+    Z_soil_diversity, 
+    description='Z_soil_diversity', 
+    assetId=soil_assetId, 
+    region=bioma_box, 
+    scale=escala, 
+    maxPixels=1e13
+)
+
+geemap.ee_export_image_to_asset(
+    Z_connectedness, 
+    description='Z_connectedness', 
+    assetId=connectedness_assetId, 
+    region=bioma_box, 
+    scale=escala, 
+    maxPixels=1e13
+)
+```
+
+

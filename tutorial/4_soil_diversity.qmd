@@ -1,0 +1,92 @@
+---
+title: Riqueza de solo
+jupyter: python3
+---
+
+
+
+## Importando pacotes e inicializando *geemap*
+
+```{python}
+import os
+import ee
+import geemap
+```
+
+```{python}
+geemap.ee_initialize()
+```
+
+A riqueza de solo é incluída na heterogeneidade da paisagem em locais com baixa variedade de *landforms*, amplitude altitudinal e índice de áreas úmidas. A riqueza de solos é calculada como a soma dos tipos de solos componentes dos polígonos de solo.
+
+## Banda de Dados
+
+Nós utilizamos a [base de dados de pedologia](https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip) do Instituto Brasileiro de Geografia e Estatística (IBGE)  como base para o cálculo da riqueza de solos. Calculamos a quantidade de solos componentes de cada polígono e rasterizados na escala do modelo digital de elevação que usamos nas etapas anteriores (~ 90 metros).
+
+## Códigos para a criação da diversidade de solos
+
+As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020), em *Python* (Python Software Foundation 2023), como interface pela facilidade na documentação e reprodutividade das análises. 
+
+O primeiro passo é criar uma função que conta os tipos de solos componentes de cada polígono. Concatenamos as colunas **componente**, **component1**, **component2** e **component3**. Depois, separamos a *string* pelos sinais de "+", que indicam as separações das descrições de cada tipo de solo. Em seguida, contamos quantos tipo de solos existem em cada polígono como o comprimento da lista de tipos de solos. Adicionamos uma coluna chamada **soil_richness** com a riqueza de solos em cada polígono.
+
+```{python}
+def fun(feature):
+    number = (ee.String(feature.get("componente"))
+              .cat(ee.String(feature.get("component1")))
+              .cat(ee.String(feature.get("component2")))
+              .cat(ee.String(feature.get("component3")))
+              .split("\+")
+              .length())
+
+    return feature.set("soil_richness", number)
+
+```
+
+Em seguida, importamos os dados de solo, definimos a região para exportar o dado e a escala da análise. 
+
+```{python}
+# Importando os polígonos de solo
+solo = ee.FeatureCollection("projects/ee-lucasljardim9/assets/pedo_area")
+
+# Importando mapa de biomas do IBGE para extrair as coordenadas mínimas e máximas do Brasil
+regiao = ee.FeatureCollection("projects/ee-lucasljardim9/assets/Biome")
+
+def func_cmp(feature):
+    return feature.bounds() 
+
+# Extraindo as coordenadas mínimas e máximas do Brasil
+regiao_box = regiao.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
+
+# Extraindo a resolução do mapa
+DEM = ee.Image("MERIT/DEM/v1_0_3") 
+
+escala = DEM.projection().nominalScale()
+```
+
+Aplicamos a função criada anteriormente aos polígonos de solo
+
+```{python}
+solo = solo.map(fun)
+```
+
+Rasterizamos a riqueza de solos na mesma escala das análises anteriores (~90 metros). 
+
+```{python}
+
+soil_diversity = solo.reduceToImage(**{'properties':["soil_richness"],
+                     'reducer':ee.Reducer.max()}) \
+                     .reproject(**{'crs':"EPSG:4326",
+                                  'scale':escala})
+```
+
+Por fim, exportamos o *raster* como um *asset* no *Google Earth Engine*.
+
+```{python}
+# Exporte o raster de diversidade de solo 
+assetId = "projects/ee-lucasljardim9/assets/soil_diversity"
+
+geemap.ee_export_image_to_asset(
+    soil_diversity, description='soil_diversity', assetId=assetId, region=regiao_box, scale=escala, maxPixels=1e13
+)
+```
+

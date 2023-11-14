@@ -17,17 +17,57 @@ import geemap
 geemap.ee_initialize()
 ```
 
+<<<<<<< HEAD:tutorial/6_landscape_diversity.qmd
 A diversidade da paisagem é uma métrica composta pelos valores de Z da variedade de *landforms*, amplitude altitudinal, *wetland score* e diversidade de solos. Inicialmente, a diversidade da paisage assume os valores de variedade de *landforms*. Nos locais onde a amplitude de elevação é maior que variedade de *landforms*, a diversidade da paisagem é substituída pela média ponderada entre as duas variáveis, atribuindo peso dobrado para a variedade de *landforms*. Locais onde wetland score é maior que a diversidade da paisagem calculada anteriormente, os valores são substituídos por wetland score. Na localidades onde a diversidade de solo é maior que a diversidade da paisagem, os valores são substituídos pela média ponderada das variáveis naquela localidade.
+=======
+## Explicação sobre a camada de diversidade da paisagem
+>>>>>>> 7bd8b2f9fa3ad7efd8b2898389f752ad243a2534:tutorial/qmd/landscape_diversity.qmd
 
-## Base de Dados
+A diversidade da paisagem é uma métrica composta pelos valores de Z das variáveis: variedade de formas de relevo, amplitude altitudinal, índice de áreas úmidas e diversidade de solos. O cálculo da diversidade da paisagem consiste de uma série de etapas:
+Na primeira etapa, a diversidade da paisage assume os valores de variedade de formas de relevo.
+Na segunda etapa, para os locais onde a amplitude altitudinal é maior que variedade de formas de relevo, a diversidade da paisagem é substituída pela média ponderada entre as duas variáveis, atribuindo peso duplo para a variedade de formas de relevo.
+Na terceira etapa, para os locais onde o índice de áreas úmidas é maior que a diversidade da paisagem calculada na etapa anterior, os valores são substituídos pelo índice de áreas úmidas.
+Na quarta etapa, para os locais onde a diversidade de solos é maior que a diversidade da paisagem calculada na etapa anterior, os valores são substituídos pela média ponderada de todas as variáveis.
+Na última etapa, os valores de Z que são considerados *outliers* são truncados para deixar a distribuição de diversidade da paisagem mais suavizada. A suavização é importante para que locais com alta diversidade da paisagem, devido a sua especificidade de variedade de formas de relevo e amplitude altitudinal não possuam maior peso no mapa de resiliência que os locais guiados pelo índice de áreas úmidas.
 
-Os dados para a diversidade da paisagem são os criados na etapa de cálculo dos *Z-scores*, descrito anteriormente.
+## Base de dados utilizada
 
-## Códigos para a criação da diversidade da paisagem
+Os dados utilizados para calcular a diversidade da paisagem são os mesmos criados na etapa de cálculo dos *Z-scores*, descrito anteriormente.
 
-Nossas análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.
+## Cálculo da diversidade da paisagem
 
+<<<<<<< HEAD:tutorial/6_landscape_diversity.qmd
 Nós importamos os dados de bioma para delimitar a região de análise e o raster do Brasil para que os mapas sejam cortados para o Brasil antes do cálculo da diversidadade da paisagem.
+=======
+As análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.
+
+O primeiro passo da análise é criar uma função para truncar a diversidade da paisagem por uma porcentagem (**coverage**) de cobertura da distribuição dos valores. 
+
+```{python}
+def truncate_z_scores(image, coverage):
+    
+    # Calcule os percentis baseado na cobertura definida em coverage
+    percentile = [100 - coverage, coverage]
+    
+    # Encontre os valores dos percentis definidos
+    quartiles = image.reduceRegion(**{'reducer': ee.Reducer.percentile(percentile),
+                                      'scale': image.projection().nominalScale(),
+                                      'maxPixels':1e13});
+    #5% quantiles
+    q5 = quartiles.getNumber('sum_p5')
+    #95% quantiles
+    q95 = quartiles.getNumber('sum_p95')
+
+    # Truncar a imagem pelo percentis 
+    truncated_z = (image.where(image.lt(q5), q5)
+                  .where(image.gt(q95), q95))
+
+    return truncated_z
+
+```
+
+Importamos os dados de bioma para delimitar a região de análise e o *raster* do Brasil para que os mapas sejam cortados para o Brasil antes do cálculo da diversidadade da paisagem.
+>>>>>>> 7bd8b2f9fa3ad7efd8b2898389f752ad243a2534:tutorial/qmd/landscape_diversity.qmd
 
 ```{python}
 # Importando o polígono de bioma para definir as 
@@ -53,6 +93,10 @@ escala = DEM.projection().nominalScale()
 
 Importamos os mapas e cortamos para o raster do Brasil.
 
+<!---
+Precisa dessa frase acima? A informação já está na frase anterior.
+-->
+
 ```{python}
 # Importando e cortando as imagens para o Brasil
 landform_Z = (ee.Image('projects/ee-lucasljardim9/assets/Z_landform_variety')
@@ -68,7 +112,12 @@ soil_diversity =  (ee.Image('projects/ee-lucasljardim9/assets/Z_soil_diversity')
                    .updateMask(brasil_raster))
 ```
 
-Aqui começamos o cálculo da diversidade da paisagem, atribuindo à diversidade da paisagem os valores de variedade de *landforms*. Depois testamos os locais onde a amplitude de elevação é maior que a variedade de *landforms* e substituímos os valores.
+O cálculo da diversidade da paisagem inicia atribuindo à diversidade da paisagem os valores de variedade de formas de relevo. Em um segundo momento, avaliamos os locais onde a amplitude altitudinal é maior que a variedade de formas de relevo e substituímos os valores.
+
+<!---
+Mas não era a média ponderada? Revisar.
+-->
+
 
 ```{python}
 landscape_diversity = landform_Z
@@ -84,7 +133,7 @@ average_elevation = landform_Z.multiply(2).add(elevation_range_Z).divide(3)
 landscape_diversity = landscape_diversity.where(test_1, average_elevation)
 ```
 
-Agora, nós adicionamos *wetland score*, primeiro testando onde *wetland score* é maior que a diversidade da paisagem calculada anteriormente, e nos locais cujos valores de *wetland score* são maiores que a diversidade da paisagem, nós substituímos os valores.
+Em seguida, adicionamos o índice de áreas úmidas, primeiro avaliando onde esse índice é maior que a diversidade da paisagem calculada anteriormente. Nos locais onde os valores do índice de áreas úmidas são maiores que a diversidade da paisagem, os valores são substituídos.
 
 ```{python}
 # testando onde wetland score é maior que a diversidade da paisagem
@@ -104,7 +153,7 @@ landscape_diversity = landscape_diversity.where(test_1.And(test_2), average_wetl
 landscape_diversity = landscape_diversity.where(test_1.Not().And(test_2), average_wetland_2)
 ```
 
-A inclusão da diversidade de solos é um pouco mais complexa. Nós testamos onde a diversidade de solo é maior a diversidade da paisagem já calculada e substituímos os valores por 4 médias ponderadas diferentes, cada uma representando os passos anteriores. A primeira média é para os locais onde a diversidade de solos é maior que *wetland score*, que é maior que amplitude de elevação. Na segunda média, os valores são para as regiões com maior diversidade de solos, mas onde *wetland score* é menor que a amplitude de elevação. A terceira média é para locais onde a amplitude de elevação não é maior que variedade de *landforms*, mas possui valores menores de *wetland score*, que também são menores que a diversidade de solos. A quarta média é para locais onde somente a diversidade de solos é maior que a variedade de *landforms*.
+A etapa de inclusão da diversidade de solos é um pouco mais complexa. Nós testamos onde a diversidade de solo é maior a diversidade da paisagem calculada até esse momento e substituímos os valores por 4 médias ponderadas diferentes, cada uma representando os diferentes passos anteriores. A primeira média é para os locais onde a diversidade de solos é maior que o índice de áreas úmidas, que é a variável com valor mais alto que amplitude altitudinal. Na segunda média, os valores são calculados para as regiões com maior diversidade de solos, mas onde o índice de áreas úmidas é inferir que a amplitude altitudinal. A terceira média é para locais onde a amplitude altitudinal não é superior que variedade de formas de relevo, mas possui valores inferiores do índice de áreas úmidas, que também são inferiores à diversidade de solos. A quarta média é para locais onde somente a diversidade de solos é maior que a variedade de formas de relevo.
 
 ```{python}
 # teste onde diversidade de solo é maior que a diversidade da paisagem
@@ -142,8 +191,19 @@ landscape_diversity = (landscape_diversity
 landscape_diversity = (landscape_diversity
                       .where(test_1.Not().And(test_2).And(test_3), average_soil_3))
 
+<<<<<<< HEAD:tutorial/6_landscape_diversity.qmd
 landscape_diversity = (landscape_diversity
                       .where(test_1.Not().And(test_2.Not()).And(test_3), average_soil_4))
+=======
+landscape_diversity = landscape_diversity
+                      .where(test_1.Not().And(test_2.Not()).And(test_3), average_soil_4)
+```
+
+Com a camada de diversidade da paisagem concluída até esse ponto, aplicamos um truncamento dos valores maiores e menores que 95% da distribuição dos dados, para que haja uma suavização da imagem, impedindo que *outliers* guiem os mapas futuramente criados para a camada de resiliência da paisagem.
+
+```{python}
+truncated_landscape_diversity = truncate_z_scores(landscape_diversity, 95)
+>>>>>>> 7bd8b2f9fa3ad7efd8b2898389f752ad243a2534:tutorial/qmd/landscape_diversity.qmd
 ```
 
  Finalizamos exportando o mapa de diversidade da paisagem como *asset* no *Google Earth Engine*.

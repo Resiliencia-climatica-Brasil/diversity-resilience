@@ -1,5 +1,5 @@
 ---
-title: Amplitude de Elevação
+title: Amplitude altitudinal
 jupyter: python3
 ---
 
@@ -17,21 +17,23 @@ import geemap
 geemap.ee_initialize()
 ```
 
-A amplitude de elevação foi calculada como a diferença entre a elevação máxima e mínima dentro da vizinhaça da célula focal. 
-Como essa métrica é correlacionada com a variedade de *landforms*, nós calculamos o resíduos de uma 
-regressão (Ordinary Least Squares) entre as duas váriaveis. Assim, a amplitude de elevação residual é independente da variedade de *landforms*, permitindo a identificação de locais que tenham maior variabilidade microclimática que a proporcionada pela variedade de *landforms*, quando compormos o índice de diversidade da paisagem.
+## Como foi gerada a amplitude altitudinal
 
-## Base de Dados
+A amplitude altitudinal foi calculada como a diferença entre a altitude máxima e mínima dentro da vizinhaça da célula focal. 
+Como essa métrica é correlacionada com a variedade de formas de relevo, calculamos os resíduos de uma 
+regressão (*Ordinary Least Squares*) entre as duas váriaveis. Assim, a amplitude altitudinal residual é independente da variedade de formas de relevo. Isso permite a identificação de locais que tenham maior variabilidade microclimática que aquela proporcionada apenas pela variedade de formas de relevo, quando fizermos a composição do índice de diversidade da paisagem.
 
-Nós utilizamos o Modelo Digital de Elevação (DEM) do Merit-DEM (Yamazaki et al. 2017), na escala de 90 metros. O Merit-DEM é um produto global que combina dados dos satélites do Shuttle Radar Topography Mission (SRTM) (Farr et al. 2007) e Advanced Land Observing Satellite (ALOS) (Tadono et al. 2014), permitindo a replicabilidade da metodologia em outras regiões. Além disso, o Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como *speckle noise*, *stripe noise*, *absolute bias* e *tree height bias* (Yamazaki et al. 2017). A correção de *tree height bias* é principalmente importante para a Floresta Amazônica devido à sua densidade de árvores altas. 
+## Base de dados utilizada
 
-A variedade de *landforms* foi calculada anteriormente (veja o capítulo Variedade de *Landforms*) e está disponível com *asset* em **"projects/ee-lucasljardim9/assets/landform_variety"**.   
+Nós utilizamos o Modelo Digital de Elevação (DEM) do Merit-DEM (Yamazaki *et al.* 2017), na escala de 90 metros. O Merit-DEM é um produto global que combina dados dos satélites do Shuttle Radar Topography Mission (SRTM) (Farr *et al.* 2007) e Advanced Land Observing Satellite (ALOS) (Tadono *et al.* 2014), permitindo a replicabilidade da metodologia em outras regiões. Além disso, o Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como *speckle noise*, *stripe noise*, *absolute bias* e *tree height bias* (Yamazaki et al. 2017). A correção de *tree height bias* é especialmente importante para a Floresta Amazônica devido à densidade de árvores altas. 
 
-As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.
+A variedade de formas de relevo foi calculada anteriormente (veja o capítulo Variedade de Formas de Relevo) e está disponível com *asset* em **"projects/ee-lucasljardim9/assets/landform_variety"**.   
 
-## Códigos para o cálculo da amplitude de elevação residual
+As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido à demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface, pela facilidade na documentação e reprodutividade das análises.
 
-Nossas análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. 
+## Cálculo da amplitude altitudinal residual
+
+As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido à demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface, pela facilidade na documentação e reprodutividade das análises.
 
 ```{python}
 # Importando mapa de biomas do IBGE para extrair as coordenadas mínimas e máximas do Brasil
@@ -44,7 +46,7 @@ def func_cmp(feature):
 bioma_box = bioma.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
 ```
 
-Nós importamos os *rasters* do modelo digital de elevação e da variedade de *landforms*.
+Importamos os *rasters* do modelo digital de elevação e da variedade de formas de relevo.
 
 ```{python}
 # Importando o modelo digital de elevação
@@ -57,7 +59,7 @@ landform_variety = ee.Image("projects/ee-lucasljardim9/assets/landform_variety")
 escala = DEM.projection().nominalScale()
 ```
 
-Nós extraímos do *raster* as células dentro da vizinhança (kernel circular com 5 células de raio, ~450 metros) da célula focal e salvamos como bandas de uma imagem. Assim, cada banda é um *stack* das células da vizinhança da célula focal, a primeira banda possui todas as primeiras células de cada célula focal, a segunda banda todas as segunda células e assim por diante. 
+Extraímos do *raster* as células dentro da vizinhança (kernel circular com 5 células de raio, ~450 metros) da célula focal e salvamos como bandas de uma imagem. Assim, cada banda é um *stack* das células da vizinhança da célula focal, a primeira banda possui todas as primeiras células de cada célula focal, a segunda banda todas as segunda células, e assim por diante. 
 
 ```{python}
 # Tamanho do raio do kernel para o calculo da amplitude de elevação
@@ -69,6 +71,12 @@ neighbor = DEM.neighborhoodToBands(ee.Kernel.circle(ee.Number(radius_pixels)))
 
 A imagem *neighbor* criada anteriormente as células da vizinhança como bandas da imagem. Assim, as primeiras células de cada banda são as células da vizinhança da primeira célula focal, organizadas como colunas (bandas). Ao calcularmos os valores máximos e mínimos para cada coluna de *neighbor*, estamos calculando os valores máximos e mínimos da vizinhança de cada célula focal. 
 
+<!---
+
+A primeira frase acima está estranha. Revisar.
+
+-->
+
 ```{python}
 # Calcule o máximo da vizinhança
 elevation_max = neighbor.reduce(ee.Reducer.max())
@@ -77,7 +85,7 @@ elevation_max = neighbor.reduce(ee.Reducer.max())
 elevation_min = neighbor.reduce(ee.Reducer.min())
 ```
 
-Subtraindo os valores máximos e mínimos de cada célula focal e calculando o seu valor absoluto, temos a amplitude de elevação para cada célula focal. Nós salvamos a amplitude de elevação e variedade de *landforms* como uma imagem com duas bandas, sendo a primeira banda a variável preditora da regressão e a segunda banda a variável resposta.
+Subtraindo os valores máximos e mínimos de cada célula focal e calculando o seu valor absoluto, temos a amplitude de altitude para cada célula focal. Nós salvamos a amplitude altitudinal e a variedade de formas de relevo como uma imagem com duas bandas, sendo a primeira banda a variável preditora da regressão e a segunda banda a variável resposta.
 
 ```{python}
 # Calcule a amplitude da vizinhança
@@ -90,7 +98,7 @@ elevation = (ee.Image.cat(landform_variety, elevation_range)
             .rename(['landform_variety', 'elevation_range']))
 ```
 
-Desta forma, aplicamos a regressão entre as variáveis.
+Dessa forma, aplicamos a regressão entre as variáveis.
 
 ```{python}
 # Rode uma regressão linear (OLS) entre varidade de landforms e amplitude de elevação
@@ -102,7 +110,7 @@ regression = elevation.reduceRegion(**{
     })
 ```
 
-Após a regressão, multiplicamos a variável preditora pelo coeficiente de regressão (*slope*) e adicionamos o valor do intercepto para predizermos os valores de amplitude de elevação esperados pela regressão. Em seguida, subtraimos os valores de amplitude de elevação pelos valores preditos pela regressão para calcularmos os resíduos do modelo.
+Após a regressão, multiplicamos a variável preditora pelo coeficiente de regressão (*slope*) e adicionamos o valor do intercepto para predizermos os valores de amplitude altitudinal esperados pela regressão. Em seguida, subtraimos os valores de amplitude altitudinal pelos valores preditos pela regressão para calcularmos os resíduos do modelo.
 
 ```{python}
 # Calcule o valor predito, pela regressão, de amplitude elevação, sem intercepto 
@@ -115,7 +123,7 @@ predict = pred.add(ee.Number(regression.get('offset')))
 residuals = elevation.select('elevation_range').subtract(predict).rename(['residuals'])
 ```
 
-Por fim, exportamos o raster de amplitude de elevação residual como um *asset* do Google Earth Engine.
+Por fim, exportamos o raster de amplitude altitudinal residual como um *asset* do *Google Earth Engine*.
 
 ```{python}
 # Exporte a amplitude de elevação residual como asset

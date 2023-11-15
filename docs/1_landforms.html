@@ -673,7 +673,9 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 </section>
 <section id="códigos-para-a-criação-da-variedade-de-formas-do-relevo" class="level2">
 <h2 class="anchored" data-anchor-id="códigos-para-a-criação-da-variedade-de-formas-do-relevo">Códigos para a criação da variedade de formas do relevo</h2>
-<p>Nossas análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020) em <em>Python</em> (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para replicação da análise pode ser baixado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/1_landforms.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/1_landforms.ipynb</a>. ### Declividade (<em>slope</em>)</p>
+<p>Nossas análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020) em <em>Python</em> (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para replicação da análise pode ser baixado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/1_landforms.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/1_landforms.ipynb</a>.</p>
+<section id="declividade-slope" class="level3">
+<h3 class="anchored" data-anchor-id="declividade-slope">Declividade (<em>slope</em>)</h3>
 <p>Nós criamos a superfície de declividade a partir do Merit-DEM.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando Modelo Digital de Elevação</span></span>
@@ -684,6 +686,7 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>slope <span class="op">=</span> ee.Terrain.slope(DEM)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
 <section id="exposição-aspect" class="level3">
 <h3 class="anchored" data-anchor-id="exposição-aspect">Exposição (<em>aspect</em>)</h3>
 <p>Nós calculamos a exposição do relevo utilizando o mesmo DEM.</p>
@@ -754,8 +757,8 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 </section>
 <section id="convertendo-variáveis-em-classes" class="level2">
 <h2 class="anchored" data-anchor-id="convertendo-variáveis-em-classes">Convertendo variáveis em classes</h2>
-<section id="declividade-slope" class="level3">
-<h3 class="anchored" data-anchor-id="declividade-slope">Declividade (<em>slope</em>)</h3>
+<section id="declividade-slope-1" class="level3">
+<h3 class="anchored" data-anchor-id="declividade-slope-1">Declividade (<em>slope</em>)</h3>
 <p>As variáveis foram convertidas em classes utilizando a Tabela 1, seguindo Anderson <em>et al</em>. (2016). As classes de declividade foram criadas com o seguinte código:</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>slope_classes <span class="op">=</span> (</span>

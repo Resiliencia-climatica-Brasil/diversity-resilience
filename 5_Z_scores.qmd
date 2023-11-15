@@ -15,13 +15,13 @@ import geemap
 geemap.ee_initialize()
 ```
 
-Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de formas de relevo, amplitude altitudinal, densidade, quantidade de áreas úmidas e riqueza de solo) em valores de Z. O cálculo de Z é realizado dentro janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em *wetland score*.
+Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de formas de relevo, amplitude altitudinal, densidade, quantidade de áreas úmidas e riqueza de solo) em valores de Z. O cálculo de Z é realizado dentro janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em índice de áreas úmidas.
 
 Os valores de Z de cada variável, em cada célula (i), é o desvio do valor da célula da média da janela móvel (u), divido pelo seu desvio padrão:
 
 $$Z-score_{iu} = \frac{i - media_{u}}{desviopadrao_{u}}$$
 
-O *wetland score* é a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o *wetland score* assume o segundo valor Z.
+O índice de áreas úmidas é a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o índice de áreas úmidas assume o segundo valor Z.
 
 
 $$

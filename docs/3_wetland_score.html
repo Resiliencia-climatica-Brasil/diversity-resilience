@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Densidade e quantidade de áreas úmidas</title>
+<title>Índice de áreas úmidas</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_landforms.html">Sumário</a></li><li class="breadcrumb-item"><a href="./3_wetland_score.html">Densidade e quantidade de áreas úmidas</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_landforms.html">Sumário</a></li><li class="breadcrumb-item"><a href="./3_wetland_score.html">Índice de áreas úmidas</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -172,31 +172,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_landforms.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Variedade de <em>Landforms</em></span></a>
+ <span class="menu-text">Variedade de formas do relevo</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2_elevation_range.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Amplitude de Elevação</span></a>
+ <span class="menu-text">Amplitude altitudinal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_wetland_score.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Densidade e quantidade de áreas úmidas</span></a>
+ <span class="menu-text">Índice de áreas úmidas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4_soil_diversity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Riqueza de solo</span></a>
+ <span class="menu-text">Riqueza de solos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5_Z_scores.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Calculando <em>Z-scores </em>das variáveis</span></a>
+ <span class="menu-text">Valor de Z das variáveis</span></a>
   </div>
 </li>
       </ul>
@@ -212,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Densidade e quantidade de áreas úmidas</h1>
+<h1 class="title">Índice de áreas úmidas</h1>
 </div>
 
 
@@ -236,140 +236,137 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>geemap.ee_initialize()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>*** Earth Engine *** Share your feedback by taking our Annual Developer Satisfaction Survey: https://google.qualtrics.com/jfe/form/SV_doiqkQG3NJ1t8IS?source=API</code></pre>
 </div>
-</div>
-<p>O índice <em>Wetland score</em> é uma combinação da densidade de áreas úmidas localmente com a densidade e quantidade de áreas úmidas regionalmente. <em>Wetland score</em> entra no cálculo da diversidade da paisagem em locais planos e úmidos, com baixa variedade de <em>landforms</em> e baixa amplitude de elevação. Nesses locais a variação microclimática seria baixa devido a baixa variabilidade topográfica e geomorfológica, mas como há alta densidade de áreas úmidas, esses locais atuam regulando a variabilidade microclimática localmente, como tampões climáticos, e regulando a emissão de gases de efeito estufa.</p>
-<p>Existem três cenários de distribuição de áreas úmidas, os locais (1) estão presentes em áreas com alta densidade de áreas úmidas no entorno, (2) os locais estão situados em áreas com baixa densidade de áreas úmidas localmente, mas alta densidade regionalmente e (3) os locais estão presentes em áreas com alta quantidade de áreas úmidas, mas baixa densidade devido a sua distribuição espacial. Desta forma, <em>wetland score</em> é composto pelos três cenários citados anteriormente, primeiro é calculado a densidade local, regional e a quantidade regional e, para cada métrica, é calculado um valor de Z, subtraindo pela média e dividindo pelo desvio padrão. A densidade de áreas úmidas é a média ponderada dos valores de Z da densidade local e regional (peso duplo para a densidade local). Nos locais onde os valores de Z da quantidade de áreas úmidas regional é maior que a densidade média calculada anteriormente, o índice torna-se a média ponderada da densidade local, densidade regional e quantidade de áreas úmidas regional (duplo peso para a densidade local).</p>
+<p>O índice de áreas úmidas é uma combinação da densidade de áreas úmidas localmente com a densidade e quantidade de áreas úmidas regionalmente. O índice de áreas úmidas entra no cálculo da diversidade da paisagem em locais planos e úmidos, com baixa variedade de <em>landforms</em> e baixa amplitude de elevação. Nesses locais a variação microclimática seria baixa devido a baixa variabilidade topográfica e geomorfológica, mas como há alta densidade de áreas úmidas, esses locais atuam regulando a variabilidade microclimática localmente.</p>
+<p>Existem três cenários de distribuição de áreas úmidas, os locais (1) estão presentes em áreas com alta densidade de áreas úmidas no entorno, (2) os locais estão situados em áreas com baixa densidade de áreas úmidas localmente, mas alta densidade regionalmente e (3) os locais estão presentes em áreas com alta quantidade de áreas úmidas, mas baixa densidade devido a sua distribuição espacial. Dessa forma, o índice de áreas úmidas é composto pelos três cenários citados anteriormente, primeiro é calculado a densidade local, regional e a quantidade regional e, para cada métrica, é calculado um valor de Z, subtraindo pela média e dividindo pelo desvio padrão. A densidade de áreas úmidas é a média ponderada dos valores de Z da densidade local e regional (peso duplo para a densidade local). Nos locais onde os valores de Z da quantidade de áreas úmidas regional é maior que a densidade média calculada anteriormente, o índice torna-se a média ponderada da densidade local, densidade regional e quantidade de áreas úmidas regional (duplo peso para a densidade local).</p>
 <p><span class="math display">\[
 \tiny
-wetland.score =
+índice\ de\ áreas\ úmidas =
   \begin{cases}  
     \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z)}{3} &amp; \text{se densidade média é maior ou igual à quantidade regional}\\
     \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z) + quantidade_{regional}(Z)}{4}&amp; \text {se a quantidade regional for maior a densidade média}
   \end{cases}
 \]</span></p>
-<p>Nesse capítulo demonstraremos como as densidades e a quantidade de áreas úmidas foram calculadas e em outro capítulo mostraremos como calculamos os valores de Z e o <em>wetland score</em>.</p>
+<p>Neste capítulo demonstraremos como as densidades e a quantidade de áreas úmidas foram calculadas e no capítulo <a href="https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/5_Z_scores.html">Z_scores</a> mostraremos como calculamos os valores de Z e o índice de áreas úmidas.</p>
 </section>
 <section id="banco-de-dados" class="level2">
-<h2 class="anchored" data-anchor-id="banco-de-dados">Banco de Dados</h2>
-<p>Nós utilizamos como base de dados de áreas úmidas o <em>Global Wetlands database</em> (Gumbricht et al.&nbsp;2017). Nós reprojetamos o <em>raster</em> de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 90 metros).</p>
-<p>Para calcularmos as densidades e quantidade de áreas úmidas, nós retiramos as áreas úmidas classificadas como sistemas lacustres e ribeirinhos (<em>riverines</em> e <em>lacustrines</em>) e reclassificamos o <em>raster</em> como sendo área úmida (1) ou não sendo área úmida (0). Depois, calculamos a densidade de áreas úmidas dentro de uma vizinhaça de 450 metros (5 células) de raio de um <em>kernel</em> circular (densidade local). Calculamos também a densidade e a quantidade de áreas úmidas na vizinhança de ~ 1170 metros (13 células) (regional).</p>
+<h2 class="anchored" data-anchor-id="banco-de-dados">Banco de dados</h2>
+<p>Utilizamos como base de dados de áreas úmidas o <em>Global Wetlands database</em> (Gumbricht <em>et al.</em> 2017). Reprojetamos o <em>raster</em> de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 92 metros).</p>
+<p>Retiramos as áreas úmidas classificadas como sistemas lacustres e ribeirinhos (<em>riverines</em> e <em>lacustrines</em>) e reclassificamos o <em>raster</em> como sendo área úmida (1) ou não sendo área úmida (0). Depois, calculamos a densidade de áreas úmidas dentro de uma vizinhaça de 450 metros (5 células) de raio de um <em>kernel</em> circular (densidade local). Calculamos também a densidade e a quantidade de áreas úmidas na vizinhança de ~ 1170 metros (13 células) (regional).</p>
 </section>
 <section id="código-para-calcular-as-densidades-e-quantidade-de-áreas-úmidas" class="level2">
 <h2 class="anchored" data-anchor-id="código-para-calcular-as-densidades-e-quantidade-de-áreas-úmidas">Código para calcular as densidades e quantidade de áreas úmidas</h2>
-<p>As análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020) em <em>Python</em> (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.</p>
+<p>As análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020) em <em>Python</em> (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para reprodução das análises pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/3_wetland_score.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/3_wetland_score.ipynb</a>.</p>
 <p>Primeiro, nós importamos os polígonos dos biomas do Brasil e extraímos suas coordenadas geográficas máximas e mínimas para delimitar a região de análise. Importamos o modelo digital de elevação e o <em>raster</em> de áreas úmidas e reprojetamos a resolução das áreas úmidas para a resolução do modelo digital de elevação.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando mapa de biomas do IBGE para extrair as coordenadas </span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mínimas e máximas do Brasil</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>bioma <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/Biome"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_cmp(feature):</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.bounds() </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo as coordenadas mínimas e máximas do Brasil</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>bioma_box <span class="op">=</span> bioma.<span class="bu">map</span>(func_cmp).geometry().dissolve(<span class="op">**</span>{<span class="st">'maxError'</span>: <span class="dv">1</span>}).bounds()</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo a resolução do mapa</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>DEM <span class="op">=</span> ee.Image(<span class="st">"MERIT/DEM/v1_0_3"</span>) </span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>escala <span class="op">=</span> DEM.projection().nominalScale()</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Reprojetando áreas úmidas</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>wetlands <span class="op">=</span> (ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/Cifor_wetlands"</span>) </span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            .reproject(<span class="op">**</span>{<span class="st">'crs'</span>: <span class="st">"EPSG:4326"</span>,</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'scale'</span>: escala}))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando mapa de biomas do IBGE para extrair as coordenadas </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mínimas e máximas do Brasil</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>regiao <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/Biome"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_cmp(feature):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.bounds() </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo as coordenadas mínimas e máximas do Brasil</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>regiao_box <span class="op">=</span> regiao.<span class="bu">map</span>(func_cmp).geometry().dissolve(<span class="op">**</span>{<span class="st">'maxError'</span>: <span class="dv">1</span>}).bounds()</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo a resolução do mapa</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>DEM <span class="op">=</span> ee.Image(<span class="st">"MERIT/DEM/v1_0_3"</span>) </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>escala <span class="op">=</span> DEM.projection().nominalScale()</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Reprojetando áreas úmidas</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>wetlands <span class="op">=</span> (ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/Cifor_wetlands"</span>) </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            .reproject(<span class="op">**</span>{<span class="st">'crs'</span>: <span class="st">"EPSG:4326"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'scale'</span>: escala}))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Em seguida, retiramos os sistemas ribeirinhos e lacustres do <em>raster</em> de áreas úmidas e reclassificamos as classes do raster em presença e ausência de áreas úmidas.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando uma máscara para rios e lagos</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>rivers <span class="op">=</span> wetlands.mask(wetlands.neq(<span class="dv">10</span>))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Retirando rios e lagos das áreas úmidas</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>wetlands <span class="op">=</span> wetlands.mask(rivers)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformando áreas úmidas em um raster binário</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># de presença de áreas úmidas</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>wetlands_binary <span class="op">=</span> wetlands.where(wetlands.gt(<span class="dv">0</span>), <span class="dv">1</span>).unmask()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando uma máscara para rios e lagos</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rivers <span class="op">=</span> wetlands.mask(wetlands.neq(<span class="dv">10</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Retirando rios e lagos das áreas úmidas</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>wetlands <span class="op">=</span> wetlands.mask(rivers)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformando áreas úmidas em um raster binário</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># de presença de áreas úmidas</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>wetlands_binary <span class="op">=</span> wetlands.where(wetlands.gt(<span class="dv">0</span>), <span class="dv">1</span>).unmask()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Posteriomente, nós calculamos a densidade de áreas úmidas, localmente, dentro de um <em>kernel</em> circular de ~450 metros (5 células). Primeiro, transformamos as células da vizinhança de cada célula focal em bandas de uma imagem. Assim, cada células vizinha da célula focal fica empilhada como uma coluna. Para cada coluna, somamos os valores das células (0 ou 1) como a quantidade de áreas úmidas na vizinhança. Depois, dividimos a quantidade de áreas úmidas pelo número de células na vizinhança, resultando na densidade de áreas úmidas.</p>
+<p>Posteriomente, calculamos a densidade de áreas úmidas, localmente, dentro de um <em>kernel</em> circular de ~450 metros (5 células). Primeiro, transformamos as células da vizinhança de cada célula focal em bandas de uma imagem. Assim, cada células vizinha da célula focal fica empilhada como uma coluna. Para cada coluna, somamos os valores das células (0 ou 1) como a quantidade de áreas úmidas na vizinhança. Depois, dividimos a quantidade de áreas úmidas pelo número de células na vizinhança, resultando na densidade de áreas úmidas.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>radius_pixels <span class="op">=</span> <span class="dv">5</span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>radius_pixels <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Tranforme as células da vizinha em bandas</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>neighbors <span class="op">=</span> (wetlands_binary</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            .neighborhoodToBands(ee.Kernel.circle(ee.Number(radius_pixels))))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Conte a quantidade de áreas úmidas na vizinhança</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>wetlands_count <span class="op">=</span> neighbors.<span class="bu">reduce</span>(ee.Reducer.<span class="bu">sum</span>()).toDouble()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Conte o número de células totais na vizinhança</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>neighbors_amount <span class="op">=</span> neighbors.bandNames().length()</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Divida a quantidade de áreas úmidas pelo </span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># número de células para calcular a densidade </span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>wetlands_density_local <span class="op">=</span> wetlands_count.divide(ee.Number(neighbors_amount))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Repetimos o mesmo procedimento conduzido para a densidade local para calcularmos a densidade e quantidade de áreas úmidas regional.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>radius_pixels <span class="op">=</span> <span class="dv">13</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Tranforme as células da vizinha em bandas</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforme as células vizinhas em bandas</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>neighbors <span class="op">=</span> (wetlands_binary</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            .neighborhoodToBands(ee.Kernel.circle(ee.Number(radius_pixels))))</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Conte a quantidade de áreas úmidas na vizinhança</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>wetlands_count <span class="op">=</span> neighbors.<span class="bu">reduce</span>(ee.Reducer.<span class="bu">sum</span>()).toDouble()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>           .neighborhoodToBands(ee.Kernel.circle(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                                   ee.Number(radius_pixels)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                                   )</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                               ))</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Conte o número de células totais na vizinhança</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>neighbors_amount <span class="op">=</span> neighbors.bandNames().length()</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Divida a quantidade de áreas úmidas pelo </span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># número de células para calcular a densidade </span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>wetlands_density_local <span class="op">=</span> wetlands_count.divide(ee.Number(neighbors_amount))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Repetimos o mesmo procedimento da densidade local para calcularmos a densidade e quantidade de áreas úmidas regional.</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>radius_pixels <span class="op">=</span> <span class="dv">13</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforme as células vizinhas em bandas</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>neighbors <span class="op">=</span> (wetlands_binary</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>           .neighborhoodToBands(ee.Kernel.circle(</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                                   ee.Number(radius_pixels)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                                   )</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                               ))</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Conte a quantidade de áreas úmidas</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>wetlands_count <span class="op">=</span> neighbors.<span class="bu">reduce</span>(ee.Reducer.<span class="bu">sum</span>()).toDouble()</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Conte o número de células totais na vizinhança</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>neighbors_amount <span class="op">=</span> neighbors.bandNames().length()</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcule a densidade dividindo a quantidade </span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># de áreas úmidas pelo número de células</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>wetlands_density_regional <span class="op">=</span> wetlands_count.divide(ee.Number(neighbors_amount))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Conte a quantidade de áreas úmidas</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>wetlands_count <span class="op">=</span> neighbors.<span class="bu">reduce</span>(ee.Reducer.<span class="bu">sum</span>()).toDouble()</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Conte o número de células totais na vizinhança</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>neighbors_amount <span class="op">=</span> neighbors.bandNames().length()</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcule a densidade dividindo a quantidade </span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># de áreas úmidas pelo número de células</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>wetlands_density_regional <span class="op">=</span> wetlands_count.divide(ee.Number(neighbors_amount))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Por fim, exportamos a densidade de áreas úmidas local (<em>wetlands_density</em>), a densidade regional (<em>wetlands_density_1000</em>) e a quantidade regional (<em>wetlands_count</em>) como <em>assets</em> no <em>Google Earth Engine</em>.</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>assetId_quantidade <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/wetlands_count"</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>assetId_densidade_local <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/wetlands_density"</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>assetId_densidade_regional <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/wetlands_density_1000"</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    wetlands_count, </span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'wetlands_count'</span>, </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>assetId_quantidade, </span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>bioma_box, </span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    wetlands_density_local, </span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'wetlands_density_local'</span>, </span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>assetId_densidade_local, </span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>bioma_box, </span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    wetlands_density_regional, </span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'wetlands_density_regional'</span>, </span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>assetId_densidade_regional, </span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>bioma_box, </span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>assetId_quantidade <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/wetlands_count"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>assetId_densidade_local <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/wetlands_density"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>assetId_densidade_regional <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/wetlands_density_1000"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    wetlands_count, </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'wetlands_count'</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>assetId_quantidade, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>regiao_box, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    wetlands_density_local, </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'wetlands_density_local'</span>, </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>assetId_densidade_local, </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>regiao_box, </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    wetlands_density_regional, </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'wetlands_density_regional'</span>, </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>assetId_densidade_regional, </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>regiao_box, </span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -612,12 +609,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./2_elevation_range.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Amplitude de Elevação</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Amplitude altitudinal</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./4_soil_diversity.html" class="pagination-link">
-        <span class="nav-page-text">Riqueza de solo</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Riqueza de solos</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

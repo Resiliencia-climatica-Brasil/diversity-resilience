@@ -15,84 +15,45 @@ import geemap
 geemap.ee_initialize()
 ```
 
-<<<<<<< HEAD:tutorial/5_Z_scores.qmd
-Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de *landforms*, amplitude altitudinal, densidade, quantidade de áreas úmidas e diversidade de solo) em valores de Z. O cálculo de Z é realizado dentro janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em *wetland score*.
+Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de formas de relevo, amplitude altitudinal, densidade, quantidade de áreas úmidas e riqueza de solo) em valores de Z. O cálculo de Z é realizado dentro janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em *wetland score*.
 
 Os valores de Z de cada variável, em cada célula (i), é o desvio do valor da célula da média da janela móvel (u), divido pelo seu desvio padrão:
-=======
-## Explicação sobre o cálculo do valor de Z
-
-Antes de calcularmos a diversidade da paisagem e de gerar a camada de resiliência, é necessário transformar em valores de Z das variáveis calculadas anteriormente: variedade de formas de relevo, amplitude altitudinal, densidade e quantidade de áreas úmidas, diversidade de solos e conectividade da paisagem. O cálculo do valor de Z é realizado dentro das janelas móveis.
-
-<!---
-Substituí a regiões eco-geológicas por janelas. Veja está correto.
-Outra coisa, também calculamos o valor de Z para a camada de resistência, certo? Incluí no texto acima.
--->
-
-Os valores de Z de cada variável, em cada célula (i), representam o desvio do valor da célula da média da janela (u), divido pelo seu desvio padrão:
->>>>>>> 7bd8b2f9fa3ad7efd8b2898389f752ad243a2534:tutorial/qmd/Z_scores.qmd
 
 $$Z-score_{iu} = \frac{i - media_{u}}{desviopadrao_{u}}$$
 
-## Gerando o índice de áreas úmidas
+O *wetland score* é a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o *wetland score* assume o segundo valor Z.
 
-Os valores de densidade e quantidade de áreas úmidas são combinados para gerar o índice de áreas úmidas. O índice de áreas úmidas é inicialmente a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o índice de áreas úmidas assume o segundo valor de Z. Isso é feito para...
-
-<!---
-Na última frase acima, explicar o porquê.
--->
 
 $$
 \tiny
-wetland.score = 
+índice\ de\ áreas\ úmidas = 
   \begin{cases}  
     \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z)}{3} & \text{se densidade média é maior ou igual à quantidade regional}\\
     \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z) + quantidade_{regional}(Z)}{4}& \text {se a quantidade regional for maior a densidade média}
   \end{cases}
 $$
 
-## Base de dados utilizada
+## Base de dados
 
 Utilizamos as variáveis criadas anteriormente e guardadas como *assets* no *Google Earth Engine*. As variáveis são:
 
-<<<<<<< HEAD:tutorial/5_Z_scores.qmd
-**(colocar os links das variáveis aqui)**
+* [variedade de formas de relevo](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety) 
+* [amplitude altitudinal](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual)
+* [riqueza de solo](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity)
+* [densidade local de áreas úmidas](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density)
+* [densidade regional de áreas úmidas](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000)
+* [quantidade regional de áreas úmidas](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count) 
 
-* variedade de *landforms* 
-* amplitude de elevação
-* diversidade de solo
-* unidades eco-geológicas
-* conectividade da paisagem
-=======
-* variedade de formas de relevo
-* amplitude altitudinal
->>>>>>> 7bd8b2f9fa3ad7efd8b2898389f752ad243a2534:tutorial/qmd/Z_scores.qmd
-* densidade local de áreas úmidas
-* densidade regional de áreas úmidas
-* quantidade regional de áreas úmidas
-* diversidade de solos
-* conectividade da paisagem
+## Códigos para o cálculo dos valores de Z
 
-## Cálculo dos valores de Z
+As análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para reprodução da análise pode ser encontrado em [https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/5_Z_scores.ipynb](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/5_Z_scores.ipynb).
 
-As análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.
-
-<<<<<<< HEAD:tutorial/5_Z_scores.qmd
-Primeiro, nós criamos uma função para calcular o *Z-score* dentro de cada janela móvel (**code**) para cada variável (**image**). A função calcula a média e desvio padrão para a vizinhança de cada célula, utilizando uma janela móvel circular. Depois, os valores e média e desvio padrão convertidos para *Z-score* pela subtração variável pela média e divida pelo desvio padrão.
-=======
-Primeiro, nós criamos uma função para calcular o valor de Z dentro de cada unidade eco-geológica (**code**) para cada variável (**image**). A função cria uma máscara da variável pelo código da unidade eco-geológica e calcula as médias e desvio padrão de cada unidade, depois as variáveis originais são subtraídas da média de sua unidade e divida pelo desvio padrão.
-
-<!---
-Editar texto acima para corresponder às janelas móveis.
--->
->>>>>>> 7bd8b2f9fa3ad7efd8b2898389f752ad243a2534:tutorial/qmd/Z_scores.qmd
+Primeiro, criamos uma função para calcular o valor de Z dentro de cada janela móvel (**code**) para cada variável (**image**). A função calcula a média e desvio padrão para a vizinhança de cada célula, utilizando uma janela móvel circular. Depois, os valores e média e desvio padrão convertidos para valores de Z pela subtração da variável pela média e divida pelo desvio padrão.
 
 ```{python}
-import ee
-
 def calculate_Z_scores(image, windows):
 
-  # Calculating the mean
+  # Calculando a média
   mean = image.reduceNeighborhood(**{
     'reducer': ee.Reducer.mean(),
     'kernel': ee.Kernel.circle(**{
@@ -102,7 +63,7 @@ def calculate_Z_scores(image, windows):
                               }),
   })
 
-  # Calculating the standard deviation
+  # Calculando o desvio padrão
   sd = image.reduceNeighborhood(**{
     'reducer': ee.Reducer.stdDev(),
     'kernel': ee.Kernel.circle(**{
@@ -112,31 +73,15 @@ def calculate_Z_scores(image, windows):
                               }),
   })
 
-  # Values as a raster
+  # Renomeie os rasters
   meanValue = mean.rename('mean')
   sdValue = sd.rename('sd')
 
-  # Calculating the z scores
+  # Calculando os valores de Z
   z = image.subtract(meanValue).divide(sdValue).rename('z')
 
   return z
 
-<<<<<<< HEAD:tutorial/5_Z_scores.qmd
-=======
-<!---
-Revisar frase acima.
--->
-
-```{python}
-def wrap_calculate_Z(image):   
-    # Aplique calculate_Z para cada unidade (classe), guarde numa ImageCollection,
-    # transform em bandas e resuma numa imagem de banda única
-    Z_map = (ee.ImageCollection(classes.map(lambda i: calculate_Z(i, image)))
-             .toBands()
-             .reduce("sum"))
-    
-    return Z_map
->>>>>>> 7bd8b2f9fa3ad7efd8b2898389f752ad243a2534:tutorial/qmd/Z_scores.qmd
 ```
 
 O próximo passo é importar as variáveis de interesse para o cálculo de Z.
@@ -152,7 +97,6 @@ elevation_range = ee.Image("projects/ee-lucasljardim9/assets/elevation_range_res
 
 soil_diversity = ee.Image('projects/ee-lucasljardim9/assets/soil_diversity')
 
-connectedness = ee.Image("projects/ee-lucasljardim9/assets/Biomas_resistencia_kernel")
 
 # Importando os dados de wetlands para o wetland score
 
@@ -165,7 +109,7 @@ wetlands_density_1000 = ee.Image("projects/ee-lucasljardim9/assets/wetlands_dens
 # Importando o polígono de bioma para definir as 
 # coordenadas máximas e mínimas do Brasil
 
-bioma = ee.FeatureCollection("projects/ee-lucasljardim9/assets/Biome")
+regiao = ee.FeatureCollection("projects/ee-lucasljardim9/assets/Biome")
 
 # ModeloDigital de Elevação para extrair a resolução
 DEM = ee.Image("MERIT/DEM/v1_0_3")
@@ -175,21 +119,21 @@ def func_cmp(feature):
     return feature.bounds() 
 
 # Extraindo as coordenadas mínimas e máximas do Brasil
-bioma_box = bioma.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
+regiao_box = regiao.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
 
 # Resolução das análises
 escala = DEM.projection().nominalScale()
 ```
 
-## Calculando Z-scores
+## Calculando os valores de Z
 
-Nós aplicamos a função **wrap_calculate_Z** para cada variável e guardamos o valores de Z calculados.
+Nós aplicamos a função **calculate_Z_scores** para cada variável e guardamos o valores de Z calculados.
 
 ```{python}
-# Calculando os valores de Z para cada variável
-
+# Definindo a janela para o cálculo do do Z 
 windows = 200
 
+# Calculando os valores de Z para cada variável
 Z_landform_variety = calculate_Z_scores(landform_variety, windows)
 
 Z_elevation_range = calculate_Z_scores(elevation_range, windows)
@@ -201,12 +145,9 @@ Z_wetlands_count = calculate_Z_scores(wetlands_count, windows)
 Z_wetlands_density = calculate_Z_scores(wetlands_density, windows)
 
 Z_wetlands_density_1000 = calculate_Z_scores(wetlands_density_1000, windows)
-
-Z_connectedness = calculate_Z_scores(connectedness, windows).multiply(-1)
-# conferir se precisar multiplicar mesmo po -1
 ```
 
-## Calculando wetland score
+## Calculando índice de áreas úmidas
 
 Aqui, nós calculamos o índice de áreas úmidas, aplicando a fórmula descrita anteriormente.
 
@@ -245,14 +186,12 @@ wetland_assetId = "projects/ee-lucasljardim9/assets/Z_wetlands_score"
 
 soil_assetId = "projects/ee-lucasljardim9/assets/Z_soil_diversity"
 
-connectedness_assetId = "projects/ee-lucasljardim9/assets/Z_connectedness"
-
 # Exportando as imagens
 geemap.ee_export_image_to_asset(
     Z_landform_variety, 
     description='Z_landform_variety', 
     assetId=landform_assetId, 
-    region=bioma_box, 
+    region=regiao_box, 
     scale=escala, 
     maxPixels=1e13
 )
@@ -261,7 +200,7 @@ geemap.ee_export_image_to_asset(
     Z_elevation_range, 
     description='Z_elevation_range', 
     assetId=elevation_assetId, 
-    region=bioma_box, 
+    region=regiao_box, 
     scale=escala, 
     maxPixels=1e13
 )
@@ -270,7 +209,7 @@ geemap.ee_export_image_to_asset(
     Z_wetlands_score, 
     description='Z_wetlands_score', 
     assetId=wetland_assetId, 
-    region=bioma_box, 
+    region=regiao_box, 
     scale=escala, 
     maxPixels=1e13
 )
@@ -279,16 +218,7 @@ geemap.ee_export_image_to_asset(
     Z_soil_diversity, 
     description='Z_soil_diversity', 
     assetId=soil_assetId, 
-    region=bioma_box, 
-    scale=escala, 
-    maxPixels=1e13
-)
-
-geemap.ee_export_image_to_asset(
-    Z_connectedness, 
-    description='Z_connectedness', 
-    assetId=connectedness_assetId, 
-    region=bioma_box, 
+    region=regiao_box, 
     scale=escala, 
     maxPixels=1e13
 )

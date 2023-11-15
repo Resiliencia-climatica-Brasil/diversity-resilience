@@ -1,0 +1,18 @@
+#!/bin/bash
+
+files=$(ls -1 | grep "ipynb")
+
+for i in ${files}
+do
+quarto convert $i
+done
+
+
+qmd=$(ls -1| grep ".qmd")
+
+for j in ${qmd}
+do
+mv $j ../$j
+done
+
+

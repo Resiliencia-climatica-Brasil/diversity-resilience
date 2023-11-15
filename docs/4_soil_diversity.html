@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Riqueza de solo</title>
+<title>Riqueza de solos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -141,7 +141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_landforms.html">Sumário</a></li><li class="breadcrumb-item"><a href="./4_soil_diversity.html">Riqueza de solo</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_landforms.html">Sumário</a></li><li class="breadcrumb-item"><a href="./4_soil_diversity.html">Riqueza de solos</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -170,31 +170,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_landforms.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Variedade de <em>Landforms</em></span></a>
+ <span class="menu-text">Variedade de formas do relevo</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2_elevation_range.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Amplitude de Elevação</span></a>
+ <span class="menu-text">Amplitude altitudinal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_wetland_score.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Densidade e quantidade de áreas úmidas</span></a>
+ <span class="menu-text">Índice de áreas úmidas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4_soil_diversity.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Riqueza de solo</span></a>
+ <span class="menu-text">Riqueza de solos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5_Z_scores.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Calculando <em>Z-scores </em>das variáveis</span></a>
+ <span class="menu-text">Valor de Z das variáveis</span></a>
   </div>
 </li>
       </ul>
@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Riqueza de solo</h1>
+<h1 class="title">Riqueza de solos</h1>
 </div>
 
 
@@ -234,69 +234,66 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>geemap.ee_initialize()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>*** Earth Engine *** Share your feedback by taking our Annual Developer Satisfaction Survey: https://google.qualtrics.com/jfe/form/SV_doiqkQG3NJ1t8IS?source=API</code></pre>
 </div>
-</div>
-<p>A riqueza de solo é incluída na heterogeneidade da paisagem em locais com baixa variedade de <em>landforms</em>, amplitude altitudinal e índice de áreas úmidas. A riqueza de solos é calculada como a soma dos tipos de solos componentes dos polígonos de solo.</p>
+<p>A riqueza de solos é calculada como a quantidade de componentes da unidade de mapeamento de solos.</p>
 </section>
-<section id="banda-de-dados" class="level2">
-<h2 class="anchored" data-anchor-id="banda-de-dados">Banda de Dados</h2>
-<p>Nós utilizamos a <a href="https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip">base de dados de pedologia</a> do Instituto Brasileiro de Geografia e Estatística (IBGE) como base para o cálculo da riqueza de solos. Calculamos a quantidade de solos componentes de cada polígono e rasterizados na escala do modelo digital de elevação que usamos nas etapas anteriores (~ 90 metros).</p>
+<section id="banco-de-dados" class="level2">
+<h2 class="anchored" data-anchor-id="banco-de-dados">Banco de Dados</h2>
+<p>Utilizamos a <a href="https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip">base de dados de pedologia</a> do Instituto Brasileiro de Geografia e Estatística (IBGE) para o cálculo da riqueza de solos. Calculamos a quantidade de solos componentes de cada polígono e rasterizados na escala do modelo digital de elevação utilizado nas etapas anteriores (~ 92 metros).</p>
 </section>
-<section id="códigos-para-a-criação-da-diversidade-de-solos" class="level2">
-<h2 class="anchored" data-anchor-id="códigos-para-a-criação-da-diversidade-de-solos">Códigos para a criação da diversidade de solos</h2>
-<p>As análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020), em <em>Python</em> (Python Software Foundation 2023), como interface pela facilidade na documentação e reprodutividade das análises.</p>
+<section id="códigos-para-a-criação-da-riqueza-de-solos" class="level2">
+<h2 class="anchored" data-anchor-id="códigos-para-a-criação-da-riqueza-de-solos">Códigos para a criação da riqueza de solos</h2>
+<p>As análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020), em <em>Python</em> (Python Software Foundation 2023), como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/4_soil_diversity.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/4_soil_diversity.ipynb</a>.</p>
 <p>O primeiro passo é criar uma função que conta os tipos de solos componentes de cada polígono. Concatenamos as colunas <strong>componente</strong>, <strong>component1</strong>, <strong>component2</strong> e <strong>component3</strong>. Depois, separamos a <em>string</em> pelos sinais de “+”, que indicam as separações das descrições de cada tipo de solo. Em seguida, contamos quantos tipo de solos existem em cada polígono como o comprimento da lista de tipos de solos. Adicionamos uma coluna chamada <strong>soil_richness</strong> com a riqueza de solos em cada polígono.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun(feature):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    number <span class="op">=</span> (ee.String(feature.get(<span class="st">"componente"</span>))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>              .cat(ee.String(feature.get(<span class="st">"component1"</span>)))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>              .cat(ee.String(feature.get(<span class="st">"component2"</span>)))</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>              .cat(ee.String(feature.get(<span class="st">"component3"</span>)))</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>              .split(<span class="st">"\+"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              .length())</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.<span class="bu">set</span>(<span class="st">"soil_richness"</span>, number)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun(feature):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    number <span class="op">=</span> (ee.String(feature.get(<span class="st">"componente"</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              .cat(ee.String(feature.get(<span class="st">"component1"</span>)))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              .cat(ee.String(feature.get(<span class="st">"component2"</span>)))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>              .cat(ee.String(feature.get(<span class="st">"component3"</span>)))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>              .split(<span class="st">"\+"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>              .length())</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.<span class="bu">set</span>(<span class="st">"soil_richness"</span>, number)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Em seguida, importamos os dados de solo, definimos a região para exportar o dado e a escala da análise.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando os polígonos de solo</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>solo <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/pedo_area"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando mapa de biomas do IBGE para extrair as coordenadas mínimas e máximas do Brasil</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>regiao <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/Biome"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_cmp(feature):</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.bounds() </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo as coordenadas mínimas e máximas do Brasil</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>regiao_box <span class="op">=</span> regiao.<span class="bu">map</span>(func_cmp).geometry().dissolve(<span class="op">**</span>{<span class="st">'maxError'</span>: <span class="dv">1</span>}).bounds()</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo a resolução do mapa</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>DEM <span class="op">=</span> ee.Image(<span class="st">"MERIT/DEM/v1_0_3"</span>) </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>escala <span class="op">=</span> DEM.projection().nominalScale()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando os polígonos de solo</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>solo <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/pedo_area"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando mapa de biomas do IBGE para extrair as coordenadas mínimas e máximas do Brasil</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>regiao <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/Biome"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_cmp(feature):</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.bounds() </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo as coordenadas mínimas e máximas do Brasil</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>regiao_box <span class="op">=</span> regiao.<span class="bu">map</span>(func_cmp).geometry().dissolve(<span class="op">**</span>{<span class="st">'maxError'</span>: <span class="dv">1</span>}).bounds()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo a resolução do mapa</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>DEM <span class="op">=</span> ee.Image(<span class="st">"MERIT/DEM/v1_0_3"</span>) </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>escala <span class="op">=</span> DEM.projection().nominalScale()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Aplicamos a função criada anteriormente aos polígonos de solo</p>
+<p>Aplicamos a função criada anteriormente aos polígonos de solo.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>solo <span class="op">=</span> solo.<span class="bu">map</span>(fun)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>solo <span class="op">=</span> solo.<span class="bu">map</span>(fun)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Rasterizamos a riqueza de solos na mesma escala das análises anteriores (~90 metros).</p>
+<p>Rasterizamos a riqueza de solos na mesma escala das análises anteriores.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>soil_diversity <span class="op">=</span> solo.reduceToImage(<span class="op">**</span>{<span class="st">'properties'</span>:[<span class="st">"soil_richness"</span>],</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'reducer'</span>:ee.Reducer.<span class="bu">max</span>()}) <span class="op">\</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                     .reproject(<span class="op">**</span>{<span class="st">'crs'</span>:<span class="st">"EPSG:4326"</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">'scale'</span>:escala})</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>soil_diversity <span class="op">=</span> solo.reduceToImage(<span class="op">**</span>{<span class="st">'properties'</span>:[<span class="st">"soil_richness"</span>],</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'reducer'</span>:ee.Reducer.<span class="bu">max</span>()}) <span class="op">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                     .reproject(<span class="op">**</span>{<span class="st">'crs'</span>:<span class="st">"EPSG:4326"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">'scale'</span>:escala})</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Por fim, exportamos o <em>raster</em> como um <em>asset</em> no <em>Google Earth Engine</em>.</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exporte o raster de diversidade de solo </span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/soil_diversity"</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    soil_diversity, description<span class="op">=</span><span class="st">'soil_diversity'</span>, assetId<span class="op">=</span>assetId, region<span class="op">=</span>regiao_box, scale<span class="op">=</span>escala, maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exporte o raster de riqueza de solo </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/soil_diversity"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    soil_diversity, description<span class="op">=</span><span class="st">'soil_diversity'</span>, assetId<span class="op">=</span>assetId, region<span class="op">=</span>regiao_box, scale<span class="op">=</span>escala, maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -539,12 +536,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./3_wetland_score.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Densidade e quantidade de áreas úmidas</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Índice de áreas úmidas</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./5_Z_scores.html" class="pagination-link">
-        <span class="nav-page-text">Calculando <em>Z-scores </em>das variáveis</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Valor de Z das variáveis</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,5 +1,5 @@
 ---
-title: Riqueza de solo
+title: Riqueza de solos
 jupyter: python3
 ---
 
@@ -17,15 +17,15 @@ import geemap
 geemap.ee_initialize()
 ```
 
-A riqueza de solo é incluída na heterogeneidade da paisagem em locais com baixa variedade de *landforms*, amplitude altitudinal e índice de áreas úmidas. A riqueza de solos é calculada como a soma dos tipos de solos componentes dos polígonos de solo.
+A riqueza de solos é calculada como a quantidade de componentes da unidade de mapeamento de solos.
 
-## Banda de Dados
+## Banco de Dados
 
-Nós utilizamos a [base de dados de pedologia](https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip) do Instituto Brasileiro de Geografia e Estatística (IBGE)  como base para o cálculo da riqueza de solos. Calculamos a quantidade de solos componentes de cada polígono e rasterizados na escala do modelo digital de elevação que usamos nas etapas anteriores (~ 90 metros).
+Utilizamos a [base de dados de pedologia](https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip) do Instituto Brasileiro de Geografia e Estatística (IBGE)  para o cálculo da riqueza de solos. Calculamos a quantidade de solos componentes de cada polígono e rasterizados na escala do modelo digital de elevação utilizado nas etapas anteriores (~ 92 metros).
 
-## Códigos para a criação da diversidade de solos
+## Códigos para a criação da riqueza de solos
 
-As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020), em *Python* (Python Software Foundation 2023), como interface pela facilidade na documentação e reprodutividade das análises. 
+As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020), em *Python* (Python Software Foundation 2023), como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em [https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/4_soil_diversity.ipynb](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/4_soil_diversity.ipynb). 
 
 O primeiro passo é criar uma função que conta os tipos de solos componentes de cada polígono. Concatenamos as colunas **componente**, **component1**, **component2** e **component3**. Depois, separamos a *string* pelos sinais de "+", que indicam as separações das descrições de cada tipo de solo. Em seguida, contamos quantos tipo de solos existem em cada polígono como o comprimento da lista de tipos de solos. Adicionamos uma coluna chamada **soil_richness** com a riqueza de solos em cada polígono.
 
@@ -63,13 +63,13 @@ DEM = ee.Image("MERIT/DEM/v1_0_3")
 escala = DEM.projection().nominalScale()
 ```
 
-Aplicamos a função criada anteriormente aos polígonos de solo
+Aplicamos a função criada anteriormente aos polígonos de solo.
 
 ```{python}
 solo = solo.map(fun)
 ```
 
-Rasterizamos a riqueza de solos na mesma escala das análises anteriores (~90 metros). 
+Rasterizamos a riqueza de solos na mesma escala das análises anteriores. 
 
 ```{python}
 
@@ -82,7 +82,7 @@ soil_diversity = solo.reduceToImage(**{'properties':["soil_richness"],
 Por fim, exportamos o *raster* como um *asset* no *Google Earth Engine*.
 
 ```{python}
-# Exporte o raster de diversidade de solo 
+# Exporte o raster de riqueza de solo 
 assetId = "projects/ee-lucasljardim9/assets/soil_diversity"
 
 geemap.ee_export_image_to_asset(

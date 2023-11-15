@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Amplitude altitudinal</title>
+<title>Resiliência da Paisagem</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./3_wetland_score.html" rel="next">
-<link href="./1_landforms.html" rel="prev">
+<link href="./6_landscape_diversity.html" rel="prev">
 <link href="./figs/1667403883848_theme_logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -141,7 +140,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_landforms.html">Sumário</a></li><li class="breadcrumb-item"><a href="./2_elevation_range.html">Amplitude altitudinal</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_landforms.html">Sumário</a></li><li class="breadcrumb-item"><a href="./7_resilience.html">Resiliência da Paisagem</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -170,31 +169,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_landforms.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Variedade de formas do relevo</span></a>
+ <span class="menu-text">Variedade de <em>Landforms</em></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2_elevation_range.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Amplitude altitudinal</span></a>
+  <a href="./2_elevation_range.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Amplitude de Elevação</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_wetland_score.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Índice de áreas úmidas</span></a>
+ <span class="menu-text">Densidade e quantidade de áreas úmidas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4_soil_diversity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Riqueza de solos</span></a>
+ <span class="menu-text">Riqueza de solo</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5_Z_scores.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Valor de Z das variáveis</span></a>
+ <span class="menu-text">Calculando <em>Z-scores </em>das variáveis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_landscape_diversity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diversidade da paisagem</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_resilience.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Resiliência da Paisagem</span></a>
   </div>
 </li>
       </ul>
@@ -210,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Amplitude altitudinal</h1>
+<h1 class="title">Resiliência da Paisagem</h1>
 </div>
 
 
@@ -226,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <section id="importando-pacotes-e-inicializando-geemap" class="level2">
-<h2 class="anchored" data-anchor-id="importando-pacotes-e-inicializando-geemap">Importando pacotes e inicializando geemap</h2>
+<h2 class="anchored" data-anchor-id="importando-pacotes-e-inicializando-geemap">Importando pacotes e inicializando <em>geemap</em></h2>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ee</span>
@@ -235,103 +246,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>geemap.ee_initialize()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="cálculo-da-amplitude-altitudinal" class="level2">
-<h2 class="anchored" data-anchor-id="cálculo-da-amplitude-altitudinal">Cálculo da amplitude altitudinal</h2>
-<p>A amplitude altitudinal foi calculada como a diferença entre a altitude máxima e mínima dentro da vizinhaça da célula focal. Como essa métrica é correlacionada com a variedade de formas de relevo, nós calculamos o resíduos de uma regressão (<em>Ordinary Least Squares</em>) entre as duas váriaveis. Assim, a amplitude altitudinal residual é independente da variedade de formas de relevo. Isso permite a identificação de locais que tenham maior variabilidade microclimática que aquela proporcionada pela variedade de de formas de relevo, quando calcularmos o índice de diversidade da paisagem.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A resiliência da paisagem é a média da diversidade e connectividade da paisagem.</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="base-de-dados" class="level2">
-<h2 class="anchored" data-anchor-id="base-de-dados">Base de dados</h2>
-<p>Nós utilizamos o Modelo Digital de Elevação (DEM) do Merit-DEM (Yamazaki <em>et al.</em> 2017), na escala de 90 metros. O Merit-DEM é um produto global que combina dados dos satélites do Shuttle Radar Topography Mission (SRTM) (Farr <em>et al.</em> 2007) e Advanced Land Observing Satellite (ALOS) (Tadono <em>et al.</em> 2014), permitindo a replicabilidade da metodologia em outras regiões. Além disso, o Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como <em>speckle noise</em>, <em>stripe noise</em>, <em>absolute bias</em> e <em>tree height bias</em> (Yamazaki <em>et al.</em> 2017). A correção de <em>tree height bias</em> é especialmente importante para a Floresta Amazônica devido à sua densidade de árvores altas.</p>
-<p>A variedade de formas de relevo foi calculada anteriormente (veja o capítulo <a href="https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/1_landforms.html">Variedade de formas de relevo</a>) e está disponível como um <em>asset</em> em <strong>“projects/ee-lucasljardim9/assets/landform_variety”</strong>.</p>
-<p>As análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido à demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020) em <em>Python</em> (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb</a>.</p>
+<h2 class="anchored" data-anchor-id="base-de-dados">Base de Dados</h2>
+<p>Os dados para a resiliência da paisagem são o mapa de diversidade da paisagem e <em>Z-score</em> da connectividade criados anteriormente.</p>
 </section>
-<section id="códigos-para-o-cálculo-da-amplitude-altitudinal-residual" class="level2">
-<h2 class="anchored" data-anchor-id="códigos-para-o-cálculo-da-amplitude-altitudinal-residual">Códigos para o cálculo da amplitude altitudinal residual</h2>
-<p>Primeiro, importamos um vetor dos biomas do Brasil para extrairmos as coordenadas mínimas e máximas do Brasil.</p>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando mapa de biomas do IBGE para extrair as coordenadas mínimas e máximas do Brasil</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>regiao <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/Biome"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_cmp(feature):</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.bounds() </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo as coordenadas mínimas e máximas do Brasil</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>regiao_box <span class="op">=</span> regiao.<span class="bu">map</span>(func_cmp).geometry().dissolve(<span class="op">**</span>{<span class="st">'maxError'</span>: <span class="dv">1</span>}).bounds()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Importamos os <em>rasters</em> do modelo digital de elevação e da variedade de formas de relevo e definimos a resolução da análise como aquela do modelo digital de elevação.</p>
+<section id="códigos-para-a-criação-da-resiliência-da-paisagem" class="level2">
+<h2 class="anchored" data-anchor-id="códigos-para-a-criação-da-resiliência-da-paisagem">Códigos para a criação da resiliência da paisagem</h2>
+<p>As análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020) em <em>Python</em> (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.</p>
+<p>Primeiro, importamos o polígono de biomas do Brasil para extraímos as coordenadas geográficas mínimas e máximas. Extraímos também a escala do modelo digital de elevação que estamos usando na análises prévias.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando o modelo digital de elevação</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>DEM <span class="op">=</span> ee.Image(<span class="st">"MERIT/DEM/v1_0_3"</span>)</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando o polígono de bioma para definir as </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># coordenadas máximas e mínimas do Brasil</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando a variedade de landforms calculada anteriormente</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>landform_variety <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/landform_variety"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Escala dos rasters ~92 metros</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>escala <span class="op">=</span> DEM.projection().nominalScale()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>bioma <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/Biome"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ModeloDigital de Elevação para extrair a resolução</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>DEM <span class="op">=</span> ee.Image(<span class="st">"MERIT/DEM/v1_0_3"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># função para extrair as bordas dos polígonos</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_cmp(feature):</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.bounds() </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo as coordenadas mínimas e máximas do Brasil</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>bioma_box <span class="op">=</span> bioma.<span class="bu">map</span>(func_cmp).geometry().dissolve(<span class="op">**</span>{<span class="st">'maxError'</span>: <span class="dv">1</span>}).bounds()</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolução das análises</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>escala <span class="op">=</span> DEM.projection().nominalScale()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Extraímos do <em>raster</em> as células dentro da vizinhança (kernel circular com 5 células de raio, ~450 metros) da célula focal e salvamos como bandas de uma imagem. Assim, cada banda é um <em>stack</em> das células da vizinhança da célula focal, a primeira banda possui todas as primeiras células de cada célula focal, a segunda banda todas as segunda células, e assim por diante.</p>
+<p>Importamos os mapas de diversidade da paisagem e <em>Z-score</em> da connectividade e calculamos a média entre eles.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tamanho do raio do kernel para o calculo da amplitude altitudinal</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>radius_pixels <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando rasters da vizinhança de cada célula como bandas da imagem</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>neighbor <span class="op">=</span> DEM.neighborhoodToBands(ee.Kernel.circle(ee.Number(radius_pixels)))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Z_connectedness <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/Z_connectedness_byregion"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Z_landscape_diversity <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/landscape_diversity_byregion"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>resilience <span class="op">=</span> Z_connectedness.add(Z_landscape_diversity).divide(<span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>O <em>raster</em> <em>neighbor</em> criado acima possui as células da vizinhança como bandas. Assim, as primeiras células de cada banda são as células da vizinhança da primeira célula focal, organizadas como colunas (bandas). Ao calcularmos os valores máximos e mínimos para cada coluna de <em>neighbor</em>, estamos calculando os valores máximos e mínimos da vizinhança de cada célula focal.</p>
+<p>Exportamos o mapa de resiliência como um <em>asset</em> no <em>Google Earth Engine</em>.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcule o máximo da vizinhança</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>elevation_max <span class="op">=</span> neighbor.<span class="bu">reduce</span>(ee.Reducer.<span class="bu">max</span>())</span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exporte o raster de diversidade da paisagem</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/resilience_byregion"</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcule o mínimo da vizinhança</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>elevation_min <span class="op">=</span> neighbor.<span class="bu">reduce</span>(ee.Reducer.<span class="bu">min</span>())</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Subtraindo os valores máximos e mínimos de cada célula focal e calculando o seu valor absoluto, temos a amplitude altitudinal para cada célula focal. Nós salvamos a amplitude altitudinal e variedade de formas de relevo como um <em>raster</em> com duas bandas, sendo a primeira banda a variável preditora da regressão e a segunda banda a variável resposta.</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcule a amplitude da vizinhança</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>elevation_range <span class="op">=</span> elevation_max.subtract(elevation_min).<span class="bu">abs</span>()</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crie uma imagem com as bandas de varidedade de formas de relevo e amplitude altitudinal </span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># A primeira imagem é o x da regressão e a segunda é o y</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>elevation <span class="op">=</span> (ee.Image.cat(landform_variety, elevation_range)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            .rename([<span class="st">'landform_variety'</span>, <span class="st">'elevation_range'</span>]))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Dessa forma, aplicamos a regressão entre as variáveis.</p>
-<div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rode uma regressão linear (OLS) entre varidade formas de relevo e amplitude altitudinal</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>regression <span class="op">=</span> elevation.reduceRegion(<span class="op">**</span>{</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>     <span class="st">'reducer'</span>: ee.Reducer.linearFit(),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="st">'geometry'</span>: bioma_box,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>     <span class="st">'maxPixels'</span>: <span class="fl">1e13</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>     <span class="st">'scale'</span>: escala</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    })</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Após a regressão, multiplicamos a variável preditora pelo coeficiente de regressão (<em>slope</em>) e adicionamos o valor do intercepto para predizermos os valores de amplitude altitudinal esperados pela regressão. Em seguida, subtraímos os valores de amplitude altitudinal pelos valores preditos pela regressão para calcularmos os resíduos do modelo.</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcule o valor predito, pela regressão, de amplitude altitudinal, sem intercepto </span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> elevation.select(<span class="st">'landform_variety'</span>).multiply(ee.Number(regression.get(<span class="st">'scale'</span>)))</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicione o intercepto na predição</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>predict <span class="op">=</span> pred.add(ee.Number(regression.get(<span class="st">'offset'</span>)))</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcule o residuo da regressão</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>residuals <span class="op">=</span> elevation.select(<span class="st">'elevation_range'</span>).subtract(predict).rename([<span class="st">'residuals'</span>])</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Por fim, exportamos o raster de amplitude altitudinal residual como um <em>asset</em> do <em>Google Earth Engine</em>.</p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exporte a amplitude altitudinal residual como asset</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/elevation_range_residual"</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    residuals, </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'elevation_range_residual'</span>, </span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>assetId, </span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>regiao_box, </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    resilience, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'resilience_byregion'</span>, </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>assetId, </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>bioma_box, </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -573,14 +539,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./1_landforms.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Variedade de formas do relevo</span>
+      <a href="./6_landscape_diversity.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Diversidade da paisagem</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./3_wetland_score.html" class="pagination-link">
-        <span class="nav-page-text">Índice de áreas úmidas</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

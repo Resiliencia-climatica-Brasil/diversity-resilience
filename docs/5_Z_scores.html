@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Calculando Z-scores das variáveis</title>
+<title>Valor de Z das variáveis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -142,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_landforms.html">Sumário</a></li><li class="breadcrumb-item"><a href="./5_Z_scores.html">Calculando <em>Z-scores </em>das variáveis</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_landforms.html">Sumário</a></li><li class="breadcrumb-item"><a href="./5_Z_scores.html">Valor de Z das variáveis</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -171,31 +171,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_landforms.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Variedade de <em>Landforms</em></span></a>
+ <span class="menu-text">Variedade de formas do relevo</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2_elevation_range.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Amplitude de Elevação</span></a>
+ <span class="menu-text">Amplitude altitudinal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_wetland_score.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Densidade e quantidade de áreas úmidas</span></a>
+ <span class="menu-text">Índice de áreas úmidas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4_soil_diversity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Riqueza de solo</span></a>
+ <span class="menu-text">Riqueza de solos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5_Z_scores.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Calculando <em>Z-scores </em>das variáveis</span></a>
+ <span class="menu-text">Valor de Z das variáveis</span></a>
   </div>
 </li>
       </ul>
@@ -211,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Calculando <em>Z-scores </em>das variáveis</h1>
+<h1 class="title">Valor de Z das variáveis</h1>
 </div>
 
 
@@ -233,224 +233,201 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>geemap.ee_initialize()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>*** Earth Engine *** Share your feedback by taking our Annual Developer Satisfaction Survey: https://google.qualtrics.com/jfe/form/SV_doiqkQG3NJ1t8IS?source=API</code></pre>
 </div>
-</div>
-<p>Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de <em>landforms</em>, amplitude altitudinal, densidade, quantidade de áreas úmidas e diversidade de solo) em valores de Z. O cálculo de Z é realizado dentro janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em <em>wetland score</em>.</p>
+<p>Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de formas de relevo, amplitude altitudinal, densidade, quantidade de áreas úmidas e riqueza de solo) em valores de Z. O cálculo de Z é realizado dentro janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em <em>wetland score</em>.</p>
 <p>Os valores de Z de cada variável, em cada célula (i), é o desvio do valor da célula da média da janela móvel (u), divido pelo seu desvio padrão:</p>
 <p><span class="math display">\[Z-score_{iu} = \frac{i - media_{u}}{desviopadrao_{u}}\]</span></p>
 <p>O <em>wetland score</em> é a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o <em>wetland score</em> assume o segundo valor Z.</p>
 <p><span class="math display">\[
 \tiny
-wetland.score =
+índice\ de\ áreas\ úmidas =
   \begin{cases}  
     \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z)}{3} &amp; \text{se densidade média é maior ou igual à quantidade regional}\\
     \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z) + quantidade_{regional}(Z)}{4}&amp; \text {se a quantidade regional for maior a densidade média}
   \end{cases}
 \]</span></p>
 <section id="base-de-dados" class="level2">
-<h2 class="anchored" data-anchor-id="base-de-dados">Base de Dados</h2>
-<p>Nós utilizamos as variáveis criadas anteriormente e guardadas como <em>assets</em> no <em>Google Earth Engine</em>. As variáveis são:</p>
-<p><strong>(colocar os links das variáveis aqui)</strong></p>
+<h2 class="anchored" data-anchor-id="base-de-dados">Base de dados</h2>
+<p>Utilizamos as variáveis criadas anteriormente e guardadas como <em>assets</em> no <em>Google Earth Engine</em>. As variáveis são:</p>
 <ul>
-<li>variedade de <em>landforms</em></li>
-<li>amplitude de elevação</li>
-<li>diversidade de solo</li>
-<li>unidades eco-geológicas</li>
-<li>conectividade da paisagem</li>
-<li>densidade local de áreas úmidas</li>
-<li>densidade regional de áreas úmidas</li>
-<li>quantidade regional de áreas úmidas</li>
+<li><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety">variedade de formas de relevo</a></li>
+<li><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual">amplitude altitudinal</a></li>
+<li><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity">riqueza de solo</a></li>
+<li><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density">densidade local de áreas úmidas</a></li>
+<li><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000">densidade regional de áreas úmidas</a></li>
+<li><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count">quantidade regional de áreas úmidas</a></li>
 </ul>
 </section>
-<section id="códigos-para-o-cálculo-dos-z-scores" class="level2">
-<h2 class="anchored" data-anchor-id="códigos-para-o-cálculo-dos-z-scores">Códigos para o cálculo dos <em>Z-scores</em></h2>
-<p>As análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.</p>
-<p>Primeiro, nós criamos uma função para calcular o <em>Z-score</em> dentro de cada janela móvel (<strong>code</strong>) para cada variável (<strong>image</strong>). A função calcula a média e desvio padrão para a vizinhança de cada célula, utilizando uma janela móvel circular. Depois, os valores e média e desvio padrão convertidos para <em>Z-score</em> pela subtração variável pela média e divida pelo desvio padrão.</p>
+<section id="códigos-para-o-cálculo-dos-valores-de-z" class="level2">
+<h2 class="anchored" data-anchor-id="códigos-para-o-cálculo-dos-valores-de-z">Códigos para o cálculo dos valores de Z</h2>
+<p>As análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para reprodução da análise pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/5_Z_scores.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/5_Z_scores.ipynb</a>.</p>
+<p>Primeiro, criamos uma função para calcular o valor de Z dentro de cada janela móvel (<strong>code</strong>) para cada variável (<strong>image</strong>). A função calcula a média e desvio padrão para a vizinhança de cada célula, utilizando uma janela móvel circular. Depois, os valores e média e desvio padrão convertidos para valores de Z pela subtração da variável pela média e divida pelo desvio padrão.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ee</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_Z_scores(image, windows):</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculating the mean</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  mean <span class="op">=</span> image.reduceNeighborhood(<span class="op">**</span>{</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'reducer'</span>: ee.Reducer.mean(),</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'kernel'</span>: ee.Kernel.circle(<span class="op">**</span>{</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'radius'</span>:windows,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'units'</span>:<span class="st">'pixels'</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'normalize'</span>:<span class="va">False</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                              }),</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculating the standard deviation</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  sd <span class="op">=</span> image.reduceNeighborhood(<span class="op">**</span>{</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'reducer'</span>: ee.Reducer.stdDev(),</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'kernel'</span>: ee.Kernel.circle(<span class="op">**</span>{</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'radius'</span>:windows,</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'units'</span>:<span class="st">'pixels'</span>,</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'normalize'</span>:<span class="va">False</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                              }),</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Values as a raster</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  meanValue <span class="op">=</span> mean.rename(<span class="st">'mean'</span>)</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  sdValue <span class="op">=</span> sd.rename(<span class="st">'sd'</span>)</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculating the z scores</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  z <span class="op">=</span> image.subtract(meanValue).divide(sdValue).rename(<span class="st">'z'</span>)</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> z</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_Z_scores(image, windows):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculando a média</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  mean <span class="op">=</span> image.reduceNeighborhood(<span class="op">**</span>{</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'reducer'</span>: ee.Reducer.mean(),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'kernel'</span>: ee.Kernel.circle(<span class="op">**</span>{</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'radius'</span>:windows,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'units'</span>:<span class="st">'pixels'</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'normalize'</span>:<span class="va">False</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                              }),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculando o desvio padrão</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  sd <span class="op">=</span> image.reduceNeighborhood(<span class="op">**</span>{</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'reducer'</span>: ee.Reducer.stdDev(),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'kernel'</span>: ee.Kernel.circle(<span class="op">**</span>{</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'radius'</span>:windows,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'units'</span>:<span class="st">'pixels'</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'normalize'</span>:<span class="va">False</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                              }),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Renomeie os rasters</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  meanValue <span class="op">=</span> mean.rename(<span class="st">'mean'</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  sdValue <span class="op">=</span> sd.rename(<span class="st">'sd'</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculando os valores de Z</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  z <span class="op">=</span> image.subtract(meanValue).divide(sdValue).rename(<span class="st">'z'</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> z</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Aqui nós importamos as variáveis de interesse para o cálculo de Z.</p>
+<p>O próximo passo é importar as variáveis de interesse para o cálculo de Z.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando as variáveis</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Conferir os links</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>landform_variety <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/landform_variety"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>elevation_range <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/elevation_range_residual"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>soil_diversity <span class="op">=</span> ee.Image(<span class="st">'projects/ee-lucasljardim9/assets/soil_diversity'</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>connectedness <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/Biomas_resistencia_kernel"</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando os dados de wetlands para o wetland score</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>wetlands_count <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/wetlands_count"</span>)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>wetlands_density <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/wetlands_density"</span>)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>wetlands_density_1000 <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/wetlands_density_1000"</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando o polígono de bioma para definir as </span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># coordenadas máximas e mínimas do Brasil</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>bioma <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/Biome"</span>)</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co"># ModeloDigital de Elevação para extrair a resolução</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>DEM <span class="op">=</span> ee.Image(<span class="st">"MERIT/DEM/v1_0_3"</span>)</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co"># função para extrair as bordas dos polígonos</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_cmp(feature):</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.bounds() </span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo as coordenadas mínimas e máximas do Brasil</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>bioma_box <span class="op">=</span> bioma.<span class="bu">map</span>(func_cmp).geometry().dissolve(<span class="op">**</span>{<span class="st">'maxError'</span>: <span class="dv">1</span>}).bounds()</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolução das análises</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>escala <span class="op">=</span> DEM.projection().nominalScale()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando as variáveis</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Conferir os links</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>landform_variety <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/landform_variety"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>elevation_range <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/elevation_range_residual"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>soil_diversity <span class="op">=</span> ee.Image(<span class="st">'projects/ee-lucasljardim9/assets/soil_diversity'</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando os dados de wetlands para o wetland score</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>wetlands_count <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/wetlands_count"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>wetlands_density <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/wetlands_density"</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>wetlands_density_1000 <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/wetlands_density_1000"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando o polígono de bioma para definir as </span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># coordenadas máximas e mínimas do Brasil</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>regiao <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/Biome"</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># ModeloDigital de Elevação para extrair a resolução</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>DEM <span class="op">=</span> ee.Image(<span class="st">"MERIT/DEM/v1_0_3"</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># função para extrair as bordas dos polígonos</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_cmp(feature):</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.bounds() </span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo as coordenadas mínimas e máximas do Brasil</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>regiao_box <span class="op">=</span> regiao.<span class="bu">map</span>(func_cmp).geometry().dissolve(<span class="op">**</span>{<span class="st">'maxError'</span>: <span class="dv">1</span>}).bounds()</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolução das análises</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>escala <span class="op">=</span> DEM.projection().nominalScale()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="calculando-z-scores" class="level2">
-<h2 class="anchored" data-anchor-id="calculando-z-scores">Calculando Z-scores</h2>
-<p>Nós aplicamos a função <strong>wrap_calculate_Z</strong> para cada variável e guardamos o valores de Z calculados.</p>
+<section id="calculando-os-valores-de-z" class="level2">
+<h2 class="anchored" data-anchor-id="calculando-os-valores-de-z">Calculando os valores de Z</h2>
+<p>Nós aplicamos a função <strong>calculate_Z_scores</strong> para cada variável e guardamos o valores de Z calculados.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculando os valores de Z para cada variável</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>windows <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Z_landform_variety <span class="op">=</span> calculate_Z_scores(landform_variety, windows)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>Z_elevation_range <span class="op">=</span> calculate_Z_scores(elevation_range, windows)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>Z_soil_diversity <span class="op">=</span> calculate_Z_scores(soil_diversity, windows)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>Z_wetlands_count <span class="op">=</span> calculate_Z_scores(wetlands_count, windows)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>Z_wetlands_density <span class="op">=</span> calculate_Z_scores(wetlands_density, windows)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>Z_wetlands_density_1000 <span class="op">=</span> calculate_Z_scores(wetlands_density_1000, windows)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>Z_connectedness <span class="op">=</span> calculate_Z_scores(connectedness, windows).multiply(<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># conferir se precisar multiplicar mesmo po -1</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definindo a janela para o cálculo do do Z </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>windows <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculando os valores de Z para cada variável</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>Z_landform_variety <span class="op">=</span> calculate_Z_scores(landform_variety, windows)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Z_elevation_range <span class="op">=</span> calculate_Z_scores(elevation_range, windows)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>Z_soil_diversity <span class="op">=</span> calculate_Z_scores(soil_diversity, windows)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>Z_wetlands_count <span class="op">=</span> calculate_Z_scores(wetlands_count, windows)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>Z_wetlands_density <span class="op">=</span> calculate_Z_scores(wetlands_density, windows)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>Z_wetlands_density_1000 <span class="op">=</span> calculate_Z_scores(wetlands_density_1000, windows)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="calculando-wetland-score" class="level2">
-<h2 class="anchored" data-anchor-id="calculando-wetland-score">Calculando wetland score</h2>
-<p>Aqui, nós calculamos o <em>wetland score</em>, aplicando a fórmula descrita anteriormente.</p>
+<section id="calculando-índice-de-áreas-úmidas" class="level2">
+<h2 class="anchored" data-anchor-id="calculando-índice-de-áreas-úmidas">Calculando índice de áreas úmidas</h2>
+<p>Aqui, nós calculamos o índice de áreas úmidas, aplicando a fórmula descrita anteriormente.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculando a densidade de areas úmidas como a média do local e regional</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>wetlands_density <span class="op">=</span> (Z_wetlands_density</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                    .multiply(<span class="dv">2</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                    .add(Z_wetlands_density_1000)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                    .divide(<span class="dv">3</span>))</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Testando se o Z da quantidade de áreas úmidas é maior que a densidade média</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>wet_test <span class="op">=</span> wetlands_density.lt(Z_wetlands_count)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Média de densidade local, regional e quantidade de áreas úmidas</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>wet_average <span class="op">=</span> (wetlands_density</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>              .multiply(<span class="dv">3</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>              .add(Z_wetlands_count)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>              .divide(<span class="dv">4</span>))</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Substituindo os locais com densidade menor que a quantidade pelos valores de quantidade             </span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>Z_wetlands_score <span class="op">=</span> Z_wetlands_density.where(wet_test, wet_average)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculando a densidade de areas úmidas como a média do local e regional</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>wetlands_density <span class="op">=</span> (Z_wetlands_density</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    .multiply(<span class="dv">2</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                    .add(Z_wetlands_density_1000)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                    .divide(<span class="dv">3</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Testando se o Z da quantidade de áreas úmidas é maior que a densidade média</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>wet_test <span class="op">=</span> wetlands_density.lt(Z_wetlands_count)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Média de densidade local, regional e quantidade de áreas úmidas</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>wet_average <span class="op">=</span> (wetlands_density</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>              .multiply(<span class="dv">3</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>              .add(Z_wetlands_count)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>              .divide(<span class="dv">4</span>))</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Substituindo os locais com densidade menor que a quantidade pelos valores de quantidade             </span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>Z_wetlands_score <span class="op">=</span> Z_wetlands_density.where(wet_test, wet_average)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="exportando-os-z-scores" class="level2">
-<h2 class="anchored" data-anchor-id="exportando-os-z-scores">Exportando os Z-scores</h2>
+<section id="exportando-os-valores-de-z" class="level2">
+<h2 class="anchored" data-anchor-id="exportando-os-valores-de-z">Exportando os valores de Z</h2>
 <p>Por último, exportamos todas as imagens de Z como <em>asset</em> no <em>Google Earth Engine</em>.</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando os links dos assets</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>landform_assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/Z_landform_variety"</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>elevation_assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/Z_elevation_range"</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>wetland_assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/Z_wetlands_score"</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>soil_assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/Z_soil_diversity"</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>connectedness_assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/Z_connectedness"</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Exportando as imagens</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    Z_landform_variety, </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Z_landform_variety'</span>, </span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>landform_assetId, </span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>bioma_box, </span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    Z_elevation_range, </span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Z_elevation_range'</span>, </span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>elevation_assetId, </span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>bioma_box, </span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    Z_wetlands_score, </span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Z_wetlands_score'</span>, </span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>wetland_assetId, </span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>bioma_box, </span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    Z_soil_diversity, </span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Z_soil_diversity'</span>, </span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>soil_assetId, </span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>bioma_box, </span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    Z_connectedness, </span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Z_connectedness'</span>, </span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>connectedness_assetId, </span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>bioma_box, </span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando os links dos assets</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>landform_assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/Z_landform_variety"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>elevation_assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/Z_elevation_range"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>wetland_assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/Z_wetlands_score"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>soil_assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/Z_soil_diversity"</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Exportando as imagens</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    Z_landform_variety, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Z_landform_variety'</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>landform_assetId, </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>regiao_box, </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    Z_elevation_range, </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Z_elevation_range'</span>, </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>elevation_assetId, </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>regiao_box, </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    Z_wetlands_score, </span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Z_wetlands_score'</span>, </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>wetland_assetId, </span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>regiao_box, </span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    Z_soil_diversity, </span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Z_soil_diversity'</span>, </span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    assetId<span class="op">=</span>soil_assetId, </span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    region<span class="op">=</span>regiao_box, </span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -693,7 +670,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./4_soil_diversity.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Riqueza de solo</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Riqueza de solos</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

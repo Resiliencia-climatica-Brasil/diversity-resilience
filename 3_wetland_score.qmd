@@ -4,6 +4,7 @@ jupyter: python3
 ---
 
 
+
 ## Importando pacotes e inicializando *geemap*
 
 ```{python}
@@ -16,53 +17,43 @@ import geemap
 geemap.ee_initialize()
 ```
 
-## Como calculamos o índice de áreas úmidas
+O índice de áreas úmidas é uma combinação da densidade de áreas úmidas localmente com a densidade e quantidade de áreas úmidas regionalmente. O índice de áreas úmidas entra no cálculo da diversidade da paisagem em locais planos e úmidos, com baixa variedade de *landforms* e baixa amplitude de elevação. Nesses locais a variação microclimática seria baixa devido a baixa variabilidade topográfica e geomorfológica, mas como há alta densidade de áreas úmidas, esses locais atuam regulando a variabilidade microclimática localmente.
 
-O índice áreas úmidas é uma combinação do dado de densidade de áreas úmidas calculada localmente, com a densidade e quantidade de áreas úmidas calculadas regionalmente. O índice de áreas úmidas entra no cálculo da diversidade da paisagem para locais planos e úmidos, com baixa variedade de formas de relevo e baixa amplitude altitudinal. Nesses locais, a variação microclimática seria baixa devido à baixa variabilidade topográfica e geomorfológica. Entretanto, como há alta densidade de áreas úmidas, esses locais atuam regulando a variabilidade microclimática localmente, como tampões climáticos, e regulando a emissão de gases de efeito estufa.
-
-Existem três cenários de distribuição de áreas úmidas: (1) estão presentes em áreas com alta densidade de áreas úmidas no entorno; (2) estão situados em áreas com baixa densidade de áreas úmidas localmente, mas alta densidade regionalmente; e (3) estão presentes em áreas com alta quantidade de áreas úmidas, mas baixa densidade devido à sua distribuição espacial.
-Desta forma, o índice de áreas úmidas é composto por esses três cenários. Primeiro é calculado a densidade local, regional e a quantidade regional e, para cada métrica, é calculado um valor de Z (subtraindo pela média e dividindo pelo desvio padrão). A densidade de áreas úmidas é a média ponderada dos valores de Z da densidade local e regional (aplicando peso duplo para a densidade local). Nos locais onde os valores de Z da quantidade de áreas úmidas regional é maior que a densidade média calculada anteriormente, o índice se torna a média ponderada da densidade local, densidade regional e quantidade de áreas úmidas regional (aplicando peso duplo para a densidade local).
-Nesse capítulo, descrevemos a forma de cálculo para as densidades e a quantidade de áreas úmidas e, em outro capítulo, descreveremos a forma de cálculo para os valores de Z e a criação do índice de áreas úmidas. 
-
-<!---
-
-O parágrafo acima está um pouco confuso. Precisa explicar um pouco melhor esse passo a passo da análise.
-
--->
-
+Existem três cenários de distribuição de áreas úmidas, os locais (1) estão presentes em áreas com alta densidade de áreas úmidas no entorno, (2) os locais estão situados em áreas com baixa densidade de áreas úmidas localmente, mas alta densidade regionalmente e (3) os locais estão presentes em áreas com alta quantidade de áreas úmidas, mas baixa densidade devido a sua distribuição espacial. Dessa forma, o índice de áreas úmidas é composto pelos três cenários citados anteriormente, primeiro é calculado a densidade local, regional e a quantidade regional e, para cada métrica, é calculado um valor de Z, subtraindo pela média e dividindo pelo desvio padrão. A densidade de áreas úmidas é a média ponderada dos valores de Z da densidade local e regional (peso duplo para a densidade local). Nos locais onde os valores de Z da quantidade de áreas úmidas regional é maior que a densidade média calculada anteriormente, o índice torna-se a média ponderada da densidade local, densidade regional e quantidade de áreas úmidas regional (duplo peso para a densidade local).   
 
 $$
 \tiny
-wetland.score = 
+índice\ de\ áreas\ úmidas = 
   \begin{cases}  
     \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z)}{3} & \text{se densidade média é maior ou igual à quantidade regional}\\
     \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z) + quantidade_{regional}(Z)}{4}& \text {se a quantidade regional for maior a densidade média}
   \end{cases}
 $$
 
+Neste capítulo demonstraremos como as densidades e a quantidade de áreas úmidas foram calculadas e no capítulo [Z_scores](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/5_Z_scores.html) mostraremos como calculamos os valores de Z e o índice de áreas úmidas. 
 
-## Base de dados utilizada
+## Banco de dados
 
-Utilizamos como base de dados de áreas úmidas o *Global Wetlands database* (Gumbricht *et al.* 2017). Reprojetamos o *raster* de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 90 metros).
+Utilizamos como base de dados de áreas úmidas o *Global Wetlands database* (Gumbricht *et al.* 2017). Reprojetamos o *raster* de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 92 metros).
 
-Para calcularmos as densidades e quantidade de áreas úmidas, retiramos as áreas úmidas classificadas como sistemas lacustres e ribeirinhos (*riverines* e *lacustrines*) e reclassificamos o *raster* como sendo área úmida (1) ou não sendo área úmida (0). Depois, calculamos a densidade de áreas úmidas dentro de uma vizinhaça de 450 metros (5 células) de raio de um *kernel* circular (densidade local). Calculamos também a densidade e a quantidade de áreas úmidas na vizinhança de ~ 1170 metros (13 células) (regional).
+Retiramos as áreas úmidas classificadas como sistemas lacustres e ribeirinhos (*riverines* e *lacustrines*) e reclassificamos o *raster* como sendo área úmida (1) ou não sendo área úmida (0). Depois, calculamos a densidade de áreas úmidas dentro de uma vizinhaça de 450 metros (5 células) de raio de um *kernel* circular (densidade local). Calculamos também a densidade e a quantidade de áreas úmidas na vizinhança de ~ 1170 metros (13 células) (regional).
 
-## Cálculo das densidades e quantidade de áreas úmidas
+## Código para calcular as densidades e quantidade de áreas úmidas
 
-As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises.
+As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para reprodução das análises pode ser encontrado em [https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/3_wetland_score.ipynb](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/3_wetland_score.ipynb).
 
 Primeiro, nós importamos os polígonos dos biomas do Brasil e extraímos suas coordenadas geográficas máximas e mínimas para delimitar a região de análise. Importamos o modelo digital de elevação e o *raster* de áreas úmidas e reprojetamos a resolução das áreas úmidas para a resolução do modelo digital de elevação.  
 
 ```{python}
 # Importando mapa de biomas do IBGE para extrair as coordenadas 
 # mínimas e máximas do Brasil
-bioma = ee.FeatureCollection("projects/ee-lucasljardim9/assets/Biome")
+regiao = ee.FeatureCollection("projects/ee-lucasljardim9/assets/Biome")
 
 def func_cmp(feature):
     return feature.bounds() 
 
 # Extraindo as coordenadas mínimas e máximas do Brasil
-bioma_box = bioma.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
+regiao_box = regiao.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
 
 # Extraindo a resolução do mapa
 DEM = ee.Image("MERIT/DEM/v1_0_3") 
@@ -114,7 +105,7 @@ neighbors_amount = neighbors.bandNames().length()
 wetlands_density_local = wetlands_count.divide(ee.Number(neighbors_amount))
 ```
 
-Repetimos o mesmo procedimento conduzido para densidade local para calcularmos a densidade e quantidade de áreas úmidas regional.
+Repetimos o mesmo procedimento conduzido para a densidade local para calcularmos a densidade e quantidade de áreas úmidas regional.
 
 ```{python}
 radius_pixels = 13
@@ -151,7 +142,7 @@ geemap.ee_export_image_to_asset(
     wetlands_count, 
     description='wetlands_count', 
     assetId=assetId_quantidade, 
-    region=bioma_box, 
+    region=regiao_box, 
     scale=escala, maxPixels=1e13
 )
 
@@ -159,7 +150,7 @@ geemap.ee_export_image_to_asset(
     wetlands_density_local, 
     description='wetlands_density_local', 
     assetId=assetId_densidade_local, 
-    region=bioma_box, 
+    region=regiao_box, 
     scale=escala, maxPixels=1e13
 )
 
@@ -167,7 +158,7 @@ geemap.ee_export_image_to_asset(
     wetlands_density_regional, 
     description='wetlands_density_regional', 
     assetId=assetId_densidade_regional, 
-    region=bioma_box, 
+    region=regiao_box, 
     scale=escala, maxPixels=1e13
 )
 ```

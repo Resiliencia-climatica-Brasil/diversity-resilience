@@ -1,5 +1,5 @@
 ---
-title: Resiliência da Paisagem
+title: Resiliência da paisagem
 jupyter: python3
 ---
 
@@ -17,25 +17,23 @@ import geemap
 geemap.ee_initialize()
 ```
 
-```{python}
-A resiliência da paisagem é a média da diversidade e connectividade da paisagem.
-```
+A resiliência da paisagem é classificada pela heterogeneidade da paisagem e conectividade local. Calculamos os quantis das duas variáveis, classificamos as variáveis pelos quantis e atribuímos classes representando o grau de heterogeneidade da paisagem e conectividade local de cada célula. Por exemplo, células com alta heterogeneidade local (quantil superior)  e alta conectividade local (quantil superior) são áreas com alta resiliência. Por outro lado, locais com baixa conectividade local e heterogeneidade da paisagem possuem baixa resiliência. Nas classes intermediárias estão as células com alta heterogeneidade da paisagem e baixa conectividadel local, e as células com alta conectividade local e baixa heterogeneidade da paisagem. 
 
-## Base de Dados
+## Base de dados
 
-Os dados para a resiliência da paisagem são o mapa de diversidade da paisagem e *Z-score* da connectividade criados anteriormente.
+Os dados utilizados para calcular a resiliência da paisagem são os mapa de heterogeneidade da paisagem e a conectividade local criados anteriormente.
 
 ## Códigos para a criação da resiliência da paisagem
 
-As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. 
+As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em [https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/7_resilience.ipynb](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/7_resilience.ipynb).
 
-Primeiro, importamos o polígono de biomas do Brasil para extraímos as coordenadas geográficas mínimas e máximas. Extraímos também a escala do modelo digital de elevação que estamos usando na análises prévias.
+Primeiro, importamos o polígono de biomas do Brasil para extraímos as coordenadas geográficas mínimas e máximas. Extraímos também a escala do modelo digital de elevação que usamos nas análises anteriores.
 
 ```{python}
 # Importando o polígono de bioma para definir as 
 # coordenadas máximas e mínimas do Brasil
 
-bioma = ee.FeatureCollection("projects/ee-lucasljardim9/assets/Biome")
+regiao = ee.FeatureCollection("projects/ee-lucasljardim9/assets/Biome")
 
 # ModeloDigital de Elevação para extrair a resolução
 DEM = ee.Image("MERIT/DEM/v1_0_3")
@@ -45,34 +43,86 @@ def func_cmp(feature):
     return feature.bounds() 
 
 # Extraindo as coordenadas mínimas e máximas do Brasil
-bioma_box = bioma.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
+regiao_box = regiao.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
 
 # Resolução das análises
 escala = DEM.projection().nominalScale()
 ```
 
-Importamos os mapas de diversidade da paisagem e *Z-score* da connectividade e calculamos a média entre eles.
+Importamos os mapas de heterogeneidade da paisagem e conectividade local.
 
 ```{python}
-Z_connectedness = ee.Image("projects/ee-lucasljardim9/assets/Z_connectedness_byregion")
+local_connectedness = ee.Image("projects/ee-lucasljardim9/assets/local_connectedness")
 
-Z_landscape_diversity = ee.Image("projects/ee-lucasljardim9/assets/landscape_diversity_byregion")
+landscape_heterogeneity = ee.Image("projects/ee-lucasljardim9/assets/landscape_heterogeneity")
+```
 
-resilience = Z_connectedness.add(Z_landscape_diversity).divide(2)
+Calculamos os quantis de 25, 50, 75% da heterogeneidade da paisagem e conectividade local.
+
+```{python}
+# Heterogeneidade da paisagem
+quartiles_Div = landscape_heterogeneity.reduceRegion(**{
+    'reducer': ee.Reducer.percentile([25, 50, 75]), 
+    'scale': escala,
+    'maxPixels':1e13,
+    'bestEffort': False
+  })
+
+# Extraímos os valores do quantis
+div_25 = quartiles_Div.getNumber('z_p25')
+div_50 = quartiles_Div.getNumber('z_p50')
+div_75 = quartiles_Div.getNumber('z_p75')
+
+# Conectividade local
+quartiles_Con = local_connectedness.reduceRegion(**{
+    'reducer': ee.Reducer.percentile([25, 50, 75]), 
+    'scale': escala,
+    'maxPixels':1e13,
+    'bestEffort': False
+  })
+
+# Extraímos os valores do quantis
+con_25 = quartiles_Con.getNumber('b1_p25')
+con_50 = quartiles_Con.getNumber('b1_p50')
+con_75 = quartiles_Con.getNumber('b1_p75')
+```
+
+Classificamos a heterogeneidade da paisagem e conectividade local pelos quantis.
+
+```{python}
+class_div = (landscape_heterogeneity
+             .where(landscape_heterogeneity.lt(div_25), 1)  
+             .where(landscape_heterogeneity.gte(div_25).And(landscape_heterogeneity.lt(div_50)), 2)
+             .where(landscape_heterogeneity.gte(div_50).And(landscape_heterogeneity.lt(div_75)), 3)
+             .where(landscape_heterogeneity.gte(div_75).And(landscape_heterogeneity), 4))
+
+
+class_con = (local_connectedness
+             .where(local_connectedness.lt(con_25),10)
+             .where(local_connectedness.gte(con_25).And(local_connectedness.lt(con_50)), 20)
+             .where(local_connectedness.gte(con_50).And(local_connectedness.lt(con_75)),30)
+             .where(local_connectedness.gte(con_75).And(local_connectedness), 40))
+```
+
+Somamos os mapas de heterogeneidade da paisagem e conectividade local classificados para atribuirmos as classes de resiliência. 
+
+```{python}
+resilience = class_div.add(class_con)
 ```
 
 Exportamos o mapa de resiliência como um *asset* no *Google Earth Engine*.
 
 ```{python}
-# Exporte o raster de diversidade da paisagem
-assetId = "projects/ee-lucasljardim9/assets/resilience_byregion"
+# Exporte o raster de resiliência
+assetId = "projects/ee-lucasljardim9/assets/resilience"
 
 geemap.ee_export_image_to_asset(
     resilience, 
-    description='resilience_byregion', 
+    description='resilience', 
     assetId=assetId, 
-    region=bioma_box, 
+    region=regiao_box, 
     scale=escala,
+    pyramidingPolicy:"mode",
     maxPixels=1e13
 )
 ```

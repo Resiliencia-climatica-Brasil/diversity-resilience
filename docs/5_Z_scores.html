@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./6_landscape_heterogeneity.html" rel="next">
 <link href="./4_soil_diversity.html" rel="prev">
 <link href="./figs/1667403883848_theme_logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -198,6 +199,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Valor de Z das variáveis</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_landscape_heterogeneity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heterogeneidade da paisagem</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_resilience.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resiliência da paisagem</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -234,9 +247,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>geemap.ee_initialize()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de formas de relevo, amplitude altitudinal, densidade, quantidade de áreas úmidas e riqueza de solo) em valores de Z. O cálculo de Z é realizado dentro janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em índice de áreas úmidas.</p>
+<section id="cálculo-do-valor-de-z" class="level2">
+<h2 class="anchored" data-anchor-id="cálculo-do-valor-de-z">Cálculo do valor de Z</h2>
+<p>Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de formas de relevo, amplitude altitudinal, densidade, quantidade de áreas úmidas e riqueza de solo) em valores de Z. O cálculo de Z é realizado dentro das janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em índice de áreas úmidas.</p>
 <p>Os valores de Z de cada variável, em cada célula (i), é o desvio do valor da célula da média da janela móvel (u), divido pelo seu desvio padrão:</p>
 <p><span class="math display">\[Z-score_{iu} = \frac{i - media_{u}}{desviopadrao_{u}}\]</span></p>
+</section>
+<section id="índice-de-áreas-úmidas" class="level2">
+<h2 class="anchored" data-anchor-id="índice-de-áreas-úmidas">Índice de áreas úmidas</h2>
 <p>O índice de áreas úmidas é a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o índice de áreas úmidas assume o segundo valor Z.</p>
 <p><span class="math display">\[
 \tiny
@@ -246,6 +264,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     \frac{2 \times densidade_{local}(Z) + densidade_{regional}(Z) + quantidade_{regional}(Z)}{4}&amp; \text {se a quantidade regional for maior a densidade média}
   \end{cases}
 \]</span></p>
+</section>
 <section id="base-de-dados" class="level2">
 <h2 class="anchored" data-anchor-id="base-de-dados">Base de dados</h2>
 <p>Utilizamos as variáveis criadas anteriormente e guardadas como <em>assets</em> no <em>Google Earth Engine</em>. As variáveis são:</p>
@@ -674,6 +693,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./6_landscape_heterogeneity.html" class="pagination-link">
+        <span class="nav-page-text">Heterogeneidade da paisagem</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -7,6 +7,8 @@ project:
     - 3_wetland_score.qmd
     - 4_soil_diversity.qmd
     - 5_Z_scores.qmd
+    - 6_landscape_heterogeneity.qmd
+    - 7_resilience.qmd
     
 
 execute:   
@@ -36,6 +38,8 @@ website:
           - 3_wetland_score.qmd
           - 4_soil_diversity.qmd
           - 5_Z_scores.qmd
+          - 6_landscape_heterogeneity.qmd
+          - 7_resilience.qmd
           
               
   page-navigation: true

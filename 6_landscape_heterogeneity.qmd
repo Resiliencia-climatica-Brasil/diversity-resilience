@@ -1,0 +1,170 @@
+---
+title: Heterogeneidade da paisagem
+jupyter: python3
+---
+
+
+
+## Importando pacotes e inicializando *geemap*
+
+```{python}
+import os
+import ee
+import geemap
+```
+
+```{python}
+geemap.ee_initialize()
+```
+
+A heterogeneidade da paisagem é uma métrica composta pelos valores de Z da variedade de formas de relevo, amplitude altitudinal, índice de áreas úmidas e riqueza de solos. O cálculo da heterogeneidade da paisagem consiste de uma série de etapas:
+
+* (1) A heterogeneidade da paisagem assume os valores de variedade de formas de relevo;
+* (2) Locais onde a amplitude altitudinal é maior que variedade de formas de relevo, a heterogeneidade da paisagem é substituída pela média ponderada entre as duas variáveis, atribuindo peso dobrado para a variedade de de formas de relevo;
+* (3) Locais onde o índice de áreas úmidas é maior que a heterogeneidade da paisagem calculada anteriormente, os valores são substituídos pela média ponderada das variáveis, atribuindo pelo duplo para a variedade de formas de relevo;
+* (4) Localidades onde a riqueza de solos é maior que a heterogeneidade da paisagem das etapas anteriores, os valores são substituídos pela média ponderada das variáveis naquela localidade, atribuindo peso duplo para a variedade de formas de relevo.
+
+## Base de dados
+
+Os dados para a heterogeneidade da paisagem foram criados na etapa de [cálculo dos valores de Z](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/5_Z_scores.html).
+
+## Códigos para a criação da heterogeneidade da paisagem
+
+As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução da análise pode ser encontrado em [https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/6_landscape_diversity.ipynb](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/6_landscape_diversity.ipynb).
+
+Importamos os dados de bioma para delimitar a região de análise e definimos a escala espacial da análise como nas etapas anteriores.
+
+```{python}
+# Importando o polígono de bioma para definir as 
+# coordenadas máximas e mínimas do Brasil
+
+regiao = ee.FeatureCollection("projects/ee-lucasljardim9/assets/Biome")
+
+# ModeloDigital de Elevação para extrair a resolução
+DEM = ee.Image("MERIT/DEM/v1_0_3")
+
+# função para extrair as bordas dos polígonos
+def func_cmp(feature):
+    return feature.bounds() 
+
+# Extraindo as coordenadas mínimas e máximas do Brasil
+regiao_box = regiao.map(func_cmp).geometry().dissolve(**{'maxError': 1}).bounds()
+
+# Resolução das análises
+escala = DEM.projection().nominalScale()
+```
+
+Importamos os mapas e cortamos para o raster do Brasil.
+
+```{python}
+# Importando e cortando as imagens para o Brasil
+landform_Z = ee.Image('projects/ee-lucasljardim9/assets/Z_landform_variety')
+              
+
+elevation_range_Z = ee.Image('projects/ee-lucasljardim9/assets/Z_elevation_range')
+                    
+
+wetland_score = ee.Image('projects/ee-lucasljardim9/assets/Z_wetlands_score')
+                 
+
+soil_diversity =  ee.Image('projects/ee-lucasljardim9/assets/Z_soil_diversity')
+                  
+```
+
+O cálculo da heterogeneidade da paisagem inicia atribuindo à heterogeneidade da paisagem os valores de variedade de formas de relevo. Em um segundo momento, avaliamos os locais onde a amplitude altitudinal é maior que a variedade de formas de relevo e substituímos os valores.
+
+```{python}
+landscape_diversity = landform_Z
+
+# Testando se o Z da amplitude altitudinal é maior que o Z da variedade de formas de relevo
+test_1 = elevation_range_Z.gt(landscape_diversity)
+
+# Média ponderada entre variedade de formas de relevo e amplitude altitudinal
+average_elevation = landform_Z.multiply(2).add(elevation_range_Z).divide(3)
+
+# Substituindo os valores de variedade de formas de relevo por amplitude altitudinal 
+# onde o segundo valor é maior que o primeiro
+landscape_diversity = landscape_diversity.where(test_1, average_elevation)
+```
+
+Em seguida, adicionamos o índice de áreas úmidas, primeiro avaliando onde esse índice é maior que a heterogeneidade da paisagem calculada anteriormente. Nos locais onde os valores do índice de áreas úmidas são maiores que a heterogeneidade da paisagem, os valores são substituídos.
+
+```{python}
+# testando onde índice de áreas úmidas é maior que a heterogeneidade da paisagem
+
+test_2 = wetland_score.gt(landscape_diversity)
+
+# Médias para cada teste
+
+# Locais que a amplitude altitudinal foi maior que variedade de formas de relevo
+average_wetland_1 = landform_Z.multiply(2).add(elevation_range_Z).add(wetland_score).divide(4)
+
+# Locais onde a amplitude altitudinal não foi maior que variedade de formas de relevo
+average_wetland_2 = landform_Z.multiply(2).add(wetland_score).divide(3)
+
+# Substitua o valor de heterogeneidade da paisagem pelo índice de áreas úmidas
+
+landscape_diversity = landscape_diversity.where(test_1.And(test_2), average_wetland_1)
+
+landscape_diversity = landscape_diversity.where(test_1.Not().And(test_2), average_wetland_2)
+```
+
+A inclusão da riqueza de solos é um pouco mais complexa. Testamos onde a riqueza de solos é maior a heterogeneidade da paisagem anterior e substituímos os valores por 4 médias ponderadas diferentes, cada uma representando os passos anteriores. A primeira média é para os locais onde a riqueza de solos é maior que o índice de áreas úmidas, que por sua vez é maior que amplitude altitudinal. Na segunda média, os valores são para as regiões com maior riqueza de solos, mas onde o índice de áreas úmidas é menor que a amplitude altitudinal. A terceira média é para os locais onde a amplitude altitudinal é maior que variedade de formas de relevo, mas o índice de áreas úmidas não adiciona informação. A quarta média é para locais onde somente a riqueza de solos é maior que a variedade de formas de relevo.
+
+```{python}
+# teste onde riqueza de solo é maior que a heterogeneidade da paisagem
+test_3 = soil_diversity.gt(landscape_diversity)
+
+# Calcule as médias ponderadas
+average_soil_1 = (landform_Z.multiply(2)
+                 .add(elevation_range_Z)
+                 .add(wetland_score)
+                 .add(soil_diversity)
+                 .divide(5))
+
+average_soil_2 = (landform_Z.multiply(2)
+                 .add(elevation_range_Z)
+                 .add(soil_diversity)
+                 .divide(4))
+
+average_soil_3 = (landform_Z.multiply(2)
+                 .add(wetland_score)
+                 .add(soil_diversity)
+                 .divide(4))
+
+average_soil_4 = (landform_Z.multiply(2)
+                 .add(soil_diversity)
+                 .divide(3))
+
+# Substitua os valores de heterogeneidade da paisagem pela riqueza de solos
+
+landscape_diversity = (landscape_diversity
+                      .where(test_1.And(test_2).And(test_3), average_soil_1))
+
+landscape_diversity = (landscape_diversity
+                      .where(test_1.And(test_2.Not()).And(test_3), average_soil_2))
+
+landscape_diversity = (landscape_diversity
+                      .where(test_1.Not().And(test_2).And(test_3), average_soil_3))
+
+landscape_diversity = (landscape_diversity
+                      .where(test_1.Not().And(test_2.Not()).And(test_3), average_soil_4))
+```
+
+ Finalizamos exportando o mapa de heterogeneidade da paisagem como *asset* no *Google Earth Engine*.
+
+```{python}
+# Exporte o raster de heterogeneidade da paisagem
+assetId = "projects/ee-lucasljardim9/assets/landscape_heterogeneity"
+
+geemap.ee_export_image_to_asset(
+    landscape_diversity, 
+    description='landscape_heterogeneity', 
+    assetId=assetId, 
+    region=regiao_box, 
+    scale=escala,
+    maxPixels=1e13
+)
+```
+
+

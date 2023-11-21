@@ -17,7 +17,7 @@ import geemap
 geemap.ee_initialize()
 ```
 
-A heterogeneidade da paisagem é uma métrica composta pelos valores de Z da variedade de formas de relevo, amplitude altitudinal, índice de áreas úmidas e riqueza de solos [@anderson_resilient_2016-1]. O cálculo da heterogeneidade da paisagem consiste de uma série de etapas:
+A heterogeneidade da paisagem é uma métrica composta pelos valores de Z da variedade de formas de relevo, amplitude altitudinal, índice de áreas úmidas e riqueza de solos [@anderson_resilient_2016]. O cálculo da heterogeneidade da paisagem consiste de uma série de etapas:
 
 * (1) A heterogeneidade da paisagem assume os valores de variedade de formas de relevo;
 * (2) Locais onde a amplitude altitudinal é maior que variedade de formas de relevo, a heterogeneidade da paisagem é substituída pela média ponderada entre as duas variáveis, atribuindo peso dobrado para a variedade de de formas de relevo;

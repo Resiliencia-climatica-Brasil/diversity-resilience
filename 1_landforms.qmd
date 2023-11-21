@@ -24,15 +24,8 @@ geemap.ee_initialize()
 
 ### Formas do relevo
 
-Utilizamos a metodologia proposta por @anderson_resilient_2016-1 para definir as formas de relevo (do inglês, *landforms*). As formas de relevo geradas foram: 
+Utilizamos a metodologia proposta por @anderson_resilient_2016 para definir as formas de relevo (do inglês, *landforms*). As formas de relevo geradas foram: 
 
-<!---
-Incluir as razões para a escolha da metodologia (acima).
-Por que essa aqui abaixo não foi utilizada? Precisa explicar.
-exceto a *landform* ***Flat at the bottom of steep slope***. Assim, nossas *landforms* foram:
-
--resposta: acho que não precisamos colocar no tutorial que avaliamos outras metodologias, colocamos no relatório.
--->
 
 * **3 - Cool Steep Slope**
 * **4 - Warms Steep Slope**
@@ -53,20 +46,9 @@ exceto a *landform* ***Flat at the bottom of steep slope***. Assim, nossas *land
 
 As variáveis utilizadas para calcular as formas de relevo foram: **declividade** (*slope*), **exposição** (*aspect*), **Índice de Posição Topográfica** (*TPI*, do inglês *Topographic Position Index*) e **índice de umidade** (*moisture index*). As formas de relevo são classificadas principalmente por declividade e TPI (Figura 1). A exposição classifica as faces *quentes* ou *frias* do relevo e o índice de umidade classifica as áreas planas em secas ou úmidas. 
 
-<!---
-Um dos comentários do workshop foi ter cuidado com os termos utilizados. Usar:
-- Altitude, ao invés de elevação
-- Declividade, ao invés de inclinação
-- Exposição, ao invés de aspecto
--->
-
-<!---
-Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio está invertido.
--->
-
 ![](figura/landform_scheme.png)
 
-    Figura 1. Classificação das formas de relevo pela declividade, exposição, índice de posição topográfica e índice de umidade. Adaptação de @anderson_resilient_2016-1.
+    Figura 1. Classificação das formas de relevo pela declividade, exposição, índice de posição topográfica e índice de umidade. Adaptação de @anderson_resilient_2016.
     
 
 As variáveis foram discretizadas em classes e combinadas para comporem os tipos de formas de relevo. Os limiares utilizados para a discretização (Tabela 1) foram definidos por ajustes visuais que melhor representavam as formas de relevo.
@@ -170,7 +152,7 @@ Em seguida, as classes foram combinadas pela soma de cada classe multiplicada po
 
 ### Bases de dados
 
-Classificamos as formas de relevo utilizando o Modelo Digital de Elevação (DEM) do Merit-DEM [@yamazaki_high-accuracy_2017], o acúmulo de fluxo do Merit-Hydro [@yamazaki_merit_2019] e a camada de uso do solo do MapBiomas [@projeto_mapbiomas_collection_2020]. O Modelo Digital de Elevação possui uma resolução de 90 metros e foi escolhido por ser um produto global ao combinar dados dos satélites do *Shuttle Radar Topography Mission* (SRTM) [@farr_shuttle_2007] e *Advanced Land Observing Satellite* (ALOS) [@tadono_t_ishida_h_oda_f_naito_s_minakawa_k_iwamoto_h_last_precise_2014], permitindo a replicabilidade da metodologia em outras regiões. O Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como *speckle noise*, *stripe noise*, *absolute bias* e *tree height bias* [@yamazaki_high-accuracy_2017]. A correção de *tree height bias* é principalmente importante para a Floresta Amazônica devido à sua densidade de árvores altas. Além disso, há um produto derivado, o Merit-Hydro, que disponibiliza o acúmulo de fluxo global, que demandaria grande esforço computacional para ser calculado para todo o Brasil. O Merit-Hydro corrige os efeitos de densidade de árvores no cálculo da rede dendrítica, o que é importante para a Amazônia.
+Classificamos as formas de relevo utilizando o Modelo Digital de Elevação (DEM) do Merit-DEM [@yamazaki_high-accuracy_2017], o acúmulo de fluxo do Merit-Hydro [@yamazaki_merit_2019] e a camada de uso do solo do MapBiomas [@mapbiomas_project_collection_2020]. O Modelo Digital de Elevação possui uma resolução de 90 metros e foi escolhido por ser um produto global ao combinar dados dos satélites do *Shuttle Radar Topography Mission* (SRTM) [@farr_shuttle_2007] e *Advanced Land Observing Satellite* (ALOS) [@tadono_t_precise_2014], permitindo a replicabilidade da metodologia em outras regiões. O Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como *speckle noise*, *stripe noise*, *absolute bias* e *tree height bias* [@yamazaki_high-accuracy_2017]. A correção de *tree height bias* é principalmente importante para a Floresta Amazônica devido à sua densidade de árvores altas. Além disso, há um produto derivado, o Merit-Hydro, que disponibiliza o acúmulo de fluxo global, que demandaria grande esforço computacional para ser calculado para todo o Brasil. O Merit-Hydro corrige os efeitos de densidade de árvores no cálculo da rede dendrítica, o que é importante para a Amazônia.
 
 Incluímos as classes de água do MapBiomas para complementar a superfície gerada pelo acúmulo de fluxo na definição de áreas planas úmidas. O MapBiomas é um projeto nacional de mapeamento e classificação de mudanças do uso do solo dos últimos 30 anos a partir de dados de sensoriamento remoto. 
 
@@ -240,7 +222,7 @@ TPI = ee.ImageCollection(list(map(calculate_TPI, window_size))).toBands().reduce
 
 ### Índice de umidade (*Moisture index*)
 
-Nós calculamos o índice de umidade [@anderson_resilient_2016-1] baseado no acúmulo de fluxo presente no Merit-Hydro [@yamazaki_merit_2019], na camada **upg**, que é calculado sobre o Merit-DEM. O índice de umidade é calculado da seguinte forma:
+Nós calculamos o índice de umidade [@anderson_resilient_2016] baseado no acúmulo de fluxo presente no Merit-Hydro [@yamazaki_merit_2019], na camada **upg**, que é calculado sobre o Merit-DEM. O índice de umidade é calculado da seguinte forma:
 
 $moisture.index = \frac{\log(fluxo + 1)}{(declividade + 1)} \times 1000$
 
@@ -271,7 +253,7 @@ moisture_index = (
 
 ### Declividade (*slope*)
 
-As variáveis foram convertidas em classes utilizando a Tabela 1, seguindo [@anderson_resilient_2016-1]. As classes de declividade foram criadas com o seguinte código:
+As variáveis foram convertidas em classes utilizando a Tabela 1, seguindo [@anderson_resilient_2016]. As classes de declividade foram criadas com o seguinte código:
 
 ```{python}
 slope_classes = (

@@ -17,7 +17,7 @@ import geemap
 geemap.ee_initialize()
 ```
 
-A resiliência da paisagem é classificada pela heterogeneidade da paisagem e conectividade local [@anderson_resilient_2016-1]. Modificamos a metodologia original de média das métricas pela classificação pelos quantis das duas variáveis. Classificamos as métricas por quantis e atribuímos classes para as combinações de quantis de heterogeneidade da paisagem e conectividade local de cada célula. Por exemplo, células com alta heterogeneidade local (quantil superior)  e alta conectividade local (quantil superior) são áreas com alta resiliência. Por outro lado, locais com baixa conectividade local e heterogeneidade da paisagem possuem baixa resiliência. Nas classes intermediárias estão as células com alta heterogeneidade da paisagem e baixa conectividadel local, e as células com alta conectividade local e baixa heterogeneidade da paisagem. 
+A resiliência da paisagem é classificada pela heterogeneidade da paisagem e conectividade local [@anderson_resilient_2016]. Modificamos a metodologia original de média das métricas pela classificação pelos quantis das duas variáveis. Classificamos as métricas por quantis e atribuímos classes para as combinações de quantis de heterogeneidade da paisagem e conectividade local de cada célula. Por exemplo, células com alta heterogeneidade local (quantil superior)  e alta conectividade local (quantil superior) são áreas com alta resiliência. Por outro lado, locais com baixa conectividade local e heterogeneidade da paisagem possuem baixa resiliência. Nas classes intermediárias estão as células com alta heterogeneidade da paisagem e baixa conectividadel local, e as células com alta conectividade local e baixa heterogeneidade da paisagem. 
 
 ## Base de dados
 

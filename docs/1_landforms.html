@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -256,7 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="classificando-as-formas-do-relevo">Classificando as formas do relevo</h2>
 <section id="formas-do-relevo" class="level3">
 <h3 class="anchored" data-anchor-id="formas-do-relevo">Formas do relevo</h3>
-<p>Utilizamos a metodologia proposta por Anderson <em>et al.</em> (2016) para definir as formas de relevo (do inglês, <em>landforms</em>). As formas de relevo geradas foram:</p>
+<p>Utilizamos a metodologia proposta por <span class="citation" data-cites="anderson_resilient_2016-1">Anderson et al. (<a href="#ref-anderson_resilient_2016-1" role="doc-biblioref">2016</a>)</span> para definir as formas de relevo (do inglês, <em>landforms</em>). As formas de relevo geradas foram:</p>
 <!---
 Incluir as razões para a escolha da metodologia (acima).
 Por que essa aqui abaixo não foi utilizada? Precisa explicar.
@@ -294,7 +313,7 @@ Um dos comentários do workshop foi ter cuidado com os termos utilizados. Usar:
 Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio está invertido.
 -->
 <p><img src="figura/landform_scheme.png" class="img-fluid"></p>
-<pre><code>Figura 1. Classificação das formas de relevo pela declividade, exposição, índice de posição topográfica e índice de umidade. Adaptação de Anderson et al.(2016).</code></pre>
+<pre><code>Figura 1. Classificação das formas de relevo pela declividade, exposição, índice de posição topográfica e índice de umidade. Adaptação de @anderson_resilient_2016-1.</code></pre>
 <p>As variáveis foram discretizadas em classes e combinadas para comporem os tipos de formas de relevo. Os limiares utilizados para a discretização (Tabela 1) foram definidos por ajustes visuais que melhor representavam as formas de relevo.</p>
 <pre><code>           Tabela 1. Descrição dos limiares de classificação de cada variável em classes.</code></pre>
 <table class="table">
@@ -679,13 +698,13 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 <h2 class="anchored" data-anchor-id="cálculo-da-variedade-de-formas-de-relevo">Cálculo da variedade de formas de relevo</h2>
 <section id="bases-de-dados" class="level3">
 <h3 class="anchored" data-anchor-id="bases-de-dados">Bases de dados</h3>
-<p>Nós classificamos as formas de relevo utilizando o Modelo Digital de Elevação (DEM) do Merit-DEM (Yamazaki <em>et al.</em> 2017), o acúmulo de fluxo do Merit-Hydro (Yamazaki <em>et al.</em> 2019) e a camada de uso do solo do MapBiomas (MapBiomas Project 2020). O Modelo Digital de Elevação possui uma resolução de 90 metros e foi escolhido por ser um produto global ao combinar dados dos satélites do <em>Shuttle Radar Topography Mission</em> (SRTM) (Farr <em>et al</em>. 2007) e <em>Advanced Land Observing Satellite</em> (ALOS) (Tadono <em>et al</em>. 2014), permitindo a replicabilidade da metodologia em outras regiões. O Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como <em>speckle noise</em>, <em>stripe noise</em>, <em>absolute bias</em> e <em>tree height bias</em> (Yamazaki <em>et al.</em> 2017). A correção de <em>tree height bias</em> é principalmente importante para a Floresta Amazônica devido à sua densidade de árvores altas. Além disso, há um produto derivado, o Merit-Hydro, que disponibiliza o acúmulo de fluxo global, que demandaria grande esforço computacional para ser calculado para todo o Brasil. O Merit-Hydro corrige os efeitos de densidade de árvores no cálculo da rede dendrítica, o que é importante para a Amazônia.</p>
-<p>Nós incluímos as classes de água do MapBiomas para complementar a superfície gerada pelo acúmulo de fluxo na definição de áreas planas úmidas. O MapBiomas é um projeto nacional de mapeamento e classificação de mudanças do uso do solo dos últimos 30 anos a partir de dados de sensoriamento remoto.</p>
+<p>Classificamos as formas de relevo utilizando o Modelo Digital de Elevação (DEM) do Merit-DEM <span class="citation" data-cites="yamazaki_high-accuracy_2017">(<a href="#ref-yamazaki_high-accuracy_2017" role="doc-biblioref">Yamazaki et al. 2017</a>)</span>, o acúmulo de fluxo do Merit-Hydro <span class="citation" data-cites="yamazaki_merit_2019">(<a href="#ref-yamazaki_merit_2019" role="doc-biblioref">Yamazaki et al. 2019</a>)</span> e a camada de uso do solo do MapBiomas <span class="citation" data-cites="projeto_mapbiomas_collection_2020">(<a href="#ref-projeto_mapbiomas_collection_2020" role="doc-biblioref">Projeto MapBiomas 2020</a>)</span>. O Modelo Digital de Elevação possui uma resolução de 90 metros e foi escolhido por ser um produto global ao combinar dados dos satélites do <em>Shuttle Radar Topography Mission</em> (SRTM) <span class="citation" data-cites="farr_shuttle_2007">(<a href="#ref-farr_shuttle_2007" role="doc-biblioref">Farr et al. 2007</a>)</span> e <em>Advanced Land Observing Satellite</em> (ALOS) <span class="citation" data-cites="tadono_t_ishida_h_oda_f_naito_s_minakawa_k_iwamoto_h_last_precise_2014">(<a href="#ref-tadono_t_ishida_h_oda_f_naito_s_minakawa_k_iwamoto_h_last_precise_2014" role="doc-biblioref">Tadono et al. 2014</a>)</span>, permitindo a replicabilidade da metodologia em outras regiões. O Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como <em>speckle noise</em>, <em>stripe noise</em>, <em>absolute bias</em> e <em>tree height bias</em> <span class="citation" data-cites="yamazaki_high-accuracy_2017">(<a href="#ref-yamazaki_high-accuracy_2017" role="doc-biblioref">Yamazaki et al. 2017</a>)</span>. A correção de <em>tree height bias</em> é principalmente importante para a Floresta Amazônica devido à sua densidade de árvores altas. Além disso, há um produto derivado, o Merit-Hydro, que disponibiliza o acúmulo de fluxo global, que demandaria grande esforço computacional para ser calculado para todo o Brasil. O Merit-Hydro corrige os efeitos de densidade de árvores no cálculo da rede dendrítica, o que é importante para a Amazônia.</p>
+<p>Incluímos as classes de água do MapBiomas para complementar a superfície gerada pelo acúmulo de fluxo na definição de áreas planas úmidas. O MapBiomas é um projeto nacional de mapeamento e classificação de mudanças do uso do solo dos últimos 30 anos a partir de dados de sensoriamento remoto.</p>
 </section>
 </section>
 <section id="códigos-para-a-criação-da-variedade-de-formas-do-relevo" class="level2">
 <h2 class="anchored" data-anchor-id="códigos-para-a-criação-da-variedade-de-formas-do-relevo">Códigos para a criação da variedade de formas do relevo</h2>
-<p>Nossas análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020) em <em>Python</em> (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para replicação da análise pode ser baixado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/1_landforms.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/1_landforms.ipynb</a>.</p>
+<p>As análises foram rodadas no <em>Google Earth Engine</em> <span class="citation" data-cites="gorelick_google_2017">(<a href="#ref-gorelick_google_2017" role="doc-biblioref">Gorelick et al. 2017</a>)</span>, devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> <span class="citation" data-cites="wu_geemap_2020">(<a href="#ref-wu_geemap_2020" role="doc-biblioref">Wu 2020</a>)</span> em <em>Python</em> <span class="citation" data-cites="python_software_foundation_python_2023">(<a href="#ref-python_software_foundation_python_2023" role="doc-biblioref">Python Software Foundation 2023</a>)</span> como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para replicação da análise pode ser baixado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/1_landforms.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/1_landforms.ipynb</a>.</p>
 <section id="declividade-slope" class="level3">
 <h3 class="anchored" data-anchor-id="declividade-slope">Declividade (<em>slope</em>)</h3>
 <p>Nós criamos a superfície de declividade a partir do Merit-DEM.</p>
@@ -708,9 +727,9 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 </section>
 <section id="índice-de-posição-topográfica-tpi" class="level3">
 <h3 class="anchored" data-anchor-id="índice-de-posição-topográfica-tpi">Índice de Posição Topográfica (TPI)</h3>
-<p>Nós calculamos o Índice de Posição Topográfica (TPI)(Weiss 2001) para cada célula do <em>raster</em> dentro de um <em>kernel</em> circular com 7, 11 e 15 células de raio. O TPI é a diferença média de elevação entre a célula focal e um conjunto de células vizinhas.</p>
+<p>Nós calculamos o Índice de Posição Topográfica (TPI)<span class="citation" data-cites="weiss_topographic_2001">(<a href="#ref-weiss_topographic_2001" role="doc-biblioref">Weiss 2001</a>)</span> para cada célula do <em>raster</em> dentro de um <em>kernel</em> circular com 7, 11 e 15 células de raio. O TPI é a diferença média de elevação entre a célula focal e um conjunto de células vizinhas.</p>
 <p><span class="math inline">\(TPI = \frac{\sum_{i}^{n}(vizinhança_i - focal)}{n}\)</span></p>
-<p>a vizinhança <em>i</em> representa cada uma das <em>n</em> células dentro do <em>kernel</em> da célula focal. O índice final é composto pela média de TPI das três janelas, o que permite a consideração de diferentes níveis de resolução da paisagem, tanto local quanto regional (Theobald <em>et al</em>. 2015). Os tamanhos das janelas foram definidos visualmente para que melhor representassem as formas do relevo, principalmente os <em>Summits</em>, <em>Valleys</em>, <em>Toeslopes</em> e <em>Hilltops</em> (<em>flat</em> e <em>gentle</em>). Os tamanhos das janelas também tinham que capturar os platôs das Chapadas como <em>Summits</em>.</p>
+<p>a vizinhança <em>i</em> representa cada uma das <em>n</em> células dentro do <em>kernel</em> da célula focal. O índice final é composto pela média de TPI das três janelas, o que permite a consideração de diferentes níveis de resolução da paisagem, tanto local quanto regional <span class="citation" data-cites="theobald_ecologically-relevant_2015">(<a href="#ref-theobald_ecologically-relevant_2015" role="doc-biblioref">Theobald et al. 2015</a>)</span>. Os tamanhos das janelas foram definidos visualmente para que melhor representassem as formas do relevo, principalmente os <em>Summits</em>, <em>Valleys</em>, <em>Toeslopes</em> e <em>Hilltops</em> (<em>flat</em> e <em>gentle</em>). Os tamanhos das janelas também tinham que capturar os platôs das Chapadas como <em>Summits</em>.</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função para calcular o TPI</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -742,7 +761,7 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 </section>
 <section id="índice-de-umidade-moisture-index" class="level3">
 <h3 class="anchored" data-anchor-id="índice-de-umidade-moisture-index">Índice de umidade (<em>Moisture index</em>)</h3>
-<p>Nós calculamos o índice de umidade (Anderson <em>et al</em>. 2016) baseado no acúmulo de fluxo presente no Merit-Hydro (Yamazaki <em>et al.</em> 2019), na camada <strong>upg</strong>, que é calculado sobre o Merit-DEM. O índice de umidade é calculado da seguinte forma:</p>
+<p>Nós calculamos o índice de umidade <span class="citation" data-cites="anderson_resilient_2016-1">(<a href="#ref-anderson_resilient_2016-1" role="doc-biblioref">Anderson et al. 2016</a>)</span> baseado no acúmulo de fluxo presente no Merit-Hydro <span class="citation" data-cites="yamazaki_merit_2019">(<a href="#ref-yamazaki_merit_2019" role="doc-biblioref">Yamazaki et al. 2019</a>)</span>, na camada <strong>upg</strong>, que é calculado sobre o Merit-DEM. O índice de umidade é calculado da seguinte forma:</p>
 <p><span class="math inline">\(moisture.index = \frac{\log(fluxo + 1)}{(declividade + 1)} \times 1000\)</span></p>
 <p>onde <strong><em>fluxo</em></strong> é o acúmulo de fluxo e <strong><em>declividade</em></strong> é a calculada anteriormente. O índice de umidade é a média do índice dentro de um <em>kernel</em> circular de uma célula de raio. O tamanho do raio foi escolhido visualmente para suavizar o índice, mas representando bem a distribuição dos cursos d’água.</p>
 <div class="cell" data-execution_count="7">
@@ -771,7 +790,7 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 <h2 class="anchored" data-anchor-id="convertendo-variáveis-em-classes">Convertendo variáveis em classes</h2>
 <section id="declividade-slope-1" class="level3">
 <h3 class="anchored" data-anchor-id="declividade-slope-1">Declividade (<em>slope</em>)</h3>
-<p>As variáveis foram convertidas em classes utilizando a Tabela 1, seguindo Anderson <em>et al</em>. (2016). As classes de declividade foram criadas com o seguinte código:</p>
+<p>As variáveis foram convertidas em classes utilizando a Tabela 1, seguindo <span class="citation" data-cites="anderson_resilient_2016-1">(<a href="#ref-anderson_resilient_2016-1" role="doc-biblioref">Anderson et al. 2016</a>)</span>. As classes de declividade foram criadas com o seguinte código:</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>slope_classes <span class="op">=</span> (</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    slope</span>
@@ -981,7 +1000,7 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paleta de cores das landforms</span></span>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paleta de cores das formas de relevo</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> [</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#ffc408"</span>, <span class="co"># 3</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#ffa101"</span>, <span class="co"># 4</span></span>
@@ -1035,7 +1054,7 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 <div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>geemap.plot_raster(<span class="st">"figura/landform_variety.tif"</span>, figsize <span class="op">=</span> [<span class="dv">20</span>, <span class="dv">10</span>])</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<pre><code>        Figura 3. Variedade de landforms para região de Alto Paraíso de Goiás-GO, Brasil.</code></pre>
+<pre><code>        Figura 3. Variedade de formas de relevo para região de Alto Paraíso de Goiás-GO, Brasil.</code></pre>
 <div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/landform_variety"</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1047,26 +1066,46 @@ Precisamos editar uma figura nossa para o trabalho. Até porque o quente e frio 
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala,maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="bibliografia" class="level2">
-<h2 class="anchored" data-anchor-id="bibliografia">Bibliografia</h2>
-<p>Anderson, M.G., Barnett, A., Clark, M., Ferree, C., Sheldon, A.O., Prince, J. 2016. Resilient Sites for Terrestrial Conservation in Eastern North America. The Nature Conservancy. http://easterndivision.s3.amazonaws.com/Resilient_Sites_for_Terrestrial_Conservation.pdf.</p>
-<p>Farr, T.G., et al.&nbsp;2007. The shuttle radar topography mission. Reviews of Geophysics, 45, 2, RG2004, https://doi.org/10.1029/2005RG000183.</p>
-<p>Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., Moore, R. 2017. Google Earth Engine: Planetary-scale geospatial analysis for everyone. Remote Sensing of Environment, 202, 18-27, https://doi.org/10.1016/j.rse.2017.06.031.</p>
-<p>MapBiomas Project. 2020. Collection 7 of the Annual Series of Land Use and Land Cover Maps of Brazil. Accessed on 2023 through the link: projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2.</p>
-<p>Python Software Foundation. Python Language Reference. http://www.python.org.</p>
-<p>Tadono, T., Ishida, H., Oda, F., Naito, S., Minakawa, K., Iwamoto, H. 2014. Precise Global DEM Generation by ALOS PRISM. Precise Global DEM Generation by ALOS PRISM. ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences, II-4, 71–76, https://doi.org/10.5194/isprsannals-ii-4-71-2014.</p>
-<p>Theobald, D.M., Harrison-Atlas, D., Monahan, W.B., Albano, C.M. 2015. Ecologically-relevant maps of landforms and physiographic diversity for climate adaptation planning. Plos One, 12, 1-17, https://doi.org/10.1371/journal.pone.0143619.</p>
-<p>Yamazaki, D., Ikeshima, D., Tawatari, R., Yamaguchi, T, O’Loughlin, F., Neal, J.C., Sampson, C.C., Kanae, S., Bates, P.D. 2017. A high-accuracy map of global terrain elevations. Geophysical Research Letters, 11, 5844-5853, doi:10.1002/2017GL072874.</p>
-<p>Yamazaki, D., Ikeshima, D., Sosa, J., Bates, Paul, D., Allen, G.H., Pavelsky, T.M. 2019. MERIT Hydro: A High-Resolution Global Hydrography Map Based on Latest Topography Dataset. Water Resources Research, 6, 5053-5073, https://doi.org/10.1029/2019WR024873.</p>
-<p>Iwahashi, J., Yamazaki, D. 2022. Global polygons for terrain classification divided into uniform slopes and basins. Progress in Earth and Planetary Science, 9, 33, https://doi.org/10.1186/s40645-022-00487-2.</p>
-<p>Weiss, A.D., 2001. Topographic position and landforms analysis. Poster Presentation, ESRI Users Conference, San Diego, CA.</p>
-<p>Wu, Q. 2020. geemap: A Python package for interactive mapping with Google. Journal of Open Source Software, 5, 51, 2305, https://doi.org/10.21105/joss.02305.</p>
+
 
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referências</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list">
+<div id="ref-anderson_resilient_2016-1" class="csl-entry" role="listitem">
+Anderson, M. G., M. Clark, e A. O. Sheldon. 2016. <a href="https://doi.org/10.1111/cobi.12272">Resilient <span>Sites</span> for <span>Terrestrial</span> <span>Conservation</span> in <span>Eastern</span> <span>North</span> <span>America</span></a>. Conservation Biology 28:959–970.
+</div>
+<div id="ref-farr_shuttle_2007" class="csl-entry" role="listitem">
+Farr, T. G., P. A. Rosen, E. Caro, R. Crippen, R. Duren, S. Hensley, M. Kobrick, M. Paller, E. Rodriguez, L. Roth, D. Seal, S. Shaffer, J. Shimada, J. Umland, M. Werner, M. Oskin, D. Burbank, e D. Alsdorf. 2007. <a href="https://doi.org/10.1029/2005RG000183">The <span>Shuttle</span> <span>Radar</span> <span>Topography</span> <span>Mission</span></a>. Reviews of Geophysics 45.
+</div>
+<div id="ref-gorelick_google_2017" class="csl-entry" role="listitem">
+Gorelick, N., M. Hancher, M. Dixon, S. Ilyushchenko, D. Thau, e R. Moore. 2017. <a href="https://doi.org/10.1016/j.rse.2017.06.031">Google <span>Earth</span> <span>Engine</span>: <span>Planetary</span>-scale geospatial analysis for everyone</a>. Remote Sensing of Environment.
+</div>
+<div id="ref-projeto_mapbiomas_collection_2020" class="csl-entry" role="listitem">
+Projeto MapBiomas. 2020. <a href="https://Accessed on 2023 through the link: projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2.">Collection 7 of the <span>Annual</span> <span>Series</span> of <span>Land</span> <span>Use</span> and <span>Land</span> <span>Cover</span> <span>Maps</span> of <span>Brazil</span></a>.
+</div>
+<div id="ref-python_software_foundation_python_2023" class="csl-entry" role="listitem">
+Python Software Foundation. 2023. <a href="http://www.python.org">Python <span>Language</span> <span>Reference</span></a>.
+</div>
+<div id="ref-tadono_t_ishida_h_oda_f_naito_s_minakawa_k_iwamoto_h_last_precise_2014" class="csl-entry" role="listitem">
+Tadono, T., H. Ishida, F. Oda, S. Naito, K. Minakawa, e H. Iwamoto. 2014. <a href="https://doi.org/10.5194/isprsannals-ii-4-71-2014">Precise <span>Global</span> <span>DEM</span> <span>Generation</span> by <span>ALOS</span> <span>PRISM</span>. <span>Precise</span> <span>Global</span> <span>DEM</span> <span>Generation</span> by <span>ALOS</span> <span>PRISM</span></a>. ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences II:71–76.
+</div>
+<div id="ref-theobald_ecologically-relevant_2015" class="csl-entry" role="listitem">
+Theobald, D. M., D. Harrison-Atlas, W. B. Monahan, e C. M. Albano. 2015. <a href="https://doi.org/10.1371/journal.pone.0143619">Ecologically-<span>Relevant</span> <span>Maps</span> of <span>Landforms</span> and <span>Physiographic</span> <span>Diversity</span> for <span>Climate</span> <span>Adaptation</span> <span>Planning</span></a>. PLOS ONE 10:e0143619.
+</div>
+<div id="ref-weiss_topographic_2001" class="csl-entry" role="listitem">
+Weiss, A. C. 2001. Topographic position and landforms analysis. San Diego, CA, USA.
+</div>
+<div id="ref-wu_geemap_2020" class="csl-entry" role="listitem">
+Wu, Q. 2020. <a href="https://doi.org/10.21105/joss.02305">geemap: <span>A</span> <span>Python</span> package for interactive mapping with <span>Google</span> <span>Earth</span> <span>Engine</span></a>. Journal of Open Source Software 5:2305.
+</div>
+<div id="ref-yamazaki_merit_2019" class="csl-entry" role="listitem">
+Yamazaki, D., D. Ikeshima, J. Sosa, P. D. Bates, G. H. Allen, e T. M. Pavelsky. 2019. <a href="https://doi.org/10.1029/2019WR024873"><span>MERIT</span> <span>Hydro</span>: <span>A</span> <span>High</span>‐<span>Resolution</span> <span>Global</span> <span>Hydrography</span> <span>Map</span> <span>Based</span> on <span>Latest</span> <span>Topography</span> <span>Dataset</span></a>. Water Resources Research 55:5053–5073.
+</div>
+<div id="ref-yamazaki_high-accuracy_2017" class="csl-entry" role="listitem">
+Yamazaki, D., D. Ikeshima, R. Tawatari, T. Yamaguchi, F. O’Loughlin, J. C. Neal, C. C. Sampson, S. Kanae, e P. D. Bates. 2017. <a href="https://doi.org/10.1002/2017GL072874">A high-accuracy map of global terrain elevations: <span>Accurate</span> <span>Global</span> <span>Terrain</span> <span>Elevation</span> map</a>. Geophysical Research Letters 44:5844–5853.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

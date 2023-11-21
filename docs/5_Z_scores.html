@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -249,13 +268,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="cálculo-do-valor-de-z" class="level2">
 <h2 class="anchored" data-anchor-id="cálculo-do-valor-de-z">Cálculo do valor de Z</h2>
-<p>Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de formas de relevo, amplitude altitudinal, densidade, quantidade de áreas úmidas e riqueza de solo) em valores de Z. O cálculo de Z é realizado dentro das janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em índice de áreas úmidas.</p>
+<p>Antes de calcularmos a diversidade da paisagem e a resiliência, nós transformamos as variáveis (variedade de formas de relevo, amplitude altitudinal, densidade, quantidade de áreas úmidas e riqueza de solo) em valores de Z <span class="citation" data-cites="anderson_resilient_2016-1">(<a href="#ref-anderson_resilient_2016-1" role="doc-biblioref">Anderson et al. 2016</a>)</span>. O cálculo de Z é realizado dentro das janelas móveis. Um fato importante é a posterior tranformação dos valores de densidade e quantidade de áreas úmidas em índice de áreas úmidas.</p>
 <p>Os valores de Z de cada variável, em cada célula (i), é o desvio do valor da célula da média da janela móvel (u), divido pelo seu desvio padrão:</p>
 <p><span class="math display">\[Z-score_{iu} = \frac{i - media_{u}}{desviopadrao_{u}}\]</span></p>
 </section>
 <section id="índice-de-áreas-úmidas" class="level2">
 <h2 class="anchored" data-anchor-id="índice-de-áreas-úmidas">Índice de áreas úmidas</h2>
-<p>O índice de áreas úmidas é a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o índice de áreas úmidas assume o segundo valor Z.</p>
+<p>O índice de áreas úmidas é a média ponderada das densidades locais e regionais de áreas úmidas. Em locais onde o valor de Z da densidade média é menor que o Z da quantidade de áreas úmidas, o índice de áreas úmidas assume o segundo valor Z <span class="citation" data-cites="anderson_resilient_2016-1">(<a href="#ref-anderson_resilient_2016-1" role="doc-biblioref">Anderson et al. 2016</a>)</span>.</p>
 <p><span class="math display">\[
 \tiny
 índice\ de\ áreas\ úmidas =
@@ -279,7 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="códigos-para-o-cálculo-dos-valores-de-z" class="level2">
 <h2 class="anchored" data-anchor-id="códigos-para-o-cálculo-dos-valores-de-z">Códigos para o cálculo dos valores de Z</h2>
-<p>As análises foram rodadas no Google Earth Engine (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote geemap (Wu 2020) em Python (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para reprodução da análise pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/5_Z_scores.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/5_Z_scores.ipynb</a>.</p>
+<p>As análises foram rodadas no <em>Google Earth Engine</em> <span class="citation" data-cites="gorelick_google_2017">(<a href="#ref-gorelick_google_2017" role="doc-biblioref">Gorelick et al. 2017</a>)</span>, devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> <span class="citation" data-cites="wu_geemap_2020">(<a href="#ref-wu_geemap_2020" role="doc-biblioref">Wu 2020</a>)</span> em <em>Python</em> <span class="citation" data-cites="python_software_foundation_python_2023">(<a href="#ref-python_software_foundation_python_2023" role="doc-biblioref">Python Software Foundation 2023</a>)</span> como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para reprodução da análise pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/5_Z_scores.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/5_Z_scores.ipynb</a>.</p>
 <p>Primeiro, criamos uma função para calcular o valor de Z dentro de cada janela móvel (<strong>code</strong>) para cada variável (<strong>image</strong>). A função calcula a média e desvio padrão para a vizinhança de cada célula, utilizando uma janela móvel circular. Depois, os valores e média e desvio padrão convertidos para valores de Z pela subtração da variável pela média e divida pelo desvio padrão.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_Z_scores(image, windows):</span>
@@ -450,9 +469,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referências</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list">
+<div id="ref-anderson_resilient_2016-1" class="csl-entry" role="listitem">
+Anderson, M. G., M. Clark, e A. O. Sheldon. 2016. <a href="https://doi.org/10.1111/cobi.12272">Resilient <span>Sites</span> for <span>Terrestrial</span> <span>Conservation</span> in <span>Eastern</span> <span>North</span> <span>America</span></a>. Conservation Biology 28:959–970.
+</div>
+<div id="ref-gorelick_google_2017" class="csl-entry" role="listitem">
+Gorelick, N., M. Hancher, M. Dixon, S. Ilyushchenko, D. Thau, e R. Moore. 2017. <a href="https://doi.org/10.1016/j.rse.2017.06.031">Google <span>Earth</span> <span>Engine</span>: <span>Planetary</span>-scale geospatial analysis for everyone</a>. Remote Sensing of Environment.
+</div>
+<div id="ref-python_software_foundation_python_2023" class="csl-entry" role="listitem">
+Python Software Foundation. 2023. <a href="http://www.python.org">Python <span>Language</span> <span>Reference</span></a>.
+</div>
+<div id="ref-wu_geemap_2020" class="csl-entry" role="listitem">
+Wu, Q. 2020. <a href="https://doi.org/10.21105/joss.02305">geemap: <span>A</span> <span>Python</span> package for interactive mapping with <span>Google</span> <span>Earth</span> <span>Engine</span></a>. Journal of Open Source Software 5:2305.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

@@ -22,15 +22,15 @@ geemap.ee_initialize()
 
 A amplitude altitudinal foi calculada como a diferença entre a altitude máxima e mínima dentro da vizinhaça da célula focal. 
 Como essa métrica é correlacionada com a variedade de formas de relevo, nós calculamos o resíduos de uma 
-regressão (*Ordinary Least Squares*) entre as duas váriaveis. Assim, a amplitude altitudinal residual é independente da variedade de formas de relevo. Isso permite a identificação de locais que tenham maior variabilidade microclimática que aquela proporcionada pela variedade de de formas de relevo, quando calcularmos o índice de diversidade da paisagem.
+regressão (*Ordinary Least Squares*) entre as duas váriaveis. Assim, a amplitude altitudinal residual é independente da variedade de formas de relevo. Isso permite a identificação de locais que tenham maior variabilidade microclimática que aquela proporcionada pela variedade de formas de relevo, quando calcularmos o índice de diversidade da paisagem.
 
 ## Base de dados
 
-Nós utilizamos o Modelo Digital de Elevação (DEM) do Merit-DEM (Yamazaki *et al.* 2017), na escala de 90 metros. O Merit-DEM é um produto global que combina dados dos satélites do Shuttle Radar Topography Mission (SRTM) (Farr *et al.* 2007) e Advanced Land Observing Satellite (ALOS) (Tadono *et al.* 2014), permitindo a replicabilidade da metodologia em outras regiões. Além disso, o Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como *speckle noise*, *stripe noise*, *absolute bias* e *tree height bias* (Yamazaki *et al.* 2017). A correção de *tree height bias* é especialmente importante para a Floresta Amazônica devido à sua densidade de árvores altas. 
+Utilizamos o Modelo Digital de Elevação (DEM) do Merit-DEM [@yamazaki_high-accuracy_2017], na escala de 90 metros. O Merit-DEM é um produto global que combina dados dos satélites do Shuttle Radar Topography Mission (SRTM) [@farr_shuttle_2007] e Advanced Land Observing Satellite (ALOS) [@tadono_t_ishida_h_oda_f_naito_s_minakawa_k_iwamoto_h_last_precise_2014], permitindo a replicabilidade da metodologia em outras regiões. Além disso, o Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como *speckle noise*, *stripe noise*, *absolute bias* e *tree height bias* [@yamazaki_high-accuracy_2017]. A correção de *tree height bias* é especialmente importante para a Floresta Amazônica devido à sua densidade de árvores altas. 
 
 A variedade de formas de relevo foi calculada anteriormente (veja o capítulo [Variedade de formas de relevo](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/1_landforms.html)) e está disponível como um *asset* em **[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety)**.   
 
-As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido à demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em [https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb). 
+As análises foram rodadas no *Google Earth Engine* [@gorelick_google_2017], devido à demanda computacional do projeto, usando o pacote **geemap** [@wu_geemap_2020] em *Python* [@python_software_foundation_python_2023] como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em [https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb). 
 
 ## Códigos para o cálculo da amplitude altitudinal residual
 
@@ -99,7 +99,7 @@ Dessa forma, aplicamos a regressão entre as variáveis.
 # Rode uma regressão linear (OLS) entre varidade formas de relevo e amplitude altitudinal
 regression = elevation.reduceRegion(**{
      'reducer': ee.Reducer.linearFit(),
-     'geometry': bioma_box,
+     'geometry': regiao_box,
      'maxPixels': 1e13,
      'scale': escala
     })

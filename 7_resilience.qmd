@@ -17,7 +17,7 @@ import geemap
 geemap.ee_initialize()
 ```
 
-A resiliência da paisagem é classificada pela heterogeneidade da paisagem e conectividade local. Calculamos os quantis das duas variáveis, classificamos as variáveis pelos quantis e atribuímos classes representando o grau de heterogeneidade da paisagem e conectividade local de cada célula. Por exemplo, células com alta heterogeneidade local (quantil superior)  e alta conectividade local (quantil superior) são áreas com alta resiliência. Por outro lado, locais com baixa conectividade local e heterogeneidade da paisagem possuem baixa resiliência. Nas classes intermediárias estão as células com alta heterogeneidade da paisagem e baixa conectividadel local, e as células com alta conectividade local e baixa heterogeneidade da paisagem. 
+A resiliência da paisagem é classificada pela heterogeneidade da paisagem e conectividade local [@anderson_resilient_2016-1]. Modificamos a metodologia original de média das métricas pela classificação pelos quantis das duas variáveis. Classificamos as métricas por quantis e atribuímos classes para as combinações de quantis de heterogeneidade da paisagem e conectividade local de cada célula. Por exemplo, células com alta heterogeneidade local (quantil superior)  e alta conectividade local (quantil superior) são áreas com alta resiliência. Por outro lado, locais com baixa conectividade local e heterogeneidade da paisagem possuem baixa resiliência. Nas classes intermediárias estão as células com alta heterogeneidade da paisagem e baixa conectividadel local, e as células com alta conectividade local e baixa heterogeneidade da paisagem. 
 
 ## Base de dados
 
@@ -25,7 +25,7 @@ Os dados utilizados para calcular a resiliência da paisagem são os mapa de het
 
 ## Códigos para a criação da resiliência da paisagem
 
-As análises foram rodadas no *Google Earth Engine* (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote **geemap** (Wu 2020) em *Python* (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em [https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/7_resilience.ipynb](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/7_resilience.ipynb).
+As análises foram rodadas no *Google Earth Engine* [@gorelick_google_2017], devido a demanda computacional do projeto, usando o pacote **geemap** [@wu_geemap_2020] em *Python* [@python_software_foundation_python_2023] como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em [https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/7_resilience.ipynb](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/7_resilience.ipynb).
 
 Primeiro, importamos o polígono de biomas do Brasil para extraímos as coordenadas geográficas mínimas e máximas. Extraímos também a escala do modelo digital de elevação que usamos nas análises anteriores.
 

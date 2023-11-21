@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -249,8 +268,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>geemap.ee_initialize()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>O índice de áreas úmidas é uma combinação da densidade de áreas úmidas localmente com a densidade e quantidade de áreas úmidas regionalmente. O índice de áreas úmidas entra no cálculo da diversidade da paisagem em locais planos e úmidos, com baixa variedade de <em>landforms</em> e baixa amplitude de elevação. Nesses locais a variação microclimática seria baixa devido a baixa variabilidade topográfica e geomorfológica, mas como há alta densidade de áreas úmidas, esses locais atuam regulando a variabilidade microclimática localmente.</p>
-<p>Existem três cenários de distribuição de áreas úmidas, os locais (1) estão presentes em áreas com alta densidade de áreas úmidas no entorno, (2) os locais estão situados em áreas com baixa densidade de áreas úmidas localmente, mas alta densidade regionalmente e (3) os locais estão presentes em áreas com alta quantidade de áreas úmidas, mas baixa densidade devido a sua distribuição espacial. Dessa forma, o índice de áreas úmidas é composto pelos três cenários citados anteriormente, primeiro é calculado a densidade local, regional e a quantidade regional e, para cada métrica, é calculado um valor de Z, subtraindo pela média e dividindo pelo desvio padrão. A densidade de áreas úmidas é a média ponderada dos valores de Z da densidade local e regional (peso duplo para a densidade local). Nos locais onde os valores de Z da quantidade de áreas úmidas regional é maior que a densidade média calculada anteriormente, o índice torna-se a média ponderada da densidade local, densidade regional e quantidade de áreas úmidas regional (duplo peso para a densidade local).</p>
+<p>O índice de áreas úmidas é uma combinação da densidade de áreas úmidas localmente com a densidade e quantidade de áreas úmidas regionalmente. O índice de áreas úmidas entra no cálculo da diversidade da paisagem em locais planos e úmidos, com baixa variedade de formas de relevo e baixa amplitude altitudinal. Nesses locais a variação microclimática seria baixa devido a baixa variabilidade topográfica e geomorfológica, mas como há alta densidade de áreas úmidas, esses locais atuam regulando a variabilidade microclimática localmente <span class="citation" data-cites="anderson_resilient_2016-1">(<a href="#ref-anderson_resilient_2016-1" role="doc-biblioref">Anderson et al. 2016</a>)</span>.</p>
+<p>Existem três cenários de distribuição de áreas úmidas: * (1) Os locais estão presentes em áreas com alta densidade de áreas úmidas no entorno, * (2) Os locais estão situados em áreas com baixa densidade de áreas úmidas localmente, mas alta densidade regionalmente, * (3) Os locais estão presentes em áreas com alta quantidade de áreas úmidas, mas baixa densidade devido a sua distribuição espacial.</p>
+<p>Dessa forma, o índice de áreas úmidas é composto pelos três cenários citados anteriormente, primeiro é calculado a densidade local, regional e a quantidade regional e, para cada métrica, é calculado um valor de Z, subtraindo pela média e dividindo pelo desvio padrão. A densidade de áreas úmidas é a média ponderada dos valores de Z da densidade local e regional (peso duplo para a densidade local). Nos locais onde os valores de Z da quantidade de áreas úmidas regional é maior que a densidade média calculada anteriormente, o índice torna-se a média ponderada da densidade local, densidade regional e quantidade de áreas úmidas regional (duplo peso para a densidade local) <span class="citation" data-cites="anderson_resilient_2016-1">(<a href="#ref-anderson_resilient_2016-1" role="doc-biblioref">Anderson et al. 2016</a>)</span>.</p>
 <p><span class="math display">\[
 \tiny
 índice\ de\ áreas\ úmidas =
@@ -263,12 +283,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="banco-de-dados" class="level2">
 <h2 class="anchored" data-anchor-id="banco-de-dados">Banco de dados</h2>
-<p>Utilizamos como base de dados de áreas úmidas o <em>Global Wetlands database</em> (Gumbricht <em>et al.</em> 2017). Reprojetamos o <em>raster</em> de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 92 metros).</p>
+<p>Utilizamos como base de dados de áreas úmidas o <em>Global Wetlands database</em> <span class="citation" data-cites="gumbricht_tropical_2017">(<a href="#ref-gumbricht_tropical_2017" role="doc-biblioref">Gumbricht et al. 2017</a>)</span>. Reprojetamos o <em>raster</em> de áreas úmidas para a mesma resolução do modelo digital de elevação usado nas etapas anteriores (~ 92 metros).</p>
 <p>Retiramos as áreas úmidas classificadas como sistemas lacustres e ribeirinhos (<em>riverines</em> e <em>lacustrines</em>) e reclassificamos o <em>raster</em> como sendo área úmida (1) ou não sendo área úmida (0). Depois, calculamos a densidade de áreas úmidas dentro de uma vizinhaça de 450 metros (5 células) de raio de um <em>kernel</em> circular (densidade local). Calculamos também a densidade e a quantidade de áreas úmidas na vizinhança de ~ 1170 metros (13 células) (regional).</p>
 </section>
 <section id="código-para-calcular-as-densidades-e-quantidade-de-áreas-úmidas" class="level2">
 <h2 class="anchored" data-anchor-id="código-para-calcular-as-densidades-e-quantidade-de-áreas-úmidas">Código para calcular as densidades e quantidade de áreas úmidas</h2>
-<p>As análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020) em <em>Python</em> (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para reprodução das análises pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/3_wetland_score.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/3_wetland_score.ipynb</a>.</p>
+<p>As análises foram rodadas no <em>Google Earth Engine</em> <span class="citation" data-cites="gorelick_google_2017">(<a href="#ref-gorelick_google_2017" role="doc-biblioref">Gorelick et al. 2017</a>)</span>, devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> <span class="citation" data-cites="wu_geemap_2020">(<a href="#ref-wu_geemap_2020" role="doc-biblioref">Wu 2020</a>)</span> em <em>Python</em> <span class="citation" data-cites="python_software_foundation_python_2023">(<a href="#ref-python_software_foundation_python_2023" role="doc-biblioref">Python Software Foundation 2023</a>)</span> como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para reprodução das análises pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/3_wetland_score.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/3_wetland_score.ipynb</a>.</p>
 <p>Primeiro, nós importamos os polígonos dos biomas do Brasil e extraímos suas coordenadas geográficas máximas e mínimas para delimitar a região de análise. Importamos o modelo digital de elevação e o <em>raster</em> de áreas úmidas e reprojetamos a resolução das áreas úmidas para a resolução do modelo digital de elevação.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando mapa de biomas do IBGE para extrair as coordenadas </span></span>
@@ -382,9 +402,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referências</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list">
+<div id="ref-anderson_resilient_2016-1" class="csl-entry" role="listitem">
+Anderson, M. G., M. Clark, e A. O. Sheldon. 2016. <a href="https://doi.org/10.1111/cobi.12272">Resilient <span>Sites</span> for <span>Terrestrial</span> <span>Conservation</span> in <span>Eastern</span> <span>North</span> <span>America</span></a>. Conservation Biology 28:959–970.
+</div>
+<div id="ref-gorelick_google_2017" class="csl-entry" role="listitem">
+Gorelick, N., M. Hancher, M. Dixon, S. Ilyushchenko, D. Thau, e R. Moore. 2017. <a href="https://doi.org/10.1016/j.rse.2017.06.031">Google <span>Earth</span> <span>Engine</span>: <span>Planetary</span>-scale geospatial analysis for everyone</a>. Remote Sensing of Environment.
+</div>
+<div id="ref-gumbricht_tropical_2017" class="csl-entry" role="listitem">
+Gumbricht, T., R. M. Román-Cuesta, L. V. Verchot, M. Herold, F. Wittmann, E. Householder, N. Herold, e D. Murdiyarso. 2017. <a href="https://doi.org/10.17528/cifor/data.00058">Tropical and subtropical wetlands distribution version 2</a>.
+</div>
+<div id="ref-python_software_foundation_python_2023" class="csl-entry" role="listitem">
+Python Software Foundation. 2023. <a href="http://www.python.org">Python <span>Language</span> <span>Reference</span></a>.
+</div>
+<div id="ref-wu_geemap_2020" class="csl-entry" role="listitem">
+Wu, Q. 2020. <a href="https://doi.org/10.21105/joss.02305">geemap: <span>A</span> <span>Python</span> package for interactive mapping with <span>Google</span> <span>Earth</span> <span>Engine</span></a>. Journal of Open Source Software 5:2305.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

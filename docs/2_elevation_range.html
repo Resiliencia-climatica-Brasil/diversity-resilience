@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -250,13 +269,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="cálculo-da-amplitude-altitudinal" class="level2">
 <h2 class="anchored" data-anchor-id="cálculo-da-amplitude-altitudinal">Cálculo da amplitude altitudinal</h2>
-<p>A amplitude altitudinal foi calculada como a diferença entre a altitude máxima e mínima dentro da vizinhaça da célula focal. Como essa métrica é correlacionada com a variedade de formas de relevo, nós calculamos o resíduos de uma regressão (<em>Ordinary Least Squares</em>) entre as duas váriaveis. Assim, a amplitude altitudinal residual é independente da variedade de formas de relevo. Isso permite a identificação de locais que tenham maior variabilidade microclimática que aquela proporcionada pela variedade de de formas de relevo, quando calcularmos o índice de diversidade da paisagem.</p>
+<p>A amplitude altitudinal foi calculada como a diferença entre a altitude máxima e mínima dentro da vizinhaça da célula focal. Como essa métrica é correlacionada com a variedade de formas de relevo, nós calculamos o resíduos de uma regressão (<em>Ordinary Least Squares</em>) entre as duas váriaveis. Assim, a amplitude altitudinal residual é independente da variedade de formas de relevo. Isso permite a identificação de locais que tenham maior variabilidade microclimática que aquela proporcionada pela variedade de formas de relevo, quando calcularmos o índice de diversidade da paisagem.</p>
 </section>
 <section id="base-de-dados" class="level2">
 <h2 class="anchored" data-anchor-id="base-de-dados">Base de dados</h2>
-<p>Nós utilizamos o Modelo Digital de Elevação (DEM) do Merit-DEM (Yamazaki <em>et al.</em> 2017), na escala de 90 metros. O Merit-DEM é um produto global que combina dados dos satélites do Shuttle Radar Topography Mission (SRTM) (Farr <em>et al.</em> 2007) e Advanced Land Observing Satellite (ALOS) (Tadono <em>et al.</em> 2014), permitindo a replicabilidade da metodologia em outras regiões. Além disso, o Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como <em>speckle noise</em>, <em>stripe noise</em>, <em>absolute bias</em> e <em>tree height bias</em> (Yamazaki <em>et al.</em> 2017). A correção de <em>tree height bias</em> é especialmente importante para a Floresta Amazônica devido à sua densidade de árvores altas.</p>
+<p>Utilizamos o Modelo Digital de Elevação (DEM) do Merit-DEM <span class="citation" data-cites="yamazaki_high-accuracy_2017">(<a href="#ref-yamazaki_high-accuracy_2017" role="doc-biblioref">Yamazaki et al. 2017</a>)</span>, na escala de 90 metros. O Merit-DEM é um produto global que combina dados dos satélites do Shuttle Radar Topography Mission (SRTM) <span class="citation" data-cites="farr_shuttle_2007">(<a href="#ref-farr_shuttle_2007" role="doc-biblioref">Farr et al. 2007</a>)</span> e Advanced Land Observing Satellite (ALOS) <span class="citation" data-cites="tadono_t_ishida_h_oda_f_naito_s_minakawa_k_iwamoto_h_last_precise_2014">(<a href="#ref-tadono_t_ishida_h_oda_f_naito_s_minakawa_k_iwamoto_h_last_precise_2014" role="doc-biblioref">Tadono et al. 2014</a>)</span>, permitindo a replicabilidade da metodologia em outras regiões. Além disso, o Merit-DEM corrige viéses de Modelo Digitais de Elevação gerados por imagens de satétite como <em>speckle noise</em>, <em>stripe noise</em>, <em>absolute bias</em> e <em>tree height bias</em> <span class="citation" data-cites="yamazaki_high-accuracy_2017">(<a href="#ref-yamazaki_high-accuracy_2017" role="doc-biblioref">Yamazaki et al. 2017</a>)</span>. A correção de <em>tree height bias</em> é especialmente importante para a Floresta Amazônica devido à sua densidade de árvores altas.</p>
 <p>A variedade de formas de relevo foi calculada anteriormente (veja o capítulo <a href="https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/1_landforms.html">Variedade de formas de relevo</a>) e está disponível como um <em>asset</em> em <strong><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety</a></strong>.</p>
-<p>As análises foram rodadas no <em>Google Earth Engine</em> (Gorelick 2017), devido à demanda computacional do projeto, usando o pacote <strong>geemap</strong> (Wu 2020) em <em>Python</em> (Python Software Foundation 2023) como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb</a>.</p>
+<p>As análises foram rodadas no <em>Google Earth Engine</em> <span class="citation" data-cites="gorelick_google_2017">(<a href="#ref-gorelick_google_2017" role="doc-biblioref">Gorelick et al. 2017</a>)</span>, devido à demanda computacional do projeto, usando o pacote <strong>geemap</strong> <span class="citation" data-cites="wu_geemap_2020">(<a href="#ref-wu_geemap_2020" role="doc-biblioref">Wu 2020</a>)</span> em <em>Python</em> <span class="citation" data-cites="python_software_foundation_python_2023">(<a href="#ref-python_software_foundation_python_2023" role="doc-biblioref">Python Software Foundation 2023</a>)</span> como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/2_elevation_range.ipynb</a>.</p>
 </section>
 <section id="códigos-para-o-cálculo-da-amplitude-altitudinal-residual" class="level2">
 <h2 class="anchored" data-anchor-id="códigos-para-o-cálculo-da-amplitude-altitudinal-residual">Códigos para o cálculo da amplitude altitudinal residual</h2>
@@ -314,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rode uma regressão linear (OLS) entre varidade formas de relevo e amplitude altitudinal</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>regression <span class="op">=</span> elevation.reduceRegion(<span class="op">**</span>{</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>     <span class="st">'reducer'</span>: ee.Reducer.linearFit(),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="st">'geometry'</span>: bioma_box,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="st">'geometry'</span>: regiao_box,</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>     <span class="st">'maxPixels'</span>: <span class="fl">1e13</span>,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>     <span class="st">'scale'</span>: escala</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    })</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -347,9 +366,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referências</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list">
+<div id="ref-farr_shuttle_2007" class="csl-entry" role="listitem">
+Farr, T. G., P. A. Rosen, E. Caro, R. Crippen, R. Duren, S. Hensley, M. Kobrick, M. Paller, E. Rodriguez, L. Roth, D. Seal, S. Shaffer, J. Shimada, J. Umland, M. Werner, M. Oskin, D. Burbank, e D. Alsdorf. 2007. <a href="https://doi.org/10.1029/2005RG000183">The <span>Shuttle</span> <span>Radar</span> <span>Topography</span> <span>Mission</span></a>. Reviews of Geophysics 45.
+</div>
+<div id="ref-gorelick_google_2017" class="csl-entry" role="listitem">
+Gorelick, N., M. Hancher, M. Dixon, S. Ilyushchenko, D. Thau, e R. Moore. 2017. <a href="https://doi.org/10.1016/j.rse.2017.06.031">Google <span>Earth</span> <span>Engine</span>: <span>Planetary</span>-scale geospatial analysis for everyone</a>. Remote Sensing of Environment.
+</div>
+<div id="ref-python_software_foundation_python_2023" class="csl-entry" role="listitem">
+Python Software Foundation. 2023. <a href="http://www.python.org">Python <span>Language</span> <span>Reference</span></a>.
+</div>
+<div id="ref-tadono_t_ishida_h_oda_f_naito_s_minakawa_k_iwamoto_h_last_precise_2014" class="csl-entry" role="listitem">
+Tadono, T., H. Ishida, F. Oda, S. Naito, K. Minakawa, e H. Iwamoto. 2014. <a href="https://doi.org/10.5194/isprsannals-ii-4-71-2014">Precise <span>Global</span> <span>DEM</span> <span>Generation</span> by <span>ALOS</span> <span>PRISM</span>. <span>Precise</span> <span>Global</span> <span>DEM</span> <span>Generation</span> by <span>ALOS</span> <span>PRISM</span></a>. ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences II:71–76.
+</div>
+<div id="ref-wu_geemap_2020" class="csl-entry" role="listitem">
+Wu, Q. 2020. <a href="https://doi.org/10.21105/joss.02305">geemap: <span>A</span> <span>Python</span> package for interactive mapping with <span>Google</span> <span>Earth</span> <span>Engine</span></a>. Journal of Open Source Software 5:2305.
+</div>
+<div id="ref-yamazaki_high-accuracy_2017" class="csl-entry" role="listitem">
+Yamazaki, D., D. Ikeshima, R. Tawatari, T. Yamaguchi, F. O’Loughlin, J. C. Neal, C. C. Sampson, S. Kanae, e P. D. Bates. 2017. <a href="https://doi.org/10.1002/2017GL072874">A high-accuracy map of global terrain elevations: <span>Accurate</span> <span>Global</span> <span>Terrain</span> <span>Elevation</span> map</a>. Geophysical Research Letters 44:5844–5853.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

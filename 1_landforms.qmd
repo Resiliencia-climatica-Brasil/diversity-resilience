@@ -527,12 +527,14 @@ geemap.ee_export_image(
 ```
 
 ```{python}
+#| scrolled: true
 geemap.plot_raster("figura/landform_variety.tif", figsize = [20, 10])
 ```
 
             Figura 3. Variedade de formas de relevo para região de Alto Paraíso de Goiás-GO, Brasil.
 
 ```{python}
+# modifique o assetId para o endereço do seu projeto
 assetId = "projects/ee-lucasljardim9/assets/landform_variety"
 
 geemap.ee_export_image_to_asset(

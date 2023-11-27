@@ -52,6 +52,8 @@ escala = DEM.projection().nominalScale()
 Importamos os mapas de heterogeneidade da paisagem e conectividade local.
 
 ```{python}
+# modifique os endereços para os do seu projeto
+
 local_connectedness = ee.Image("projects/ee-lucasljardim9/assets/local_connectedness")
 
 landscape_heterogeneity = ee.Image("projects/ee-lucasljardim9/assets/landscape_heterogeneity")
@@ -114,6 +116,8 @@ Exportamos o mapa de resiliência como um *asset* no *Google Earth Engine*.
 
 ```{python}
 # Exporte o raster de resiliência
+# modifique o assetId para o do seu projeto
+
 assetId = "projects/ee-lucasljardim9/assets/resilience"
 
 geemap.ee_export_image_to_asset(

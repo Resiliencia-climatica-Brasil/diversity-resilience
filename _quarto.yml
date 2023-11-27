@@ -2,6 +2,7 @@ project:
   type: website
   output-dir: docs
   render:
+    - 0_instalacao.qmd
     - 1_landforms.qmd
     - 2_elevation_range.qmd  
     - 3_wetland_score.qmd
@@ -33,6 +34,7 @@ website:
     contents:
       - section: "Sumário"
         contents:
+          - 0_instalacao.qmd
           - 1_landforms.qmd
           - 2_elevation_range.qmd   
           - 3_wetland_score.qmd

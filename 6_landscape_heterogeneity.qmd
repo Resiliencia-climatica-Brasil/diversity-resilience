@@ -58,6 +58,7 @@ Importamos os mapas.
 
 ```{python}
 # Importando e cortando as imagens para o Brasil
+# modifique os endereços para os do seu projeto
 landform_Z = ee.Image('projects/ee-lucasljardim9/assets/Z_landform_variety')
               
 
@@ -155,6 +156,7 @@ landscape_diversity = (landscape_diversity
 
 ```{python}
 # Exporte o raster de heterogeneidade da paisagem
+# modifique assetId para o do seu projeto
 assetId = "projects/ee-lucasljardim9/assets/landscape_heterogeneity"
 
 geemap.ee_export_image_to_asset(

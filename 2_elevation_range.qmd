@@ -54,6 +54,7 @@ Importamos os *rasters* do modelo digital de elevação e da variedade de formas
 DEM = ee.Image("MERIT/DEM/v1_0_3")
 
 # Importando a variedade de landforms calculada anteriormente
+# modifique o endereço para o do seu projeto
 landform_variety = ee.Image("projects/ee-lucasljardim9/assets/landform_variety")
 
 #Escala dos rasters ~92 metros
@@ -122,7 +123,7 @@ Por fim, exportamos o raster de amplitude altitudinal residual como um *asset* d
 
 ```{python}
 # Exporte a amplitude altitudinal residual como asset
-
+# modifique o assetId para o do seu projeto
 assetId = "projects/ee-lucasljardim9/assets/elevation_range_residual"
 
 geemap.ee_export_image_to_asset(

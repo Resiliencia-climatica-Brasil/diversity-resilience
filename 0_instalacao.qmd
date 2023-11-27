@@ -1,0 +1,75 @@
+---
+title: Instalação e ambiente para as análises
+jupyter: python3
+---
+
+
+
+As análises deste tutorial foram rodadas no [*Google Earth Engine* (GEE)](https://earthengine.google.com/) utilizando como interface o pacote **geemap** em *Python*. O tutorial está escrito no *JupyterNotebook*. Dessa forma, para a reprodução das análises é necessário a criação de uma conta no [GEE](https://earthengine.google.com/signup/). Em seguida, instale o [*Python*](https://www.python.org/), se não estiver instalado. Com o *Python* instalado, instale o [*JupyterNotebook*](https://jupyter.org/install). Por fim, instale o pacote [**geemap**](https://geemap.org/installation/).  
+
+Alguns pacotes auxiliares também são usados para produzir e exportar figuras como **os** e **matplotlib**. Escreva na linha de comando os seguintes códigos para instalar:
+
+```{python}
+pip install os
+
+pip install matplotlib
+```
+
+Os dados utilizados nas análises já estão como *assets* no GEE. No entanto, se o usuário quiser adicionar outras bases de dados nas suas análises, esse [tutorial](https://developers.google.com/earth-engine/guides/asset_manager) ensina como fazer *upload* de arquivos para a sua conta no GEE.
+
+## Bases importadas 
+
+* Arquivo vetorial dos biomas do Brasil produzido pelo [IBGE](http://geoftp.ibge.gov.br/informacoes_ambientais/estudos_ambientais/biomas/vetores/Biomas_250mil.zip).
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Biome](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Biome).
+
+* Arquivo matricial com a classificação de áreas úmidas global produzido pelo *Sustainable Wetlands Adaptation and Mitigation Program ( SWAMP )*, *Center for International Forestry Research (CIFOR)* e *United States Forest Service*.
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Cifor_wetlands](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Cifor_wetlands).
+
+* Arquivo vetorial de pedologia do Brasil produzido pelo [IBGE](https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip). 
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/pedo_area](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/pedo_area).
+
+* Arquivo matricial da [conectividade local](https://resiliencia-climatica-brasil.github.io/Relatorio_final/Conectividade_local.html) produzido neste projeto utilizando o [*Omniscape*](https://docs.circuitscape.org/Omniscape.jl/latest/).
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness).
+
+# Base importada do MapBiomas
+
+[https://code.earthengine.google.com/?asset=projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2](https://code.earthengine.google.com/?asset=projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2).
+
+# Bases disponibilizadas pelo catálogo do *Google Earth Engine*
+
+https://developers.google.com/earth-engine/datasets/catalog/MERIT_DEM_v1_0_3
+
+https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1
+
+
+# Dados produzidos pelas análises
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_landform_variety
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_elevation_range
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_wetlands_score
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_soil_diversity
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landscape_heterogeneity
+
+https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience
+
+

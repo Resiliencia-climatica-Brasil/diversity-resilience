@@ -21,7 +21,7 @@ A riqueza de solos é calculada como a quantidade de componentes da unidade de m
 
 ## Banco de Dados
 
-Utilizamos a base de dados de pedologia do Instituto Brasileiro de Geografia e Estatística (IBGE) ([https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip](https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip)) para o cálculo da riqueza de solos. Calculamos a quantidade de solos componentes de cada polígono e rasterizados na escala do modelo digital de elevação utilizado nas etapas anteriores (~ 92 metros).
+Utilizamos a base de dados de pedologia do Instituto Brasileiro de Geografia e Estatística (IBGE) ([https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip](https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip)) para o cálculo da riqueza de solos. Utilizamos o arquivo *pedo_area.shp*. Calculamos a quantidade de solos componentes de cada polígono e rasterizados na escala do modelo digital de elevação utilizado nas etapas anteriores (~ 92 metros).
 
 ## Códigos para a criação da riqueza de solos
 
@@ -83,10 +83,12 @@ Por fim, exportamos o *raster* como um *asset* no *Google Earth Engine*.
 
 ```{python}
 # Exporte o raster de riqueza de solo 
+#modifique o assetId para do seu projeto
 assetId = "projects/ee-lucasljardim9/assets/soil_diversity"
 
 geemap.ee_export_image_to_asset(
     soil_diversity, description='soil_diversity', assetId=assetId, region=regiao_box, scale=escala, maxPixels=1e13
 )
 ```
+
 

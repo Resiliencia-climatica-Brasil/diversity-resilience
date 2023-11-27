@@ -93,7 +93,7 @@ O próximo passo é importar as variáveis de interesse para o cálculo de Z.
 ```{python}
 # Importando as variáveis
 
-#Conferir os links
+# modificar os endereços para os dos projetos
 
 landform_variety = ee.Image("projects/ee-lucasljardim9/assets/landform_variety")
 
@@ -182,6 +182,8 @@ Por último, exportamos todas as imagens de Z como *asset* no *Google Earth Engi
 
 ```{python}
 # Criando os links dos assets
+# modifique os assetIds para os dos seus projetos
+
 landform_assetId = "projects/ee-lucasljardim9/assets/Z_landform_variety"
 
 elevation_assetId = "projects/ee-lucasljardim9/assets/Z_elevation_range"

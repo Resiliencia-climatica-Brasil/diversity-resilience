@@ -137,6 +137,8 @@ wetlands_density_regional = wetlands_count.divide(ee.Number(neighbors_amount))
 Por fim, exportamos a densidade de áreas úmidas local (*wetlands_density*), a densidade regional (*wetlands_density_1000*) e a quantidade regional (*wetlands_count*) como *assets* no *Google Earth Engine*.
 
 ```{python}
+# modifique os assetIds para os do seu projeto
+
 assetId_quantidade = "projects/ee-lucasljardim9/assets/wetlands_count"
 
 assetId_densidade_local = "projects/ee-lucasljardim9/assets/wetlands_density"
@@ -167,4 +169,5 @@ geemap.ee_export_image_to_asset(
     scale=escala, maxPixels=1e13
 )
 ```
+
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Riqueza de solos</title>
+<title>Instalação e ambiente para as análises</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -54,26 +54,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -83,8 +64,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./5_Z_scores.html" rel="next">
-<link href="./3_wetland_score.html" rel="prev">
+<link href="./1_landforms.html" rel="next">
 <link href="./figs/1667403883848_theme_logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -160,7 +140,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./0_instalacao.html">Sumário</a></li><li class="breadcrumb-item"><a href="./4_soil_diversity.html">Riqueza de solos</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./0_instalacao.html">Sumário</a></li><li class="breadcrumb-item"><a href="./0_instalacao.html">Instalação e ambiente para as análises</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -188,7 +168,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./0_instalacao.html" class="sidebar-item-text sidebar-link">
+  <a href="./0_instalacao.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Instalação e ambiente para as análises</span></a>
   </div>
 </li>
@@ -212,7 +192,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4_soil_diversity.html" class="sidebar-item-text sidebar-link active">
+  <a href="./4_soil_diversity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Riqueza de solos</span></a>
   </div>
 </li>
@@ -247,7 +227,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Riqueza de solos</h1>
+<h1 class="title">Instalação e ambiente para as análises</h1>
 </div>
 
 
@@ -262,93 +242,61 @@ div.csl-indent {
 
 </header>
 
-<section id="importando-pacotes-e-inicializando-geemap" class="level2">
-<h2 class="anchored" data-anchor-id="importando-pacotes-e-inicializando-geemap">Importando pacotes e inicializando <em>geemap</em></h2>
+<p>As análises deste tutorial foram rodadas no <a href="https://earthengine.google.com/"><em>Google Earth Engine</em> (GEE)</a> utilizando como interface o pacote <strong>geemap</strong> em <em>Python</em>. O tutorial está escrito no <em>JupyterNotebook</em>. Dessa forma, para a reprodução das análises é necessário a criação de uma conta no <a href="https://earthengine.google.com/signup/">GEE</a>. Em seguida, instale o <a href="https://www.python.org/"><em>Python</em></a>, se não estiver instalado. Com o <em>Python</em> instalado, instale o <a href="https://jupyter.org/install"><em>JupyterNotebook</em></a>. Por fim, instale o pacote <a href="https://geemap.org/installation/"><strong>geemap</strong></a>.</p>
+<p>Alguns pacotes auxiliares também são usados para produzir e exportar figuras como <strong>os</strong> e <strong>matplotlib</strong>. Escreva na linha de comando os seguintes códigos para instalar:</p>
 <div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ee</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geemap</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pip install os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pip install matplotlib</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>geemap.ee_initialize()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>A riqueza de solos é calculada como a quantidade de componentes da unidade de mapeamento de solos.</p>
+<p>Os dados utilizados nas análises já estão como <em>assets</em> no GEE. No entanto, se o usuário quiser adicionar outras bases de dados nas suas análises, esse <a href="https://developers.google.com/earth-engine/guides/asset_manager">tutorial</a> ensina como fazer <em>upload</em> de arquivos para a sua conta no GEE.</p>
+<section id="bases-importadas" class="level2">
+<h2 class="anchored" data-anchor-id="bases-importadas">Bases importadas</h2>
+<ul>
+<li>Arquivo vetorial dos biomas do Brasil produzido pelo <a href="http://geoftp.ibge.gov.br/informacoes_ambientais/estudos_ambientais/biomas/vetores/Biomas_250mil.zip">IBGE</a>.</li>
+</ul>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Biome">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Biome</a>.</p>
+<ul>
+<li>Arquivo matricial com a classificação de áreas úmidas global produzido pelo <em>Sustainable Wetlands Adaptation and Mitigation Program ( SWAMP )</em>, <em>Center for International Forestry Research (CIFOR)</em> e <em>United States Forest Service</em>.</li>
+</ul>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Cifor_wetlands">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Cifor_wetlands</a>.</p>
+<ul>
+<li>Arquivo vetorial de pedologia do Brasil produzido pelo <a href="https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip">IBGE</a>.</li>
+</ul>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/pedo_area">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/pedo_area</a>.</p>
+<ul>
+<li>Arquivo matricial da <a href="https://resiliencia-climatica-brasil.github.io/Relatorio_final/Conectividade_local.html">conectividade local</a> produzido neste projeto utilizando o <a href="https://docs.circuitscape.org/Omniscape.jl/latest/"><em>Omniscape</em></a>.</li>
+</ul>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness</a>.</p>
 </section>
-<section id="banco-de-dados" class="level2">
-<h2 class="anchored" data-anchor-id="banco-de-dados">Banco de Dados</h2>
-<p>Utilizamos a base de dados de pedologia do Instituto Brasileiro de Geografia e Estatística (IBGE) (<a href="https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip">https://geoftp.ibge.gov.br/informacoes_ambientais/pedologia/vetores/escala_250_mil/versao_2023/pedo_area.zip</a>) para o cálculo da riqueza de solos. Utilizamos o arquivo <em>pedo_area.shp</em>. Calculamos a quantidade de solos componentes de cada polígono e rasterizados na escala do modelo digital de elevação utilizado nas etapas anteriores (~ 92 metros).</p>
+<section id="base-importada-do-mapbiomas" class="level1">
+<h1>Base importada do MapBiomas</h1>
+<p><a href="https://code.earthengine.google.com/?asset=projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2">https://code.earthengine.google.com/?asset=projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2</a>.</p>
 </section>
-<section id="códigos-para-a-criação-da-riqueza-de-solos" class="level2">
-<h2 class="anchored" data-anchor-id="códigos-para-a-criação-da-riqueza-de-solos">Códigos para a criação da riqueza de solos</h2>
-<p>As análises foram rodadas no <em>Google Earth Engine</em> <span class="citation" data-cites="gorelick_google_2017">(<a href="#ref-gorelick_google_2017" role="doc-biblioref">Gorelick et al. 2017</a>)</span> , devido a demanda computacional do projeto, usando o pacote <strong>geemap</strong> <span class="citation" data-cites="wu_geemap_2020">(<a href="#ref-wu_geemap_2020" role="doc-biblioref">Wu 2020</a>)</span>, em <em>Python</em> <span class="citation" data-cites="python_software_foundation_python_2023">(<a href="#ref-python_software_foundation_python_2023" role="doc-biblioref">Python Software Foundation 2023</a>)</span>, como interface pela facilidade na documentação e reprodutividade das análises. O JupyterNotebook para a reprodução das análises pode ser encontrado em <a href="https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/4_soil_diversity.ipynb">https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/blob/master/jupyternotebook/4_soil_diversity.ipynb</a>.</p>
-<p>O primeiro passo é criar uma função que conta os tipos de solos componentes de cada polígono. Concatenamos as colunas <strong>componente</strong>, <strong>component1</strong>, <strong>component2</strong> e <strong>component3</strong>. Depois, separamos a <em>string</em> pelos sinais de “+”, que indicam as separações das descrições de cada tipo de solo. Em seguida, contamos quantos tipo de solos existem em cada polígono como o comprimento da lista de tipos de solos. Adicionamos uma coluna chamada <strong>soil_richness</strong> com a riqueza de solos em cada polígono.</p>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun(feature):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    number <span class="op">=</span> (ee.String(feature.get(<span class="st">"componente"</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              .cat(ee.String(feature.get(<span class="st">"component1"</span>)))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              .cat(ee.String(feature.get(<span class="st">"component2"</span>)))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>              .cat(ee.String(feature.get(<span class="st">"component3"</span>)))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>              .split(<span class="st">"\+"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>              .length())</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.<span class="bu">set</span>(<span class="st">"soil_richness"</span>, number)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Em seguida, importamos os dados de solo, definimos a região para exportar o dado e a escala da análise.</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando os polígonos de solo</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>solo <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/pedo_area"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Importando mapa de biomas do IBGE para extrair as coordenadas mínimas e máximas do Brasil</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>regiao <span class="op">=</span> ee.FeatureCollection(<span class="st">"projects/ee-lucasljardim9/assets/Biome"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func_cmp(feature):</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature.bounds() </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo as coordenadas mínimas e máximas do Brasil</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>regiao_box <span class="op">=</span> regiao.<span class="bu">map</span>(func_cmp).geometry().dissolve(<span class="op">**</span>{<span class="st">'maxError'</span>: <span class="dv">1</span>}).bounds()</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo a resolução do mapa</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>DEM <span class="op">=</span> ee.Image(<span class="st">"MERIT/DEM/v1_0_3"</span>) </span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>escala <span class="op">=</span> DEM.projection().nominalScale()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Aplicamos a função criada anteriormente aos polígonos de solo.</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>solo <span class="op">=</span> solo.<span class="bu">map</span>(fun)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Rasterizamos a riqueza de solos na mesma escala das análises anteriores.</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>soil_diversity <span class="op">=</span> solo.reduceToImage(<span class="op">**</span>{<span class="st">'properties'</span>:[<span class="st">"soil_richness"</span>],</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'reducer'</span>:ee.Reducer.<span class="bu">max</span>()}) <span class="op">\</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                     .reproject(<span class="op">**</span>{<span class="st">'crs'</span>:<span class="st">"EPSG:4326"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">'scale'</span>:escala})</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Por fim, exportamos o <em>raster</em> como um <em>asset</em> no <em>Google Earth Engine</em>.</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exporte o raster de riqueza de solo </span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#modifique o assetId para do seu projeto</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>assetId <span class="op">=</span> <span class="st">"projects/ee-lucasljardim9/assets/soil_diversity"</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>geemap.ee_export_image_to_asset(</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    soil_diversity, description<span class="op">=</span><span class="st">'soil_diversity'</span>, assetId<span class="op">=</span>assetId, region<span class="op">=</span>regiao_box, scale<span class="op">=</span>escala, maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-
+<section id="bases-disponibilizadas-pelo-catálogo-do-google-earth-engine" class="level1">
+<h1>Bases disponibilizadas pelo catálogo do <em>Google Earth Engine</em></h1>
+<p>https://developers.google.com/earth-engine/datasets/catalog/MERIT_DEM_v1_0_3</p>
+<p>https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1</p>
+</section>
+<section id="dados-produzidos-pelas-análises" class="level1">
+<h1>Dados produzidos pelas análises</h1>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_landform_variety</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_elevation_range</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_wetlands_score</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_soil_diversity</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landscape_heterogeneity</p>
+<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience</p>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Referências</h2><div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list">
-<div id="ref-gorelick_google_2017" class="csl-entry" role="listitem">
-Gorelick, N., M. Hancher, M. Dixon, S. Ilyushchenko, D. Thau, e R. Moore. 2017. <a href="https://doi.org/10.1016/j.rse.2017.06.031">Google <span>Earth</span> <span>Engine</span>: <span>Planetary</span>-scale geospatial analysis for everyone</a>. Remote Sensing of Environment.
-</div>
-<div id="ref-python_software_foundation_python_2023" class="csl-entry" role="listitem">
-Python Software Foundation. 2023. Python <span>Language</span> <span>Reference</span>.
-</div>
-<div id="ref-wu_geemap_2020" class="csl-entry" role="listitem">
-Wu, Q. 2020. <a href="https://doi.org/10.21105/joss.02305">geemap: <span>A</span> <span>Python</span> package for interactive mapping with <span>Google</span> <span>Earth</span> <span>Engine</span></a>. Journal of Open Source Software 5(), ,:2305.
-</div>
-</div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -584,13 +532,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./3_wetland_score.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Índice de áreas úmidas</span>
-      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./5_Z_scores.html" class="pagination-link">
-        <span class="nav-page-text">Valor de Z das variáveis</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./1_landforms.html" class="pagination-link">
+        <span class="nav-page-text">Variedade de formas do relevo</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

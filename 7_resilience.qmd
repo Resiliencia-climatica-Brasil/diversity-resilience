@@ -126,7 +126,6 @@ geemap.ee_export_image_to_asset(
     assetId=assetId, 
     region=regiao_box, 
     scale=escala,
-    pyramidingPolicy:"mode",
     maxPixels=1e13
 )
 ```

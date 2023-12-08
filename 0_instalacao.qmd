@@ -19,6 +19,18 @@ pip install pyxarray
 pip install rioxarray 
 ```
 
+# Google colab
+
+As análises podem ser reproduzidas utilizando o [*Google Colab*](https://colab.google/). Clique em **Open Colab** na parte superior direita da tela.
+
+![](figura/colab.png)
+
+Em seguida, inclua o endereço do *Github* ([https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/tree/master/jupyternotebook](https://github.com/Resiliencia-climatica-Brasil/diversity-resilience-python/tree/master/jupyternotebook)) dos arquivos de *JupyterNotebook* do projeto. Escolha o arquivo para abrir, por exemplo, **1_landforms.ipynb**.
+
+![](figura/end.png)
+
+# Bases de dados
+
 Os dados utilizados nas análises já estão como *assets* no GEE. No entanto, se o usuário quiser adicionar outras bases de dados nas suas análises, esse [tutorial](https://developers.google.com/earth-engine/guides/asset_manager) ensina como fazer *upload* de arquivos para a sua conta no GEE.
 
 ## Bases importadas 
@@ -39,11 +51,11 @@ Os dados utilizados nas análises já estão como *assets* no GEE. No entanto, s
 
 [https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness).
 
-# Base importada do MapBiomas
+## Base importada do MapBiomas
 
 [https://code.earthengine.google.com/?asset=projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2](https://code.earthengine.google.com/?asset=projects/mapbiomas-workspace/public/collection7/mapbiomas_collection70_integration_v2).
 
-# Bases disponibilizadas pelo catálogo do *Google Earth Engine*
+## Bases disponibilizadas pelo catálogo do *Google Earth Engine*
 
 ### Modelo Digital de Elevação
 
@@ -54,7 +66,7 @@ Os dados utilizados nas análises já estão como *assets* no GEE. No entanto, s
 [https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1](https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1)
 
 
-# Dados produzidos pelas análises
+## Dados produzidos pelas análises
 
 ### Variedade de formas de relevo
 
@@ -101,4 +113,5 @@ Os dados utilizados nas análises já estão como *assets* no GEE. No entanto, s
 ### Resiliência da paisagem
 
 [https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience)
+
 

@@ -1058,6 +1058,55 @@ div.csl-indent {
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala,maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="conferir-a-criação-do-asset" class="level2">
+<h2 class="anchored" data-anchor-id="conferir-a-criação-do-asset">Conferir a criação do <em>asset</em></h2>
+<p>O <em>asset</em> pode demorar algumas horas para se criado. Para conferir se o <em>asset</em> foi criado, rode a linha de comando abaixo para buscar o nome do <em>asset</em> na nuvem do GEE. Se não funcionar confira <a href="https://developers.google.com/earth-engine/guides/command_line">aqui</a> como instalar as funções para uso da linha de comando.</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"earthengine ls projects/ee-lucasljardim9/assets| grep 'assets/landform_variety'"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Outra possibilidade é acessar a página do <a href="https://code.earthengine.google.com">editor de código</a> do GEE e na parte direita da tela, em <strong>Tasks</strong> confira se o processo de criação finalizou com sucesso, colorido em azul. Vermelho indica que houve algum erro durante o processo.</p>
+<p><img src="figura/tasks.png" class="img-fluid"></p>
+<p>Também é possível ver os <em>assets</em> na aba <strong>Assets</strong>, na parte esquerda da tela.</p>
+<p><img src="figura/asset.png" class="img-fluid"></p>
+<p>Veja o dado criado com:</p>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paleta de cores</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>sld_intervals <span class="op">=</span>(</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="st">'&lt;RasterSymbolizer&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'&lt;ColorMap type="intervals" extended="False"&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#ffc408" quantity="3" label="Cool Steep Slope"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#ffa101" quantity="4" label="Warm Steep Slope"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#ef595a" quantity="5" label="Cliff"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#ffbdbe" quantity="11" label="Summit/Ridgetop"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#6e4100" quantity="13" label="Slope Crest"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#af7b53" quantity="21" label="Flat Hilltop"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#c8c284" quantity="22" label="Gentle Slope Hilltop"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#c8f6ad" quantity="23" label="Cool Sideslope"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#83e763" quantity="24" label="Warm Sideslope"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#ffffbe" quantity="30" label="Dry Flats"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#a9a800" quantity="32" label="Valley/Toeslope"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#b671f2" quantity="39" label="Moist Flats"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#08a702" quantity="43" label="Cool Footslope/Cove"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;ColorMapEntry color="#0a7000" quantity="44" label="Warm Footslope/Cove"/&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">'&lt;/ColorMap&gt;'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="st">'&lt;/RasterSymbolizer&gt;'</span>)</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Centralize o mapa</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>Map <span class="op">=</span> geemap.Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">11.75</span>, <span class="op">-</span><span class="fl">51.52</span>), zoom<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Importe o asset</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>variedade <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/landform_types"</span>)</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Plote o mapa</span></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>Map.addLayer(variedade.sldStyle(sld_intervals)) </span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>Map</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 

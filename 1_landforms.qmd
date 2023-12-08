@@ -546,4 +546,60 @@ geemap.ee_export_image_to_asset(
 )
 ```
 
+## Conferir a criação do *asset* 
+
+O *asset* pode demorar algumas horas para se criado. Para conferir se o *asset* foi criado, rode a linha de comando abaixo para buscar o nome do *asset* na nuvem do GEE. Se não funcionar confira [aqui](https://developers.google.com/earth-engine/guides/command_line) como instalar as funções para uso da linha de comando.
+
+```{python}
+os.system(f"earthengine ls projects/ee-lucasljardim9/assets| grep 'assets/landform_variety'")
+```
+
+Outra possibilidade é acessar a página do [editor de código](https://code.earthengine.google.com) do GEE e na parte direita da tela, em **Tasks** confira se o processo de criação finalizou com sucesso, colorido em azul. Vermelho indica que houve algum erro durante o processo.  
+
+
+![](figura/tasks.png)
+
+Também é possível ver os *assets* na aba **Assets**, na parte esquerda da tela.
+
+![](figura/asset.png)
+
+Veja o dado criado com:
+
+```{python}
+# Paleta de cores
+sld_intervals =(
+'<RasterSymbolizer>' + \
+  '<ColorMap type="intervals" extended="False">' + \
+    '<ColorMapEntry color="#ffc408" quantity="3" label="Cool Steep Slope"/>' + \
+    '<ColorMapEntry color="#ffa101" quantity="4" label="Warm Steep Slope"/>' + \
+    '<ColorMapEntry color="#ef595a" quantity="5" label="Cliff"/>' + \
+    '<ColorMapEntry color="#ffbdbe" quantity="11" label="Summit/Ridgetop"/>' + \
+    '<ColorMapEntry color="#6e4100" quantity="13" label="Slope Crest"/>' + \
+    '<ColorMapEntry color="#af7b53" quantity="21" label="Flat Hilltop"/>' + \
+    '<ColorMapEntry color="#c8c284" quantity="22" label="Gentle Slope Hilltop"/>' + \
+    '<ColorMapEntry color="#c8f6ad" quantity="23" label="Cool Sideslope"/>' + \
+    '<ColorMapEntry color="#83e763" quantity="24" label="Warm Sideslope"/>' + \
+    '<ColorMapEntry color="#ffffbe" quantity="30" label="Dry Flats"/>' + \
+    '<ColorMapEntry color="#a9a800" quantity="32" label="Valley/Toeslope"/>' + \
+    '<ColorMapEntry color="#b671f2" quantity="39" label="Moist Flats"/>' + \
+    '<ColorMapEntry color="#08a702" quantity="43" label="Cool Footslope/Cove"/>' + \
+    '<ColorMapEntry color="#0a7000" quantity="44" label="Warm Footslope/Cove"/>' + \
+  '</ColorMap>' + \
+'</RasterSymbolizer>')
+
+# Centralize o mapa
+
+Map = geemap.Map(center=(-11.75, -51.52), zoom=4)
+
+# Importe o asset
+
+variedade = ee.Image("projects/ee-lucasljardim9/assets/landform_types")
+
+# Plote o mapa
+
+Map.addLayer(variedade.sldStyle(sld_intervals)) 
+
+
+Map
+```
 

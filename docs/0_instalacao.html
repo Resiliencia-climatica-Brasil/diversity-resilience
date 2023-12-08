@@ -247,7 +247,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pip install os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pip install matplotlib</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pip install matplotlib</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>pip install pyxarray</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pip install rioxarray </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Os dados utilizados nas análises já estão como <em>assets</em> no GEE. No entanto, se o usuário quiser adicionar outras bases de dados nas suas análises, esse <a href="https://developers.google.com/earth-engine/guides/asset_manager">tutorial</a> ensina como fazer <em>upload</em> de arquivos para a sua conta no GEE.</p>
 <section id="bases-importadas" class="level2">
@@ -275,25 +279,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="bases-disponibilizadas-pelo-catálogo-do-google-earth-engine" class="level1">
 <h1>Bases disponibilizadas pelo catálogo do <em>Google Earth Engine</em></h1>
-<p>https://developers.google.com/earth-engine/datasets/catalog/MERIT_DEM_v1_0_3</p>
-<p>https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1</p>
+<section id="modelo-digital-de-elevação" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-digital-de-elevação">Modelo Digital de Elevação</h3>
+<p><a href="https://developers.google.com/earth-engine/datasets/catalog/MERIT_DEM_v1_0_3">https://developers.google.com/earth-engine/datasets/catalog/MERIT_DEM_v1_0_3</a></p>
+</section>
+<section id="acúmulo-de-fluxo" class="level3">
+<h3 class="anchored" data-anchor-id="acúmulo-de-fluxo">Acúmulo de fluxo</h3>
+<p><a href="https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1">https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1</a></p>
+</section>
 </section>
 <section id="dados-produzidos-pelas-análises" class="level1">
 <h1>Dados produzidos pelas análises</h1>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_landform_variety</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_elevation_range</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_wetlands_score</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_soil_diversity</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landscape_heterogeneity</p>
-<p>https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience</p>
+<section id="variedade-de-formas-de-relevo" class="level3">
+<h3 class="anchored" data-anchor-id="variedade-de-formas-de-relevo">Variedade de formas de relevo</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety</a></p>
+</section>
+<section id="amplitude-altitudinal" class="level3">
+<h3 class="anchored" data-anchor-id="amplitude-altitudinal">Amplitude altitudinal</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual</a></p>
+</section>
+<section id="quantidade-de-áreas-úmidas" class="level3">
+<h3 class="anchored" data-anchor-id="quantidade-de-áreas-úmidas">Quantidade de áreas úmidas</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count</a></p>
+</section>
+<section id="densidade-de-áreas-úmidas-local" class="level3">
+<h3 class="anchored" data-anchor-id="densidade-de-áreas-úmidas-local">Densidade de áreas úmidas local</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density</a></p>
+</section>
+<section id="densidade-de-áreas-úmidas-regional" class="level3">
+<h3 class="anchored" data-anchor-id="densidade-de-áreas-úmidas-regional">Densidade de áreas úmidas regional</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000</a></p>
+</section>
+<section id="riqueza-de-solos" class="level3">
+<h3 class="anchored" data-anchor-id="riqueza-de-solos">Riqueza de solos</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity</a></p>
+</section>
+<section id="valores-de-z-das-variáveis" class="level3">
+<h3 class="anchored" data-anchor-id="valores-de-z-das-variáveis">Valores de Z das variáveis</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_landform_variety">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_landform_variety</a></p>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_elevation_range">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_elevation_range</a></p>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_wetlands_score">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_wetlands_score</a></p>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_soil_diversity">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_soil_diversity</a></p>
+</section>
+<section id="heterogeneidade-da-paisagem" class="level3">
+<h3 class="anchored" data-anchor-id="heterogeneidade-da-paisagem">Heterogeneidade da paisagem</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landscape_heterogeneity">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landscape_heterogeneity</a></p>
+</section>
+<section id="conectividade-local" class="level3">
+<h3 class="anchored" data-anchor-id="conectividade-local">Conectividade local</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness</a></p>
+</section>
+<section id="resiliência-da-paisagem" class="level3">
+<h3 class="anchored" data-anchor-id="resiliência-da-paisagem">Resiliência da paisagem</h3>
+<p><a href="https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience">https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience</a></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

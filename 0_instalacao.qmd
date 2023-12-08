@@ -13,6 +13,10 @@ Alguns pacotes auxiliares também são usados para produzir e exportar figuras c
 pip install os
 
 pip install matplotlib
+
+pip install pyxarray
+
+pip install rioxarray 
 ```
 
 Os dados utilizados nas análises já estão como *assets* no GEE. No entanto, se o usuário quiser adicionar outras bases de dados nas suas análises, esse [tutorial](https://developers.google.com/earth-engine/guides/asset_manager) ensina como fazer *upload* de arquivos para a sua conta no GEE.
@@ -41,35 +45,60 @@ Os dados utilizados nas análises já estão como *assets* no GEE. No entanto, s
 
 # Bases disponibilizadas pelo catálogo do *Google Earth Engine*
 
-https://developers.google.com/earth-engine/datasets/catalog/MERIT_DEM_v1_0_3
+### Modelo Digital de Elevação
 
-https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1
+[https://developers.google.com/earth-engine/datasets/catalog/MERIT_DEM_v1_0_3](https://developers.google.com/earth-engine/datasets/catalog/MERIT_DEM_v1_0_3)
+
+### Acúmulo de fluxo
+
+[https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1](https://developers.google.com/earth-engine/datasets/catalog/MERIT_Hydro_v1_0_1)
 
 
 # Dados produzidos pelas análises
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety
+### Variedade de formas de relevo
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landform_variety)
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count
+### Amplitude altitudinal
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/elevation_range_residual)
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000
+### Quantidade de áreas úmidas
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_count)
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_landform_variety
+### Densidade de áreas úmidas local
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_elevation_range
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density)
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_wetlands_score
+### Densidade de áreas úmidas regional
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_soil_diversity
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/wetlands_density_1000)
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landscape_heterogeneity
+### Riqueza de solos
 
-https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/soil_diversity)
 
+### Valores de Z das variáveis 
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_landform_variety](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_landform_variety)
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_elevation_range](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_elevation_range)
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_wetlands_score](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_wetlands_score)
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_soil_diversity](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/Z_soil_diversity)
+
+### Heterogeneidade da paisagem
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landscape_heterogeneity](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/landscape_heterogeneity)
+
+### Conectividade local
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/local_connectedness)
+
+### Resiliência da paisagem
+
+[https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience](https://code.earthengine.google.com/?asset=projects/ee-lucasljardim9/assets/resilience)
 

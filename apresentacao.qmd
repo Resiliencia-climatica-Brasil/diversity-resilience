@@ -1,9 +1,28 @@
 ---
-title: Instalação e ambiente para as análises
+title: Mapeamento de áreas resilientes a mudanças climáticas nos biomas brasileiros
 jupyter: python3
 ---
 
 
+
+Este documento é um tutorial para a reprodução das análises de heterogeneidade da paisagem do projeto "Mapeamento de áreas resilientes a mudanças climáticas nos biomas brasileiros". A heterogeneidade da paisagem é formada pela variedade de formas de relevo, amplitude altitudinal, índice de áreas úmidas e riqueza de solos. Os passos para construção de cada variável e a combinação delas na camada final estão nos seguintes *links*:
+
+[Variedade de formas de relevo](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/1_landforms.html) (*landform variety*)
+
+[Amplitude altitudinal](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/2_elevation_range.html)(*elevation range*)
+
+[Índice de áreas úmidas](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/3_wetland_score.html)(*wetland score*)
+
+[Riqueza de solos](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/4_soil_diversity.html)(*soil diversity*)
+
+[Z-scores](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/5_Z_scores.html)
+
+[Heterogeneidade da paisagem](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/6_landscape_heterogeneity.html)(*landscape diversity*)
+
+
+Há também o tutorial para criar a camada de [resiliência da paisagem](https://resiliencia-climatica-brasil.github.io/diversity-resilience-python/7_resilience.html) (*landscape resilience*), mas ela depende da camada de conectividade local (*local connectivity*), encontrado em outro [tutorial](https://resiliencia-climatica-brasil.github.io/Resistencia/).
+
+## Instalação e ambiente para as análises
 
 As análises deste tutorial foram rodadas no [*Google Earth Engine* (GEE)](https://earthengine.google.com/) utilizando como interface o pacote **geemap** em *Python*. O tutorial está escrito no *JupyterNotebook*. Dessa forma, para a reprodução das análises é necessário a criação de uma conta no [GEE](https://earthengine.google.com/signup/). Em seguida, instale o [*Python*](https://www.python.org/), se não estiver instalado. Com o *Python* instalado, instale o [*JupyterNotebook*](https://jupyter.org/install). Por fim, instale o pacote [**geemap**](https://geemap.org/installation/).  
 
@@ -19,7 +38,7 @@ pip install pyxarray
 pip install rioxarray 
 ```
 
-# Google colab
+## Google colab
 
 As análises podem ser reproduzidas utilizando o [*Google Colab*](https://colab.google/). Clique em **Open Colab** na parte superior direita da tela.
 
@@ -29,7 +48,7 @@ Em seguida, inclua o endereço do *Github* ([https://github.com/Resiliencia-clim
 
 ![](figura/end.png)
 
-# Bases de dados
+## Bases de dados
 
 Os dados utilizados nas análises já estão como *assets* no GEE. No entanto, se o usuário quiser adicionar outras bases de dados nas suas análises, esse [tutorial](https://developers.google.com/earth-engine/guides/asset_manager) ensina como fazer *upload* de arquivos para a sua conta no GEE.
 

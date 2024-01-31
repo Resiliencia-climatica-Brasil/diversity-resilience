@@ -11,6 +11,7 @@ jupyter: python3
 import os
 import ee
 import geemap
+import geemap.colormaps as cm
 ```
 
 ```{python}
@@ -89,6 +90,30 @@ assetId = "projects/ee-lucasljardim9/assets/soil_diversity"
 geemap.ee_export_image_to_asset(
     soil_diversity, description='soil_diversity', assetId=assetId, region=regiao_box, scale=escala, maxPixels=1e13
 )
+```
+
+O dado criado pode ser visualizado abaixo:
+
+```{python}
+# Paleta de cores
+
+palette = cm.get_palette('terrain', n_class=10)
+
+# Centralize o mapa
+
+Map = geemap.Map(center=(-11.75, -51.52), zoom=4)
+
+# Importe os assets
+
+soil_diversity = ee.Image("projects/ee-lucasljardim9/assets/soil_diversity")
+
+
+# Plote o mapa
+
+Map.addLayer(soil_diversity, {'palette':palette, 'min':0, 'max': 6}) 
+
+
+Map
 ```
 
 

@@ -83,8 +83,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./6_landscape_heterogeneity.html" rel="next">
-<link href="./4_soil_diversity.html" rel="prev">
+<link href="./landscape_heterogeneity.html" rel="next">
+<link href="./soil_diversity.html" rel="prev">
 <link href="./figs/1667403883848_theme_logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -162,7 +162,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./0_instalacao.html">Sumário</a></li><li class="breadcrumb-item"><a href="./5_Z_scores.html">Valor de Z das variáveis</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./apresentacao.html">Sumário</a></li><li class="breadcrumb-item"><a href="./Z_scores.html">Valor de Z das variáveis</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -190,49 +190,49 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./0_instalacao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Instalação e ambiente para as análises</span></a>
+  <a href="./apresentacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapeamento de áreas resilientes a mudanças climáticas nos biomas brasileiros</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1_landforms.html" class="sidebar-item-text sidebar-link">
+  <a href="./landforms.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Variedade de formas do relevo</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2_elevation_range.html" class="sidebar-item-text sidebar-link">
+  <a href="./elevation_range.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Amplitude altitudinal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3_wetland_score.html" class="sidebar-item-text sidebar-link">
+  <a href="./wetland_score.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Índice de áreas úmidas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4_soil_diversity.html" class="sidebar-item-text sidebar-link">
+  <a href="./soil_diversity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Riqueza de solos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_Z_scores.html" class="sidebar-item-text sidebar-link active">
+  <a href="./Z_scores.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Valor de Z das variáveis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./6_landscape_heterogeneity.html" class="sidebar-item-text sidebar-link">
+  <a href="./landscape_heterogeneity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Heterogeneidade da paisagem</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./7_resilience.html" class="sidebar-item-text sidebar-link">
+  <a href="./resilience.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Resiliência da paisagem</span></a>
   </div>
 </li>
@@ -267,7 +267,8 @@ div.csl-indent {
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ee</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geemap</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geemap</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geemap.colormaps <span class="im">as</span> cm</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>geemap.ee_initialize()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -474,6 +475,38 @@ div.csl-indent {
 <span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span>escala, </span>
 <span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e13</span></span>
 <span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Os dados podem ser visualizados abaixo:</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paleta de cores</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> cm.get_palette(<span class="st">'terrain'</span>, n_class<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Centralize o mapa</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Map <span class="op">=</span> geemap.Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">11.75</span>, <span class="op">-</span><span class="fl">51.52</span>), zoom<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Importe os assets</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>landform <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/Z_landform_variety"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>elevation_range <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/Z_elevation_range"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>wetland_score <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/Z_wetlands_score"</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>soil_diversity <span class="op">=</span> ee.Image(<span class="st">"projects/ee-lucasljardim9/assets/Z_soil_diversity"</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Plote o mapa</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>Map.addLayer(landform, {<span class="st">'palette'</span>:palette, <span class="st">'min'</span>:<span class="op">-</span><span class="fl">1.05</span>, <span class="st">'max'</span>: <span class="fl">1.6</span>}, <span class="st">"landform"</span>) </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>Map.addLayer(elevation_range, {<span class="st">'palette'</span>:palette, <span class="st">'min'</span>:<span class="op">-</span><span class="fl">1.6</span>, <span class="st">'max'</span>: <span class="fl">1.5</span>}, <span class="st">"elevation range"</span>) </span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>Map.addLayer(wetland_score, {<span class="st">'palette'</span>:palette, <span class="st">'min'</span>:<span class="op">-</span><span class="fl">0.5</span>, <span class="st">'max'</span>: <span class="fl">0.6</span>}, <span class="st">"wetland score"</span>) </span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>Map.addLayer(soil_diversity, {<span class="st">'palette'</span>:palette, <span class="st">'min'</span>:<span class="op">-</span><span class="fl">2.7</span>, <span class="st">'max'</span>: <span class="fl">0.9</span>}, <span class="st">"soil diversity"</span>) </span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>Map</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -729,12 +762,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./4_soil_diversity.html" class="pagination-link">
+      <a href="./soil_diversity.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Riqueza de solos</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./6_landscape_heterogeneity.html" class="pagination-link">
+      <a href="./landscape_heterogeneity.html" class="pagination-link">
         <span class="nav-page-text">Heterogeneidade da paisagem</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

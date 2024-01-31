@@ -548,13 +548,13 @@ geemap.ee_export_image_to_asset(
 
 ## Conferir a criação do *asset* 
 
-O *asset* pode demorar algumas horas para se criado. Para conferir se o *asset* foi criado, rode a linha de comando abaixo para buscar o nome do *asset* na nuvem do GEE. Se não funcionar confira [aqui](https://developers.google.com/earth-engine/guides/command_line) como instalar as funções para uso da linha de comando.
+O *asset* pode demorar algumas horas para ser criado. Para conferir se o *asset* foi criado, rode a linha de comando abaixo. O código busca o nome do *asset* na nuvem do GEE. Se não funcionar, confira [aqui](https://developers.google.com/earth-engine/guides/command_line) como instalar as funções para uso da linha de comando.
 
 ```{python}
 os.system(f"earthengine ls projects/ee-lucasljardim9/assets| grep 'assets/landform_variety'")
 ```
 
-Outra possibilidade é acessar a página do [editor de código](https://code.earthengine.google.com) do GEE e na parte direita da tela, em **Tasks** confira se o processo de criação finalizou com sucesso, colorido em azul. Vermelho indica que houve algum erro durante o processo.  
+Outra possibilidade é acessar a página do [editor de código](https://code.earthengine.google.com) do GEE e na parte direita da tela, em **Tasks**, confira se o processo de criação finalizou com sucesso, colorido em azul. Vermelho indica que houve algum erro durante o processo.  
 
 
 ![](figura/tasks.png)

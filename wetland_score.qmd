@@ -11,6 +11,7 @@ jupyter: python3
 import os
 import ee
 import geemap
+import geemap.colormaps as cm
 ```
 
 ```{python}
@@ -20,6 +21,7 @@ geemap.ee_initialize()
 O índice de áreas úmidas é uma combinação da densidade de áreas úmidas localmente com a densidade e quantidade de áreas úmidas regionalmente. O índice de áreas úmidas entra no cálculo da diversidade da paisagem em locais planos e úmidos, com baixa variedade de formas de relevo e baixa amplitude altitudinal. Nesses locais a variação microclimática seria baixa devido a baixa variabilidade topográfica e geomorfológica, mas como há alta densidade de áreas úmidas, esses locais atuam regulando a variabilidade microclimática localmente [@anderson_resilient_2016].
 
 Existem três cenários de distribuição de áreas úmidas:
+
 * (1) Os locais estão presentes em áreas com alta densidade de áreas úmidas no entorno,
 * (2) Os locais estão situados em áreas com baixa densidade de áreas úmidas localmente, mas alta densidade regionalmente,
 * (3) Os locais estão presentes em áreas com alta quantidade de áreas úmidas, mas baixa densidade devido a sua distribuição espacial. 
@@ -170,4 +172,34 @@ geemap.ee_export_image_to_asset(
 )
 ```
 
+Os dados criados podem ser visualizados como abaixo:
+
+```{python}
+# Paleta de cores
+
+palette = cm.get_palette('terrain', n_class=10)
+
+# Centralize o mapa
+
+Map = geemap.Map(center=(-11.75, -51.52), zoom=4)
+
+# Importe os assets
+
+wetlands_count = ee.Image("projects/ee-lucasljardim9/assets/wetlands_count")
+
+wetlands_density_local = ee.Image("projects/ee-lucasljardim9/assets/wetlands_density")
+
+wetlands_density_regional = ee.Image("projects/ee-lucasljardim9/assets/wetlands_density_1000")
+
+
+# Plote o mapa
+
+Map.addLayer(wetlands_count, {'palette':palette, 'min':0, 'max': 1}, "wetlands count") 
+Map.addLayer(wetlands_density_local, {'palette':palette, 'min':0, 'max': 1}, "local density") 
+Map.addLayer(wetlands_density_regional, {'palette':palette, 'min':0, 'max': 1}, "regional density") 
+
+
+
+Map
+```
 

@@ -2,14 +2,14 @@ project:
   type: website
   output-dir: docs
   render:
-    - 0_instalacao.qmd
-    - 1_landforms.qmd
-    - 2_elevation_range.qmd  
-    - 3_wetland_score.qmd
-    - 4_soil_diversity.qmd
-    - 5_Z_scores.qmd
-    - 6_landscape_heterogeneity.qmd
-    - 7_resilience.qmd
+    - apresentacao.qmd
+    - landforms.qmd
+    - elevation_range.qmd  
+    - wetland_score.qmd
+    - soil_diversity.qmd
+    - Z_scores.qmd
+    - landscape_heterogeneity.qmd
+    - resilience.qmd
     
 
 execute:   
@@ -21,10 +21,9 @@ website:
       - text: Tutoriais
         menu:
          - text: Heterogeneidade da paisagem
-         - text: Resistência da paisagem
+         - text: Conectividade local
            href: https://resiliencia-climatica-brasil.github.io/Resistencia/
-         - text: Conectividade local 
-         - text: Resiliência da paisagem  
+         
       - text: Downloads
         href: https://projeto-resiliencia-tnc.hub.arcgis.com        
   sidebar: 
@@ -34,14 +33,14 @@ website:
     contents:
       - section: "Sumário"
         contents:
-          - 0_instalacao.qmd
-          - 1_landforms.qmd
-          - 2_elevation_range.qmd   
-          - 3_wetland_score.qmd
-          - 4_soil_diversity.qmd
-          - 5_Z_scores.qmd
-          - 6_landscape_heterogeneity.qmd
-          - 7_resilience.qmd
+          - apresentacao.qmd
+          - landforms.qmd
+          - elevation_range.qmd   
+          - wetland_score.qmd
+          - soil_diversity.qmd
+          - Z_scores.qmd
+          - landscape_heterogeneity.qmd
+          - resilience.qmd
           
               
   page-navigation: true

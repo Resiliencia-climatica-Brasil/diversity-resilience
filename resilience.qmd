@@ -11,6 +11,7 @@ jupyter: python3
 import os
 import ee
 import geemap
+import geemap.colormaps as cm
 ```
 
 ```{python}
@@ -129,4 +130,49 @@ geemap.ee_export_image_to_asset(
     maxPixels=1e13
 )
 ```
+
+O dado pode ser visualizado abaixo:
+
+```{python}
+# Paleta de cores
+
+sld_intervals =(
+  '<RasterSymbolizer>' + \
+    '<ColorMap type="intervals" extended="False">' + \
+      '<ColorMapEntry color="#d3d3d3" quantity="11" label="11"/>' + \
+      '<ColorMapEntry color="#95bdd5" quantity="12" label="12"/>' + \
+      '<ColorMapEntry color="#52a6d7" quantity="13" label="13"/>' + \
+      '<ColorMapEntry color="#0088d9" quantity="14" label="14"/>' + \
+      '<ColorMapEntry color="#d5ce9c" quantity="21" label="21"/>' + \
+      '<ColorMapEntry color="#96b89e" quantity="22" label="22"/>' + \
+      '<ColorMapEntry color="#53a19f" quantity="23" label="23"/>' + \
+      '<ColorMapEntry color="#0085a1" quantity="24" label="24"/>' + \
+      '<ColorMapEntry color="#d7c759" quantity="31" label="31"/>' + \
+      '<ColorMapEntry color="#98b35a" quantity="32" label="32"/>' + \
+      '<ColorMapEntry color="#539c5b" quantity="33" label="33"/>' + \
+      '<ColorMapEntry color="#00815c" quantity="34" label="34"/>' + \
+      '<ColorMapEntry color="#d9be00" quantity="41" label="41"/>' + \
+      '<ColorMapEntry color="#9aaa00" quantity="42" label="42"/>' + \
+      '<ColorMapEntry color="#549500" quantity="43" label="43"/>' + \
+      '<ColorMapEntry color="#007b00" quantity="44" label="44"/>' + \
+    '</ColorMap>' + \
+  '</RasterSymbolizer>')
+
+# Centralize o mapa
+
+Map = geemap.Map(center=(-11.75, -51.52), zoom=4)
+
+# Importe os assets
+
+resilience = ee.Image("projects/ee-lucasljardim9/assets/resilience")
+
+
+# Plote o mapa
+
+Map.addLayer(resilience.sldStyle(sld_intervals)) 
+
+
+Map
+```
+
 

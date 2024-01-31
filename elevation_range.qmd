@@ -11,6 +11,7 @@ jupyter: python3
 import os
 import ee
 import geemap
+import geemap.colormaps as cm
 ```
 
 ```{python}
@@ -135,4 +136,29 @@ geemap.ee_export_image_to_asset(
     maxPixels=1e13
 )
 ```
+
+O dado criado pode ser visualizado abaixo:
+    
+
+```{python}
+# Paleta de cores
+
+palette = cm.get_palette('terrain', n_class=10)
+
+# Centralize o mapa
+
+Map = geemap.Map(center=(-11.75, -51.52), zoom=4)
+
+# Importe o asset
+
+elevation_range = ee.Image("projects/ee-lucasljardim9/assets/elevation_range_residual")
+
+# Plote o mapa
+
+Map.addLayer(elevation_range, {'palette':palette, 'min':0, 'max': 479}) 
+
+
+Map
+```
+
 

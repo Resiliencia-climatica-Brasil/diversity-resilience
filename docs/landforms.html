@@ -83,8 +83,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./2_elevation_range.html" rel="next">
-<link href="./0_instalacao.html" rel="prev">
+<link href="./elevation_range.html" rel="next">
+<link href="./apresentacao.html" rel="prev">
 <link href="./figs/1667403883848_theme_logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -162,7 +162,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./0_instalacao.html">Sumário</a></li><li class="breadcrumb-item"><a href="./1_landforms.html">Variedade de formas do relevo</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./apresentacao.html">Sumário</a></li><li class="breadcrumb-item"><a href="./landforms.html">Variedade de formas do relevo</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -190,49 +190,49 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./0_instalacao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Instalação e ambiente para as análises</span></a>
+  <a href="./apresentacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapeamento de áreas resilientes a mudanças climáticas nos biomas brasileiros</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1_landforms.html" class="sidebar-item-text sidebar-link active">
+  <a href="./landforms.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Variedade de formas do relevo</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2_elevation_range.html" class="sidebar-item-text sidebar-link">
+  <a href="./elevation_range.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Amplitude altitudinal</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3_wetland_score.html" class="sidebar-item-text sidebar-link">
+  <a href="./wetland_score.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Índice de áreas úmidas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4_soil_diversity.html" class="sidebar-item-text sidebar-link">
+  <a href="./soil_diversity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Riqueza de solos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_Z_scores.html" class="sidebar-item-text sidebar-link">
+  <a href="./Z_scores.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Valor de Z das variáveis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./6_landscape_heterogeneity.html" class="sidebar-item-text sidebar-link">
+  <a href="./landscape_heterogeneity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Heterogeneidade da paisagem</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./7_resilience.html" class="sidebar-item-text sidebar-link">
+  <a href="./resilience.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Resiliência da paisagem</span></a>
   </div>
 </li>
@@ -1061,11 +1061,11 @@ div.csl-indent {
 </section>
 <section id="conferir-a-criação-do-asset" class="level2">
 <h2 class="anchored" data-anchor-id="conferir-a-criação-do-asset">Conferir a criação do <em>asset</em></h2>
-<p>O <em>asset</em> pode demorar algumas horas para se criado. Para conferir se o <em>asset</em> foi criado, rode a linha de comando abaixo para buscar o nome do <em>asset</em> na nuvem do GEE. Se não funcionar confira <a href="https://developers.google.com/earth-engine/guides/command_line">aqui</a> como instalar as funções para uso da linha de comando.</p>
+<p>O <em>asset</em> pode demorar algumas horas para ser criado. Para conferir se o <em>asset</em> foi criado, rode a linha de comando abaixo. O código busca o nome do <em>asset</em> na nuvem do GEE. Se não funcionar, confira <a href="https://developers.google.com/earth-engine/guides/command_line">aqui</a> como instalar as funções para uso da linha de comando.</p>
 <div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"earthengine ls projects/ee-lucasljardim9/assets| grep 'assets/landform_variety'"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Outra possibilidade é acessar a página do <a href="https://code.earthengine.google.com">editor de código</a> do GEE e na parte direita da tela, em <strong>Tasks</strong> confira se o processo de criação finalizou com sucesso, colorido em azul. Vermelho indica que houve algum erro durante o processo.</p>
+<p>Outra possibilidade é acessar a página do <a href="https://code.earthengine.google.com">editor de código</a> do GEE e na parte direita da tela, em <strong>Tasks</strong>, confira se o processo de criação finalizou com sucesso, colorido em azul. Vermelho indica que houve algum erro durante o processo.</p>
 <p><img src="figura/tasks.png" class="img-fluid"></p>
 <p>Também é possível ver os <em>assets</em> na aba <strong>Assets</strong>, na parte esquerda da tela.</p>
 <p><img src="figura/asset.png" class="img-fluid"></p>
@@ -1382,12 +1382,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./0_instalacao.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Instalação e ambiente para as análises</span>
+      <a href="./apresentacao.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Mapeamento de áreas resilientes a mudanças climáticas nos biomas brasileiros</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./2_elevation_range.html" class="pagination-link">
+      <a href="./elevation_range.html" class="pagination-link">
         <span class="nav-page-text">Amplitude altitudinal</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
